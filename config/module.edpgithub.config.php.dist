@@ -1,0 +1,41 @@
+<?php
+/**
+ * EdpGithub Configuration
+ *
+ * If you have a ./configs/autoload/ directory set up for your project, you can 
+ * drop this config file in it and change the values as you wish.
+ */
+$edpGithubSettings = array(
+    /**
+     * GitHub Client ID
+     *
+     * Upon registering your application with GitHub, they will give you a 
+     * Client ID. Put that Client ID here. If you have not registered your 
+     * application with GitHub yet, visit https://github.com/account/applications
+     */
+    'github_client_id' => 'GITHUB_CLIENT_ID_GOES_HERE',
+
+    /**
+     * GitHub Client Secert
+     *
+     * Upon registering your application with GitHub, they will give you a 
+     * Client Secret. Put that Client Secret here. If you have not registered your 
+     * application with GitHub yet, visit https://github.com/account/applications
+     */
+    'github_client_secret' => 'GITHUB_CLIENT_SECRET_GOES_HERE',
+
+    /**
+     * GitHub Callback URL
+     *
+     * Specify the URL that GitHub should redirect the users back to after
+     * authorizing your application.
+     */
+    'github_callback_url' => 'GITHUB_CALLBACK_URL_GOES_HERE',
+);
+
+/**
+ * You do not need to edit below this line
+ */
+return array(
+    'edpgithub' => $edpGithubSettings,
+);
