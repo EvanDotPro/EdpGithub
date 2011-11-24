@@ -3,16 +3,18 @@
 namespace EdpGithub\Controller;
 
 use Zend\Mvc\Controller\ActionController,
-    EdpGithub\Module;
+    EdpGithub\Module,
+    Zend\Http\ClientStatic;
 
 class GithubController extends ActionController
 {
     public function authAction()
     {
-        $queryString = http_build_query(array(
-            'client_id'    => Module::getOption('github_client_id'),
-            'redirect_uri' => Module::getOption('github_callback_url'),
-        ));
+        $params = array('client_id' => Module::getOption('github_client_id'));
+        if (Module::getOption('github_callback_url')) {
+            $params['redirect_uri'] = Module::getOption('github_callback_url');
+        }
+        $queryString = http_build_query($params);
         $url = 'https://github.com/login/oauth/authorize?' . $queryString;
         return $this->redirect()->toUrl($url);
     }
@@ -26,7 +28,7 @@ class GithubController extends ActionController
             'code'          => $this->getRequest()->query()->get('code'),
         );
 
-        $content = \Zend\Http\ClientStatic::post($url, $params)->getContent();
+        $content = ClientStatic::post($url, $params)->getContent();
         parse_str($content, $response);
 
         $this->events()->trigger('github.auth', array('response' => $response));

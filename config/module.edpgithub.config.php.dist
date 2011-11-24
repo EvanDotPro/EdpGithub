@@ -28,9 +28,13 @@ $edpGithubSettings = array(
      * GitHub Callback URL
      *
      * Specify the URL that GitHub should redirect the users back to after
-     * authorizing your application.
+     * authorizing your application. If false or null, GitHub will use the
+     * callback URL registered with GitHub. If set, it must be on the same
+     * domain as the callback URL registered with GitHub.
+     *
+     * Accepted values: a URL or boolean false / null
      */
-    'github_callback_url' => 'GITHUB_CALLBACK_URL_GOES_HERE',
+    'github_callback_url' => false,
 );
 
 /**
