@@ -3,7 +3,8 @@
 namespace EdpGithub;
 
 use Zend\Module\Manager,
-    Zend\Module\Consumer\AutoloaderProvider;
+    Zend\Module\Consumer\AutoloaderProvider,
+    Zend\EventManager\StaticEventManager;
 
 class Module implements AutoloaderProvider
 {
@@ -11,7 +12,11 @@ class Module implements AutoloaderProvider
 
     public function init(Manager $moduleManager)
     {
-        $moduleManager->events()->attach('init.post', array($this, 'postInit'));
+        $moduleManager->events()->attach('loadModules.post', array($this, 'modulesLoaded'));
+        $events = StaticEventManager::getInstance();
+        $events->attach('EdpUser\Authentication\Adapter\AdapterChain', 'authenticate.pre', function($e) {
+            $e->getTarget()->attach(new Authentication\Adapter\EdpUserGithub);
+        });
     }
 
     public function getAutoloaderConfig()
@@ -33,9 +38,9 @@ class Module implements AutoloaderProvider
         return include __DIR__ . '/config/module.config.php';
     }
 
-    public function postInit($e)
+    public function modulesLoaded($e)
     {
-        $config = $e->getTarget()->getMergedConfig();
+        $config = $e->getConfigListener()->getMergedConfig();
         static::$options = $config['edpgithub'];
     }
 

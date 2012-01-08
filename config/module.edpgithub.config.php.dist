@@ -2,10 +2,10 @@
 /**
  * EdpGithub Configuration
  *
- * If you have a ./configs/autoload/ directory set up for your project, you can 
+ * If you have a ./config/autoload/ directory set up for your project, you can 
  * drop this config file in it and change the values as you wish.
  */
-$edpGithubSettings = array(
+$settings = array(
     /**
      * GitHub Client ID
      *
@@ -41,5 +41,5 @@ $edpGithubSettings = array(
  * You do not need to edit below this line
  */
 return array(
-    'edpgithub' => $edpGithubSettings,
+    'edpgithub' => $settings,
 );
