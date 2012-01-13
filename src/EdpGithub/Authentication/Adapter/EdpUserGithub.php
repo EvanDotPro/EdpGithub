@@ -2,8 +2,8 @@
 
 namespace EdpGithub\Authentication\Adapter;
 
-use EdpUser\Authentication\Adapter\AbstractAdapter,
-    EdpUser\Authentication\Adapter\AdapterChainEvent as AuthEvent,
+use ZfcUser\Authentication\Adapter\AbstractAdapter,
+    ZfcUser\Authentication\Adapter\AdapterChainEvent as AuthEvent,
     EdpGithub\Module as EdpGithub,
     EdpGithub\ApiClient\ApiClient,
     Zend\Http\ClientStatic,
@@ -64,6 +64,15 @@ class EdpUserGithub extends AbstractAdapter
             && isset($response['token_type']) 
             && ('bearer' === $response['token_type'])
         ) {
+            $token = $response['access_token'];
+
+            $client = new \EdpGithub\ApiClient\ApiClient;
+            $client->setOauthToken($token);
+            $userService = new \EdpGithub\ApiClient\Service\User;
+            $userService->setApiClient($client);
+            //var_dump($userService->get());
+            //die('WE DID IT!');
+
             return true;
         }
         return false;

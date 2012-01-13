@@ -14,7 +14,7 @@ class Module implements AutoloaderProvider
     {
         $moduleManager->events()->attach('loadModules.post', array($this, 'modulesLoaded'));
         $events = StaticEventManager::getInstance();
-        $events->attach('EdpUser\Authentication\Adapter\AdapterChain', 'authenticate.pre', function($e) {
+        $events->attach('ZfcUser\Authentication\Adapter\AdapterChain', 'authenticate.pre', function($e) {
             $e->getTarget()->attach(new Authentication\Adapter\EdpUserGithub);
         });
     }
