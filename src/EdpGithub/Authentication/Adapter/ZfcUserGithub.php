@@ -10,7 +10,7 @@ use ZfcUser\Authentication\Adapter\AbstractAdapter,
     Zend\Http\PhpEnvironment\Response;
 
 
-class EdpUserGithub extends AbstractAdapter
+class ZfcUserGithub extends AbstractAdapter
 {
     public function authenticate(AuthEvent $e)
     {
@@ -66,12 +66,11 @@ class EdpUserGithub extends AbstractAdapter
         ) {
             $token = $response['access_token'];
 
-            $client = new \EdpGithub\ApiClient\ApiClient;
-            $client->setOauthToken($token);
-            $userService = new \EdpGithub\ApiClient\Service\User;
-            $userService->setApiClient($client);
-            //var_dump($userService->get());
-            //die('WE DID IT!');
+            //$client = new \EdpGithub\ApiClient\ApiClient;
+            //$client->setOauthToken($token);
+            //$userService = new \EdpGithub\ApiClient\Service\User;
+            //$userService->setApiClient($client);
+            //$user = $userService->get();
 
             return true;
         }
