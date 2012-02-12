@@ -13,10 +13,33 @@ class Module implements AutoloaderProvider
     public function init(Manager $moduleManager)
     {
         $moduleManager->events()->attach('loadModules.post', array($this, 'modulesLoaded'));
+
         $events = StaticEventManager::getInstance();
-        $events->attach('ZfcUser\Authentication\Adapter\AdapterChain', 'authenticate.pre', function($e) {
-            $e->getTarget()->attach(new Authentication\Adapter\ZfcUserGithub);
-        });
+        // @TODO: Clean this up
+        $events->attach('Zend\Mvc\Controller\ActionController', 'dispatch', function($e) {
+            $controller = $e->getTarget();
+            $matchedRoute = $controller->getEvent()->getRouteMatch()->getMatchedRouteName();
+            if ('github/email' === $matchedRoute) {
+                return;
+            }
+            if ($identity = $controller->zfcUserAuthentication()->getIdentity()) {
+                $email = $identity->getEmail();
+                if ('@github.com' === substr($email, -11)) {
+                    return $controller->redirect()->toRoute('github/email');
+                }
+            }
+        }, 1000);
+        // @TODO: Make it configurable how it attaches the adapter
+        //$events = StaticEventManager::getInstance();
+        //
+        // This is for GitHub-only authentication
+        //$events->attach('ZfcUser\Authentication\Adapter\AdapterChain', 'authenticate.pre', function($e) {
+        //    foreach ($e->getTarget()->events()->getListeners('authenticate') as $listener) {
+        //        $callback = $listener->getCallback();
+        //        $e->getTarget()->events()->detach($listener);
+        //    }
+        //    $e->getTarget()->attach(new Authentication\Adapter\ZfcUserGithub);
+        //});
     }
 
     public function getAutoloaderConfig()
