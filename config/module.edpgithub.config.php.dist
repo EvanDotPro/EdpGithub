@@ -16,7 +16,7 @@ $settings = array(
     'github_client_id' => 'GITHUB_CLIENT_ID_GOES_HERE',
 
     /**
-     * GitHub Client Secert
+     * GitHub Client Secret
      *
      * Upon registering your application with GitHub, they will give you a 
      * Client Secret. Put that Client Secret here. If you have not registered your 
@@ -35,6 +35,14 @@ $settings = array(
      * Accepted values: a URL or boolean false / null
      */
     'github_callback_url' => false,
+
+    /**
+     * PDO Connection DI alias
+     *
+     * Please specify the DI alias for the configured PDO instance that
+     * EdpGithub should use.
+     */
+    'zend_db_pdo' => 'CHANGEME',
 );
 
 /**
@@ -42,4 +50,11 @@ $settings = array(
  */
 return array(
     'edpgithub' => $settings,
+    'di' => array(
+        'instance' => array(
+            'alias' => array(
+                'edpgithub_pdo' => $settings['zend_db_pdo'],
+            ),
+        ),
+    ),
 );
