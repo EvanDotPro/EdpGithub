@@ -19,7 +19,8 @@ class Module implements AutoloaderProvider
         $events->attach('Zend\Mvc\Controller\ActionController', 'dispatch', function($e) {
             $controller = $e->getTarget();
             $matchedRoute = $controller->getEvent()->getRouteMatch()->getMatchedRouteName();
-            if ('github/email' === $matchedRoute) {
+            $allowedRoutes = array('github/email', 'zfcuser/logout');
+            if (in_array($matchedRoute, $allowedRoutes)) {
                 return;
             }
             if ($identity = $controller->zfcUserAuthentication()->getIdentity()) {

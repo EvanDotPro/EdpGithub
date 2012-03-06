@@ -9,7 +9,8 @@ use ZfcUser\Authentication\Adapter\AbstractAdapter,
     EdpGithub\ApiClient\ApiClient,
     Zend\Authentication\Result as AuthenticationResult,
     Zend\Http\ClientStatic,
-    Zend\Http\PhpEnvironment\Response;
+    Zend\Http\PhpEnvironment\Response,
+    DateTime;
 
 
 class ZfcUserGithub extends AbstractAdapter
@@ -66,13 +67,13 @@ class ZfcUserGithub extends AbstractAdapter
         if (!$localUser = $this->getMapper()->findUserByGithubId($githubId)) {
             $userModelClass = ZfcUser::getOption('user_model_class');
             $localUser = new $userModelClass;
-            $localUser->setUsername($user->getLogin());
-            $localUser->setEmail($user->getEmail() ?: $user->getLogin() . '@github.com');
-            $localUser->setPassword('github');
-            $localUser->setDisplayName($user->getName() ?: $user->getLogin());
+            $localUser->setUsername($user->getLogin())
+                      ->setEmail($user->getEmail() ?: $user->getLogin() . '@github.com')
+                      ->setPassword('github')
+                      ->setDisplayName($user->getName() ?: $user->getLogin())
+                      ->setRegisterTime(new DateTime('now'));
             $localUser = $this->getZfcUserMapper()->persist($localUser);
             $this->getMapper()->linkUserToGithubId($localUser->getUserId(), $githubId);
-            var_dump($localUser->getUserId().'asd');
             // add github linker
         }
         $e->setIdentity($localUser->getUserId());

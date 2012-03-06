@@ -3,23 +3,21 @@ return array(
     'di' => array(
         'instance' => array(
             'alias' => array(
-                'edpgithub'             => 'EdpGithub\Controller\GithubController',
-                'edpgithub_write_db'    => 'Zend\Db\Adapter\DiPdoMysql',
-                'edpgithub_read_db'     => 'edpgithub_write_db',
-                'edpgithub_user_mapper' => 'EdpGithub\Mapper\UserGithubZendDb',
-                'github'                => 'EdpGithub\Controller\GithubController',
-            ),
-
-            'edpgithub_write_db' => array(
-                'parameters' => array(
-                    'pdo'    => 'edpgithub_pdo',
-                    'config' => array(),
-                ),
+                'edpgithub_zend_db_adapter' => 'Zend\Db\Adapter\Adapter',
+                'edpgithub'                 => 'EdpGithub\Controller\GithubController',
+                'edpgithub_user_mapper'     => 'EdpGithub\Mapper\UserGithubZendDb',
+                'edpgithub_github_tg'       => 'Zend\Db\TableGateway\TableGateway',
+                'github'                    => 'EdpGithub\Controller\GithubController',
             ),
             'EdpGithub\Mapper\UserGithubZendDb' => array(
                 'parameters' => array(
-                    'readAdapter'  => 'edpgithub_read_db',
-                    'writeAdapter' => 'edpgithub_write_db',
+                    'tableGateway' => 'edpgithub_github_tg',
+                ),
+            ),
+            'edpgithub_github_tg' => array(
+                'parameters' => array(
+                    'tableName' => 'user_github',
+                    'adapter'   => 'edpgithub_zend_db_adapter',
                 ),
             ),
             'ZfcUser\Authentication\Adapter\AdapterChain' => array(
@@ -50,12 +48,10 @@ return array(
                     'emailValidator' => 'zfcuser_uemail_validator',
                 ),
             ),
-            'Zend\View\PhpRenderer' => array(
+            'Zend\View\Resolver\TemplatePathStack' => array(
                 'parameters' => array(
-                    'options'  => array(
-                        'script_paths' => array(
-                            'edpgithub' => __DIR__ . '/../view',
-                        ),
+                    'paths' => array(
+                        'edpgithub' => __DIR__ . '/../view',
                     ),
                 ),
             ),

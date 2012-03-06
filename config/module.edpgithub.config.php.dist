@@ -7,6 +7,14 @@
  */
 $settings = array(
     /**
+     * Zend\Db\Adapter\Adapter DI Alias
+     *
+     * Please specify the DI alias for the configured Zend\Db\Adapter\Adapter
+     * instance that EdpGithub should use.
+     */
+    'zend_db_adapter' => 'Zend\Db\Adapter\Adapter',
+
+    /**
      * GitHub Client ID
      *
      * Upon registering your application with GitHub, they will give you a 
@@ -35,14 +43,6 @@ $settings = array(
      * Accepted values: a URL or boolean false / null
      */
     'github_callback_url' => false,
-
-    /**
-     * PDO Connection DI alias
-     *
-     * Please specify the DI alias for the configured PDO instance that
-     * EdpGithub should use.
-     */
-    'zend_db_pdo' => 'CHANGEME',
 );
 
 /**
@@ -53,7 +53,7 @@ return array(
     'di' => array(
         'instance' => array(
             'alias' => array(
-                'edpgithub_pdo' => $settings['zend_db_pdo'],
+                'edpgithub_zend_db_adapter' => $settings['zend_db_adapter'],
             ),
         ),
     ),

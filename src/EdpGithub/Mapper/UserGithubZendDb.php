@@ -10,30 +10,20 @@ use ZfcBase\Mapper\DbMapperAbstract,
  */ 
 class UserGithubZendDb extends DbMapperAbstract implements UserGithub
 {
-    protected $tableName = 'user_github';
-
     public function linkUserToGithubId($userId, $githubId)
     {
         $data = array(
             'user_id'   => $userId,
             'github_id' => $githubId,
         );
-
-        $db = $this->getWriteAdapter();
-        return $db->insert($this->getTableName(), $data);
+        return $this->getTableGateway()->insert((array) $data);
     }
 
     public function findUserByGithubId($githubId)
     {
-        $db = $this->getReadAdapter();
-        $sql = $db->select()
-            ->from($this->getTableName())
-            ->where('github_id = ?', $githubId)
-            ->join('user', 'user_github.user_id = user.user_id');
-        $row = $db->fetchRow($sql);
-        if (!$row) return null;
+        $rowset = $this->getTableGateway()->select(array('github_id' => $githubId));
+        $row = $rowset->current();
         $userModelClass = ZfcUser::getOption('user_model_class');
-        $user = $userModelClass::fromArray($row);
-        return $user;
+        return $userModelClass::fromArray($row);
     }
 }
