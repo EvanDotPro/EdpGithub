@@ -3,10 +3,9 @@
 namespace EdpGithub;
 
 use Zend\Module\Manager,
-    Zend\Module\Consumer\AutoloaderProvider,
     Zend\EventManager\StaticEventManager;
 
-class Module implements AutoloaderProvider
+class Module
 {
     protected static $options;
 
