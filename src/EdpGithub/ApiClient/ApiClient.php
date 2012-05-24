@@ -55,7 +55,7 @@ class ApiClient
      * @param array $params 
      * @return array
      */
-    public function request($uri, $verb = 'GET', $params = array())
+    public function request($uri, $verb = 'GET', $data = false, $auth = false)
     {
         $client = $this->getHttpClient();
         $client->getRequest()->setUri(static::API_URI . $uri);
@@ -63,6 +63,14 @@ class ApiClient
 
         if (null !== $this->getOauthToken()) {
             $client->getRequest()->headers()->addHeaderLine('Authorization', 'token '.$this->getOauthToken());
+        }
+
+        if ($auth) {
+            $client->setAuth($auth['username'], $auth['password']);
+        }
+
+        if ($data) {
+            $client->setRawBody($data);
         }
 
         $response = $client->send();
