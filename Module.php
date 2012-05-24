@@ -2,14 +2,14 @@
 
 namespace EdpGithub;
 
-use Zend\Module\Manager,
+use Zend\ModuleManager\ModuleManager,
     Zend\EventManager\StaticEventManager;
 
 class Module
 {
     protected static $options;
 
-    public function init(Manager $moduleManager)
+    public function init(ModuleManager $moduleManager)
     {
         $moduleManager->events()->attach('loadModules.post', array($this, 'modulesLoaded'));
 
