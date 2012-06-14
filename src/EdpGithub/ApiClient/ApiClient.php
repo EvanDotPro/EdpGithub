@@ -4,9 +4,8 @@ namespace EdpGithub\ApiClient;
 
 use Zend\Http\Client as HttpClient,
     Zend\Json\Json,
-    Zend\Session\Container,
-    Zend\Session\Manager,
-    Zend\Session\SessionManager;
+    Zend\Session\SessionManager,
+    Zend\Session\ManagerInterface;
 
 class ApiClient
 {
@@ -43,7 +42,7 @@ class ApiClient
     protected $container;
 
     /**
-     * @var Manager
+     * @var ManagerInterface
      */
     protected $session;
 
@@ -207,10 +206,10 @@ class ApiClient
     /**
      * Set the session manager
      * 
-     * @param  Manager $manager 
+     * @param  ManagerInterface $manager 
      * @return ApiClient
      */
-    public function setSessionManager(Manager $manager)
+    public function setSessionManager(ManagerInterface $manager)
     {
         $this->session = $manager;
         return $this;
@@ -219,13 +218,13 @@ class ApiClient
     /**
      * Retrieve the session manager
      *
-     * If none composed, lazy-loads a SessionManager instance
+     * If none composed, lazy-loads a ManagerInterface instance
      * 
-     * @return Manager
+     * @return ManagerInterface
      */
     public function getSessionManager()
     {
-        if (!$this->session instanceof Manager) {
+        if (!$this->session instanceof ManagerInterface) {
             $this->setSessionManager(new SessionManager());
         }
         return $this->session;
