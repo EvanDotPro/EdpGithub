@@ -16,12 +16,12 @@ class Options extends AbstractOptions
      */
     protected $githubClientId;
 
-    /*
+    /**
      * @var string
      */
     protected $githubClientSercret;
 
-    /*
+    /**
      * @var string
      */
     protected $githubOauthCallbackUrl;
