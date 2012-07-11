@@ -10,7 +10,7 @@ class Module
             'factories' => array(
                 'edpgithub_module_options' => function ($sm) {
                     $config = $sm->get('Configuration');
-                    return new Options(isset($config['edpgithub']) ? $config['edpgithub'] : array());
+                    return new \EdpGithub\Options(isset($config['edpgithub']) ? $config['edpgithub'] : array(), false);
                 },
                 'edpgithub_usergithub_mapper' => function ($sm) {
                     $mapper = new Mapper\UserGithub;
@@ -23,7 +23,8 @@ class Module
                     $adapter->setMapper($sm->get('edpgithub_usergithub_mapper'));
                     $adapter->setZfcUserOptions($sm->get('zfcuser_module_options'));
                     $adapter->setOptions($sm->get('edpgithub_module_options'));
-                    //$adapter->setUserService(); // @todo
+                    $apiClient = new ApiClient\ApiClient;
+                    $adapter->setUserService($apiClient->getService('user'));
                     $adapter->setZfcUserMapper($sm->get('zfcuser_user_mapper'));
                     return $adapter;
                 },
@@ -36,14 +37,6 @@ class Module
                 }
             ),
         );
-    }
-
-    public function onBootstrap($e)
-    {
-        $events = $e->getApplication()->getEventManager()->getSharedManager();
-        $events->attach('ZfcUser\Authentication\Adapter\AdapterChain', 'authenticate.pre', function($e) {
-            die('auth!');
-        });
     }
 
     public function getAutoloaderConfig()

@@ -14,7 +14,7 @@ class User extends AbstractService
         } else {
             $user = $this->getApiClient()->request('/users/' . $username);
         }
-        return $this->getHydrator()->hydrate($data, new UserModel);
+        return $this->getHydrator()->hydrate($user, new UserModel);
     }
 
     public function getEmails()

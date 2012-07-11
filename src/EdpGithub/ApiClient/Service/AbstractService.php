@@ -4,6 +4,7 @@ namespace EdpGithub\ApiClient\Service;
 
 use EdpGithub\ApiClient\ApiClient;
 use Zend\Db\ResultSet\HydratingResultSet;
+use Zend\Stdlib\Hydrator\HydratorInterface;
 use Zend\Stdlib\Hydrator\ClassMethods;
 
 class AbstractService
@@ -12,6 +13,11 @@ class AbstractService
      * @var ApiClient
      */
     protected $apiClient;
+
+    /**
+     * @var HydratorInterface
+     */
+    protected $hydrator;
 
     /**
      * Get apiClient.

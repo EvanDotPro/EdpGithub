@@ -4,12 +4,18 @@ namespace EdpGithub\Mapper;
 
 use ZfcBase\Mapper\AbstractDbMapper;
 use ZfcUser\Options\UserServiceOptionsInterface;
+use ZfcUser\Mapper\UserHydrator;
 
 class UserGithub extends AbstractDbMapper
 {
     protected $tableName = 'edpgithub_user';
 
     protected $zfcUserOptions;
+
+    public function __construct()
+    {
+        $this->setHydrator(new UserHydrator);
+    }
 
     public function linkUserToGithubId($userId, $githubId)
     {
@@ -22,7 +28,11 @@ class UserGithub extends AbstractDbMapper
 
     public function findUserByGithubId($githubId)
     {
-        return $this->select(array('github_id' => $githubId))->current();
+        $select = $this->select()
+                       ->from($this->tableName)
+                       ->join('user', $this->tableName . '.user_id = user.user_id')
+                       ->where(array('github_id' => $githubId));
+        return $this->selectWith($select)->current();
     }
 
     public function getZfcUserOptions()

@@ -19,12 +19,12 @@ class Options extends AbstractOptions
     /**
      * @var string
      */
-    protected $githubClientSercret;
+    protected $githubClientSecret;
 
     /**
      * @var string
      */
-    protected $githubOauthCallbackUrl;
+    protected $githubCallbackUrl;
 
     /**
      * Get enableZfcUserAuthAdapter.
@@ -71,46 +71,46 @@ class Options extends AbstractOptions
     }
 
     /**
-     * Get githubClientSercret.
+     * Get githubClientSecret.
      *
      * @return string
      */
-    public function getGithubClientSercret()
+    public function getGithubClientSecret()
     {
-        return $this->githubClientSercret;
+        return $this->githubClientSecret;
     }
 
     /**
-     * Set githubClientSercret.
+     * Set githubClientSecret.
      *
-     * @param string $githubClientSercret
+     * @param string $githubClientSecret
      * @return Options
      */
-    public function setGithubClientSercret($githubClientSercret)
+    public function setGithubClientSecret($githubClientSecret)
     {
-        $this->githubClientSercret = $githubClientSercret;
+        $this->githubClientSecret = $githubClientSecret;
         return $this;
     }
 
     /**
-     * Get githubOauthCallbackUrl.
+     * Get githubCallbackUrl.
      *
      * @return string
      */
-    public function getGithubOauthCallbackUrl()
+    public function getGithubCallbackUrl()
     {
-        return $this->githubOauthCallbackUrl;
+        return $this->githubCallbackUrl;
     }
 
     /**
-     * Set githubOauthCallbackUrl.
+     * Set githubCallbackUrl.
      *
-     * @param string $githubOauthCallbackUrl
+     * @param string $githubCallbackUrl
      * @return Options
      */
-    public function setGithubOauthCallbackUrl($githubOauthCallbackUrl)
+    public function setGithubCallbackUrl($githubCallbackUrl)
     {
-        $this->githubOauthCallbackUrl = $githubOauthCallbackUrl;
+        $this->githubCallbackUrl = $githubCallbackUrl;
         return $this;
     }
 }

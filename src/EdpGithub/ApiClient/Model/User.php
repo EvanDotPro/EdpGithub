@@ -2,9 +2,7 @@
 
 namespace EdpGithub\ApiClient\Model;
 
-use ZfcBase\Model\ModelAbstract;
-
-class User extends ModelAbstract
+class User
 {
     protected $login = null;
 

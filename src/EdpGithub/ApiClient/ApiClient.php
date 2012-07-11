@@ -5,6 +5,7 @@ namespace EdpGithub\ApiClient;
 use Zend\Http\Client as HttpClient,
     Zend\Json\Json,
     Zend\Session\SessionManager,
+    Zend\Session\Container,
     Zend\Session\ManagerInterface;
 
 class ApiClient
@@ -47,11 +48,11 @@ class ApiClient
     protected $session;
 
     /**
-     * Make a request to the GitHub API and decode the json response. 
-     * 
+     * Make a request to the GitHub API and decode the json response.
+     *
      * @param string $uri
      * @param string $verb
-     * @param array $params 
+     * @param array $params
      * @return array
      */
     public function request($uri, $verb = 'GET', $data = false, $auth = false)
@@ -61,7 +62,7 @@ class ApiClient
         $client->getRequest()->setMethod($verb);
 
         if (null !== $this->getOauthToken()) {
-            $client->getRequest()->headers()->addHeaderLine('Authorization', 'token '.$this->getOauthToken());
+            $client->getRequest()->getHeaders()->addHeaderLine('Authorization', 'token '.$this->getOauthToken());
         }
 
         if ($auth) {
@@ -73,14 +74,14 @@ class ApiClient
         }
 
         $response = $client->send();
-        $headers  = $response->headers();
+        $headers  = $response->getHeaders();
 
         $this->setRateLimitRemaining($headers->get('X-RateLimit-Remaining')->getFieldValue());
         $this->setRateLimit($headers->get('X-RateLimit-Limit')->getFieldValue());
 
         return Json::decode($response->getBody(), Json::TYPE_ARRAY);
     }
- 
+
     /**
      * Get rateLimitRemaining.
      *
@@ -90,7 +91,7 @@ class ApiClient
     {
         return $this->rateLimitRemaining;
     }
- 
+
     /**
      * Set rateLimitRemaining.
      *
@@ -102,7 +103,7 @@ class ApiClient
         $this->rateLimitRemaining = (int) $rateLimitRemaining;
         return $this;
     }
- 
+
     /**
      * Get rateLimit.
      *
@@ -112,7 +113,7 @@ class ApiClient
     {
         return $this->rateLimit;
     }
- 
+
     /**
      * Set rateLimit.
      *
@@ -124,7 +125,7 @@ class ApiClient
         $this->rateLimit = (int) $rateLimit;
         return $this;
     }
- 
+
     /**
      * Get oauthToken.
      *
@@ -134,7 +135,7 @@ class ApiClient
     {
         return $this->oauthToken;
     }
- 
+
     /**
      * Set oauthToken.
      *
@@ -146,7 +147,7 @@ class ApiClient
         $this->oauthToken = $oauthToken;
         return $this;
     }
- 
+
     /**
      * Get HttpClient.
      *
@@ -159,7 +160,7 @@ class ApiClient
         }
         return $this->httpClient;
     }
- 
+
     /**
      * Set HttpClient.
      *
@@ -173,9 +174,9 @@ class ApiClient
     }
 
     /**
-     * getService 
-     * 
-     * @param string $serviceName 
+     * getService
+     *
+     * @param string $serviceName
      * @return Service\ServiceAbstract
      */
     public function getService($serviceName)
@@ -190,10 +191,10 @@ class ApiClient
     }
 
     /**
-     * setService 
-     * 
-     * @param string $serviceName 
-     * @param Service\AbstractService $service 
+     * setService
+     *
+     * @param string $serviceName
+     * @param Service\AbstractService $service
      * @return ApiClient
      */
     public function setService($serviceName, Service\AbstractService $service)
@@ -205,8 +206,8 @@ class ApiClient
 
     /**
      * Set the session manager
-     * 
-     * @param  ManagerInterface $manager 
+     *
+     * @param  ManagerInterface $manager
      * @return ApiClient
      */
     public function setSessionManager(ManagerInterface $manager)
@@ -219,7 +220,7 @@ class ApiClient
      * Retrieve the session manager
      *
      * If none composed, lazy-loads a ManagerInterface instance
-     * 
+     *
      * @return ManagerInterface
      */
     public function getSessionManager()
@@ -232,7 +233,7 @@ class ApiClient
 
     /**
      * Get session container for GitHub token
-     * 
+     *
      * @return Container
      */
     public function getContainer()
