@@ -3,6 +3,7 @@
 namespace EdpGithub\Authentication\Adapter;
 
 use ZfcUser\Authentication\Adapter\AbstractAdapter,
+    ZfcUser\Options\UserServiceOptionsInterface,
     ZfcUser\Authentication\Adapter\AdapterChainEvent as AuthEvent,
     ZfcUser\Module as ZfcUser,
     EdpGithub\Module as EdpGithub,
@@ -21,11 +22,14 @@ class ZfcUserGithub extends AbstractAdapter
 
     protected $zfcUserMapper;
 
+    protected $zfcUserOptions;
+
     public function authenticate(AuthEvent $e)
     {
         $this->getStorage()->clear();
         if ($this->isSatisfied()) return;
 
+        die('asdf');
         $request = $e->getRequest();
 
         if ($request->query()->get('error')) {
@@ -35,10 +39,10 @@ class ZfcUserGithub extends AbstractAdapter
         }
 
         if (!$request->query()->get('code')) {
-            $params = array('client_id' => EdpGithub::getOption('github_client_id'));
+            $params = array('client_id' => $this->getOptions()->getGithubClientId());
 
-            if (EdpGithub::getOption('github_callback_url')) {
-                $params['redirect_uri'] = EdpGithub::getOption('github_callback_url');
+            if ($this->getOptions()->getGithubCallbackUrl()) {
+                $params['redirect_uri'] = $this->getOptions()->getGithubCallbackUrl();
             }
 
             $queryString = http_build_query($params);
@@ -50,7 +54,7 @@ class ZfcUserGithub extends AbstractAdapter
             $response->setStatusCode(302);
             return $response;
         }
-        
+
         if (!$token = $this->validateCallbackCode($request->query()->get('code'))) {
             $this->setSatisfied(false);
             $e->setIdentity(null);
@@ -65,13 +69,13 @@ class ZfcUserGithub extends AbstractAdapter
         $githubId = $user->getId();
 
         if (!$localUser = $this->getMapper()->findUserByGithubId($githubId)) {
-            $userModelClass = ZfcUser::getOption('user_model_class');
-            $localUser = new $userModelClass;
+
+            $entityClass = $this->getZfcUserOptions()->getUserEntityClass();
+            $localUser = new $entityClass;
             $localUser->setUsername($user->getLogin())
                       ->setEmail($user->getEmail() ?: $user->getLogin() . '@github.com')
                       ->setPassword('github')
-                      ->setDisplayName($user->getName() ?: $user->getLogin())
-                      ->setRegisterTime(new DateTime('now'));
+                      ->setDisplayName($user->getName() ?: $user->getLogin());
             $localUser = $this->getZfcUserMapper()->persist($localUser);
             $this->getMapper()->linkUserToGithubId($localUser->getUserId(), $githubId);
             // add github linker
@@ -95,16 +99,16 @@ class ZfcUserGithub extends AbstractAdapter
         $url = 'https://github.com/login/oauth/access_token';
 
         $params = array(
-            'client_id'     => EdpGithub::getOption('github_client_id'),
-            'client_secret' => EdpGithub::getOption('github_client_secret'),
+            'client_id'     => $this->getOptions()->getGithubClientId(),
+            'client_secret' => $this->getOptions()->getGithubClientSercret(),
             'code'          => $code,
         );
 
         $content = ClientStatic::post($url, $params)->getContent();
         parse_str($content, $response);
 
-        if (isset($response['access_token']) 
-            && isset($response['token_type']) 
+        if (isset($response['access_token'])
+            && isset($response['token_type'])
             && ('bearer' === $response['token_type'])
         ) {
             $token = $response['access_token'];
@@ -113,7 +117,7 @@ class ZfcUserGithub extends AbstractAdapter
         }
         return false;
     }
- 
+
     /**
      * Get userService.
      *
@@ -123,7 +127,7 @@ class ZfcUserGithub extends AbstractAdapter
     {
         return $this->userService;
     }
- 
+
     /**
      * Set userService.
      *
@@ -134,7 +138,7 @@ class ZfcUserGithub extends AbstractAdapter
         $this->userService = $userService;
         return $this;
     }
- 
+
     /**
      * Get mapper.
      *
@@ -144,7 +148,7 @@ class ZfcUserGithub extends AbstractAdapter
     {
         return $this->mapper;
     }
- 
+
     /**
      * Set mapper.
      *
@@ -155,7 +159,7 @@ class ZfcUserGithub extends AbstractAdapter
         $this->mapper = $mapper;
         return $this;
     }
- 
+
     /**
      * Get zfcUserMapper.
      *
@@ -165,7 +169,7 @@ class ZfcUserGithub extends AbstractAdapter
     {
         return $this->zfcUserMapper;
     }
- 
+
     /**
      * Set zfcUserMapper.
      *
@@ -174,6 +178,28 @@ class ZfcUserGithub extends AbstractAdapter
     public function setZfcUserMapper($zfcUserMapper)
     {
         $this->zfcUserMapper = $zfcUserMapper;
+        return $this;
+    }
+
+    public function getZfcUserOptions()
+    {
+        return $this->zfcUserOptions;
+    }
+
+    public function setZfcUserOptions(UserServiceOptionsInterface $zfcUserOptions)
+    {
+        $this->zfcUserOptions = $zfcUserOptions;
+        return $this;
+    }
+
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    public function setOptions($options)
+    {
+        $this->options = $opions;
         return $this;
     }
 }

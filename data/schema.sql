@@ -1,4 +1,4 @@
-CREATE TABLE user_github 
+CREATE TABLE edpgithub_user
 (
   user_id   INTEGER NOT NULL,
   github_id INTEGER NOT NULL,

@@ -2,44 +2,48 @@
 
 namespace EdpGithub;
 
-use Zend\ModuleManager\ModuleManager,
-    Zend\EventManager\StaticEventManager;
-
 class Module
 {
-    protected static $options;
-
-    public function init(ModuleManager $moduleManager)
+    public function getServiceConfiguration()
     {
-        $moduleManager->events()->attach('loadModules.post', array($this, 'modulesLoaded'));
-
-        $events = StaticEventManager::getInstance();
-        // @TODO: Clean this up
-        $events->attach('Zend\Mvc\Controller\ActionController', 'dispatch', function($e) {
-            $controller = $e->getTarget();
-            $matchedRoute = $controller->getEvent()->getRouteMatch()->getMatchedRouteName();
-            $allowedRoutes = array('github/email', 'zfcuser/logout');
-            if (in_array($matchedRoute, $allowedRoutes)) {
-                return;
-            }
-            if ($identity = $controller->zfcUserAuthentication()->getIdentity()) {
-                $email = $identity->getEmail();
-                if ('@github.com' === substr($email, -11)) {
-                    return $controller->redirect()->toRoute('github/email');
+        return array(
+            'factories' => array(
+                'edpgithub_module_options' => function ($sm) {
+                    $config = $sm->get('Configuration');
+                    return new Options(isset($config['edpgithub']) ? $config['edpgithub'] : array());
+                },
+                'edpgithub_usergithub_mapper' => function ($sm) {
+                    $mapper = new Mapper\UserGithub;
+                    $mapper->setDbAdapter($sm->get('edpgithub_zend_db_adapter'));
+                    $mapper->setZfcUserOptions($sm->get('zfcuser_module_options'));
+                    return $mapper;
+                },
+                'EdpGithub\Authentication\Adapter\ZfcUserGithub' => function($sm) {
+                    $adapter = new Authentication\Adapter\ZfcUserGithub;
+                    $adapter->setMapper($sm->get('edpgithub_usergithub_mapper'));
+                    $adapter->setZfcUserOptions($sm->get('zfcuser_module_options'));
+                    $adapter->setOptions($sm->get('edpgithub_module_options'));
+                    //$adapter->setUserService(); // @todo
+                    $adapter->setZfcUserMapper($sm->get('zfcuser_user_mapper'));
+                    return $adapter;
+                },
+                // Only attach the github auth adapter
+                'ZfcUser\Authentication\Adapter\AdapterChain' => function($sm) {
+                    $adapterChain = new \ZfcUser\Authentication\Adapter\AdapterChain;
+                    $adapter = $sm->get('EdpGithub\Authentication\Adapter\ZfcUserGithub');
+                    $adapterChain->getEventManager()->attach('authenticate', array($adapter, 'authenticate'));
+                    return $adapterChain;
                 }
-            }
-        }, 1000);
-        // @TODO: Make it configurable how it attaches the adapter
-        //$events = StaticEventManager::getInstance();
-        //
-        // This is for GitHub-only authentication
-        //$events->attach('ZfcUser\Authentication\Adapter\AdapterChain', 'authenticate.pre', function($e) {
-        //    foreach ($e->getTarget()->events()->getListeners('authenticate') as $listener) {
-        //        $callback = $listener->getCallback();
-        //        $e->getTarget()->events()->detach($listener);
-        //    }
-        //    $e->getTarget()->attach(new Authentication\Adapter\ZfcUserGithub);
-        //});
+            ),
+        );
+    }
+
+    public function onBootstrap($e)
+    {
+        $events = $e->getApplication()->getEventManager()->getSharedManager();
+        $events->attach('ZfcUser\Authentication\Adapter\AdapterChain', 'authenticate.pre', function($e) {
+            die('auth!');
+        });
     }
 
     public function getAutoloaderConfig()
@@ -59,19 +63,5 @@ class Module
     public function getConfig($env = null)
     {
         return include __DIR__ . '/config/module.config.php';
-    }
-
-    public function modulesLoaded($e)
-    {
-        $config = $e->getConfigListener()->getMergedConfig();
-        static::$options = $config['edpgithub'];
-    }
-
-    public static function getOption($option)
-    {
-        if (!isset(static::$options[$option])) {
-            return null;
-        }
-        return static::$options[$option];
     }
 }

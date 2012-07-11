@@ -2,14 +2,12 @@
 /**
  * EdpGithub Configuration
  *
- * If you have a ./config/autoload/ directory set up for your project, you can 
+ * If you have a ./config/autoload/ directory set up for your project, you can
  * drop this config file in it and change the values as you wish.
  */
-$settings = array(
+$options = array(
     /**
-     * Zend\Db\Adapter\Adapter DI Alias
-     *
-     * Please specify the DI alias for the configured Zend\Db\Adapter\Adapter
+     * Please specify the SM alias for the configured Zend\Db\Adapter\Adapter
      * instance that EdpGithub should use.
      */
     'zend_db_adapter' => 'Zend\Db\Adapter\Adapter',
@@ -17,8 +15,8 @@ $settings = array(
     /**
      * GitHub Client ID
      *
-     * Upon registering your application with GitHub, they will give you a 
-     * Client ID. Put that Client ID here. If you have not registered your 
+     * Upon registering your application with GitHub, they will give you a
+     * Client ID. Put that Client ID here. If you have not registered your
      * application with GitHub yet, visit https://github.com/account/applications
      */
     'github_client_id' => 'GITHUB_CLIENT_ID_GOES_HERE',
@@ -26,8 +24,8 @@ $settings = array(
     /**
      * GitHub Client Secret
      *
-     * Upon registering your application with GitHub, they will give you a 
-     * Client Secret. Put that Client Secret here. If you have not registered your 
+     * Upon registering your application with GitHub, they will give you a
+     * Client Secret. Put that Client Secret here. If you have not registered your
      * application with GitHub yet, visit https://github.com/account/applications
      */
     'github_client_secret' => 'GITHUB_CLIENT_SECRET_GOES_HERE',
@@ -49,11 +47,11 @@ $settings = array(
  * You do not need to edit below this line
  */
 return array(
-    'edpgithub' => $settings,
+    'edpgithub' => $options,
     'di' => array(
         'instance' => array(
             'alias' => array(
-                'edpgithub_zend_db_adapter' => $settings['zend_db_adapter'],
+                'edpgithub_zend_db_adapter' => $options['zend_db_adapter'],
             ),
         ),
     ),
