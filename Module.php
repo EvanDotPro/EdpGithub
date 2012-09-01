@@ -11,9 +11,23 @@ class Module
 
     public function init(ModuleManager $moduleManager)
     {
-        $moduleManager->events()->attach('loadModules.post', array($this, 'modulesLoaded'));
+        $moduleManager->getEventManager()->attach('loadModules.post', array($this, 'modulesLoaded'));
 
-        $events = StaticEventManager::getInstance();
+        // @TODO: Make it configurable how it attaches the adapter
+        //$events = StaticEventManager::getInstance();
+        //
+        // This is for GitHub-only authentication
+        //$events->attach('ZfcUser\Authentication\Adapter\AdapterChain', 'authenticate.pre', function($e) {
+        //    foreach ($e->getTarget()->events()->getListeners('authenticate') as $listener) {
+        //        $callback = $listener->getCallback();
+        //        $e->getTarget()->events()->detach($listener);
+        //    }
+        //    $e->getTarget()->attach(new Authentication\Adapter\ZfcUserGithub);
+        //});
+    }
+    public function onBootstrap($e)
+    {
+        $events = $e->getApplication()->getEventManager()->getSharedManager();
         // @TODO: Clean this up
         $events->attach('Zend\Mvc\Controller\ActionController', 'dispatch', function($e) {
             $controller = $e->getTarget();
@@ -29,17 +43,6 @@ class Module
                 }
             }
         }, 1000);
-        // @TODO: Make it configurable how it attaches the adapter
-        //$events = StaticEventManager::getInstance();
-        //
-        // This is for GitHub-only authentication
-        //$events->attach('ZfcUser\Authentication\Adapter\AdapterChain', 'authenticate.pre', function($e) {
-        //    foreach ($e->getTarget()->events()->getListeners('authenticate') as $listener) {
-        //        $callback = $listener->getCallback();
-        //        $e->getTarget()->events()->detach($listener);
-        //    }
-        //    $e->getTarget()->attach(new Authentication\Adapter\ZfcUserGithub);
-        //});
     }
 
     public function getAutoloaderConfig()
