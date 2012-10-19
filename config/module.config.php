@@ -1,6 +1,15 @@
 <?php
 return array(
-    'di' => array(
+    'service_manager' => array(
+        'invokables' => array(
+            'edpgithub_api' => 'EdpGithub\ApiClient\ApiClient',
+
+        ),
+        'factories' => array(
+            'edpgithub_api_factory' => 'EdpGithub\ApiClient\ApiFactory',
+        ),
+    ),
+    /*'di' => array(
         'instance' => array(
             'alias' => array(
                 'edpgithub_zend_db_adapter' => 'Zend\Db\Adapter\Adapter',
@@ -55,11 +64,11 @@ return array(
                     ),
                 ),
             ),
-
+/*
             /**
              * Routes
              */
-
+/*
             'Zend\Mvc\Router\RouteStack' => array(
                 'parameters' => array(
                     'routes' => array(
@@ -90,5 +99,5 @@ return array(
                 ),
             ),
         ),
-    ),
+    ),*/
 );

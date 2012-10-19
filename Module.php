@@ -7,7 +7,17 @@ use Zend\ModuleManager\ModuleManager,
 
 class Module
 {
-    protected static $options;
+     public function getAutoloaderConfig()
+    {
+        return array(
+            'Zend\Loader\StandardAutoloader' => array(
+                'namespaces' => array(
+                    __NAMESPACE__ => __DIR__ ,
+                ),
+            ),
+        );
+    }
+    /*protected static $options;
 
     public function init(ModuleManager $moduleManager)
     {
@@ -40,8 +50,8 @@ class Module
         //    }
         //    $e->getTarget()->attach(new Authentication\Adapter\ZfcUserGithub);
         //});
-    }
-
+    }*/
+/*
     public function getAutoloaderConfig()
     {
         return array(
@@ -55,23 +65,23 @@ class Module
             ),
         );
     }
-
+ */
     public function getConfig($env = null)
     {
         return include __DIR__ . '/config/module.config.php';
     }
 
-    public function modulesLoaded($e)
+    /*public function modulesLoaded($e)
     {
         $config = $e->getConfigListener()->getMergedConfig();
         static::$options = $config['edpgithub'];
-    }
+    }*/
 
-    public static function getOption($option)
+    /*public static function getOption($option)
     {
         if (!isset(static::$options[$option])) {
             return null;
         }
         return static::$options[$option];
-    }
+    }*/
 }

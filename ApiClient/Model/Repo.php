@@ -2,9 +2,9 @@
 
 namespace EdpGithub\ApiClient\Model;
 
-use ZfcBase\Model\ModelAbstract;
+use Zend\Stdlib\AbstractOptions;
 
-class Repo extends ModelAbstract
+class Repo extends AbstractOptions
 {
     protected $url = null;
 
@@ -45,6 +45,152 @@ class Repo extends ModelAbstract
     protected $pushedAt = null;
 
     protected $createdAt = null;
+
+    protected $watchersCount = null;
+
+    protected $hasIssues = null;
+
+    protected $forksCount = null;
+
+    protected $openIssuesCount = null;
+
+    protected $permissions = null;
+
+    protected $hasDownloads = null;
+
+    protected $mirrorUrl = null;
+
+    protected $updatedAt = null;
+
+    protected $hasWiki = null;
+
+    protected $fullName = null;
+    
+    protected $_links = null;
+    
+    protected $id = null;
+    
+    public function getId()
+    {
+        return $this->id;
+    }
+    
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+    
+    public function getLinks()
+    {
+        return $this->_links;
+    }
+    
+    public function setLinks($_links)
+    {
+        $this->_links = $_links;
+        return $this;
+    }
+    public function getFullName()
+    {
+        return $this->fullName;
+    }
+    
+    public function setFullName($fullName)
+    {
+        $this->fullName = $fullName;
+        return $this;
+    }
+
+    public function setHasWiki($hasWiki)
+    {
+        $this->hasWiki = $hasWiki;
+    }
+
+    public function getHasWiki()
+    {
+        return $this->hasWiki;
+    }
+
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    public function setMirrorUrl($mirrorUrl)
+    {
+        $this->mirrorUrl = $mirrorUrl;
+    }
+
+    public function getMirrorUrl()
+    {
+        return $this->mirrorUrl;
+    }
+
+    public function setHasDownloads($hasDownloads)
+    {
+        $this->hasDownloads = $hasDownloads;
+    }
+
+    public function getHasDownloads()
+    {
+        return $this->hasDownloads;
+    }
+
+    public function setPermissions($permissions)
+    {
+        $this->permissions = $permissions;
+    }
+
+    public function getPermissions()
+    {
+        return $this->permissions;
+    }
+
+    public function setOpenIssuesCount($openIssuesCount)
+    {
+        $this->openIssuesCount = $openIssuesCount;
+    }
+
+    public function getOpenIssuesCount()
+    {
+        return $this->openIssuesCount;
+    }
+
+    public function setForksCount($forksCount)
+    {
+        $this->forksCount = $forksCount;
+    }
+
+    public function getForksCount()
+    {
+        return $this->forksCount;
+    }
+
+    public function setHasIssues($hasIssues)
+    {
+        $this->hasIssues = $hasIssues;
+    }
+
+    public function getHasIssues()
+    {
+        return $this->hasIssues;
+    }
+
+    public function setWatchersCount($watchersCount)
+    {
+        $this->watchersCount = $watchersCount;
+    }
+
+    public function getWatchersCount()
+    {
+        return $this->watchersCount;
+    }
 
     public function getUrl()
     {
