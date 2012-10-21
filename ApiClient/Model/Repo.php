@@ -65,27 +65,27 @@ class Repo extends AbstractOptions
     protected $hasWiki = null;
 
     protected $fullName = null;
-    
+
     protected $_links = null;
-    
+
     protected $id = null;
-    
+
     public function getId()
     {
         return $this->id;
     }
-    
+
     public function setId($id)
     {
         $this->id = $id;
         return $this;
     }
-    
+
     public function getLinks()
     {
         return $this->_links;
     }
-    
+
     public function setLinks($_links)
     {
         $this->_links = $_links;
@@ -95,7 +95,7 @@ class Repo extends AbstractOptions
     {
         return $this->fullName;
     }
-    
+
     public function setFullName($fullName)
     {
         $this->fullName = $fullName;

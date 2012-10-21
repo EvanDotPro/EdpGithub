@@ -38,10 +38,10 @@ class ApiClient
 
     protected $headers;
     /**
-     * Make a request to the GitHub API and decode the json response. 
-     * 
+     * Make a request to the GitHub API and decode the json response.
+     *
      * @param string $uri
-     * @param array $params 
+     * @param array $params
      * @return array
      */
     public function request($uri,  $params = null)
@@ -54,27 +54,27 @@ class ApiClient
         if(null !== $params) {
             $uri .= '?' . http_build_query($params);
         }
-       
+
         $opts[CURLOPT_URL] = $uri;
         $opts[CURLOPT_HEADERFUNCTION] = array($this,'readHeader');
 
         curl_setopt_array($ch, $opts);
-        
+
         $response = curl_exec($ch);
-        
+
         curl_close($ch);
 
         $this->parseHeader();
         $this->setRateLimitRemaining($this->headers->get('X-RateLimit-Remaining')->getFieldValue());
         $this->setRateLimit($this->headers->get('X-RateLimit-Limit')->getFieldValue());
-      
+
         return Json::decode($response, Json::TYPE_ARRAY);
     }
 
     /**
-     * getService 
-     * 
-     * @param string $serviceName 
+     * getService
+     *
+     * @param string $serviceName
      * @return Service\ServiceAbstract
      */
     public function getService($serviceName)
@@ -89,10 +89,10 @@ class ApiClient
     }
 
     /**
-     * setService 
-     * 
-     * @param string $serviceName 
-     * @param Service\AbstractService $service 
+     * setService
+     *
+     * @param string $serviceName
+     * @param Service\AbstractService $service
      * @return ApiClient
      */
     public function setService($serviceName, Service\AbstractService $service)
@@ -108,7 +108,7 @@ class ApiClient
      * @param  [type] $header_line [description]
      * @return [type]              [description]
      */
-    public function readHeader($ch, $header_line) 
+    public function readHeader($ch, $header_line)
     {
         $this->headers[] = $header_line;
         return strlen($header_line);
@@ -132,7 +132,7 @@ class ApiClient
         $headerString = str_replace('\n', '\r\n', $headerString);
 
         $this->headers = \Zend\Http\Headers::fromString($headerString);
-       
+
     }
 
     /**
@@ -144,7 +144,7 @@ class ApiClient
     {
         return $this->oauthToken;
     }
- 
+
     /**
      * Set oauthToken.
      *
@@ -166,7 +166,7 @@ class ApiClient
     {
         return $this->rateLimitRemaining;
     }
- 
+
     /**
      * Set rateLimitRemaining.
      *
@@ -188,7 +188,7 @@ class ApiClient
     {
         return $this->rateLimit;
     }
- 
+
     /**
      * Set rateLimit.
      *

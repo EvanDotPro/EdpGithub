@@ -44,7 +44,7 @@ class Repo extends AbstractService
         {
             $repolist[] = new RepoModel($repo);
         }
-       
+
         return $repolist;
     }
 }
