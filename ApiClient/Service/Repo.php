@@ -43,12 +43,12 @@ class Repo extends AbstractService
 
     public function hydrate($repos)
     {
-        $repoList = null;
+        $repolist = array();
         foreach($repos as $repo)
         {
             $repolist[] = new RepoModel($repo);
         }
-       
+
         return $repolist;
     }
 }

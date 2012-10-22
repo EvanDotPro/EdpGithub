@@ -10,7 +10,7 @@ class AbstractService
      * @var ApiClient
      */
     protected $apiClient;
- 
+
     /**
      * Get apiClient.
      *
@@ -20,7 +20,7 @@ class AbstractService
     {
         return $this->apiClient;
     }
- 
+
     /**
      * Set apiClient.
      *

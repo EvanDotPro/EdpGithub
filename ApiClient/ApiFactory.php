@@ -12,7 +12,7 @@ class ApiFactory implements FactoryInterface
         $hybridAuth = $services->get('HybridAuth');
         $adapter = $hybridAuth->getAdapter('github');
         $token = $adapter->getAccessToken();
- 
+
         $service = $services->get('edpgithub_api');
         $service->setOauthToken($token['access_token']);
         return $service;
