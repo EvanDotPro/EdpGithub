@@ -21,6 +21,10 @@ class Repo extends AbstractService
 
         $params['access_token'] = $api->getOAuthToken();
 
+        //hotfix to display more then 30 results
+        //@todo implement proper pagination
+        $params['per_page'] = 100;
+
         if($type !== null) {
             if(!in_array($type, $this->allowedTypes)) {
                 throw new Exception\DomainException("Wrong type '$type' provided.");
