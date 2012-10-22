@@ -15,16 +15,16 @@ class Repo extends AbstractService
         'member',
     );
 
-    public function listRepositories($username = null, $type = null)
+    public function listRepositories($username = null, $type = null, $params = array())
     {
         $api = $this->getApiClient();
 
         $params['access_token'] = $api->getOAuthToken();
 
-        //hotfix to display more then 30 results
-        //@todo implement proper pagination
-        $params['per_page'] = 100;
-
+        if(!isset($params['per_page'])) {
+            $params['per_page'] = 100;
+        }
+        
         if($type !== null) {
             if(!in_array($type, $this->allowedTypes)) {
                 throw new Exception\DomainException("Wrong type '$type' provided.");
@@ -33,10 +33,13 @@ class Repo extends AbstractService
         }
 
         if ($username == null) {
-            $repos = $api->request('/user/repos', $params);
+            $request_url = '/user/repos';
+            
         } else {
-            $repos = $this->getApiClient()->request('/users/' . $username . '/repos');
+            $request_url = '/users/' . $username . '/repos';
         }
+
+        $repos = $this->getApiClient()->request($request_url, $params);
 
         return $this->hydrate($repos);
     }

@@ -28,6 +28,14 @@ class ApiClient
      */
     protected $services = array();
 
+    protected $pagination = array(
+        'first' => null,
+        'next' => null,
+        'prev' => null,
+        'last' => null,
+        'current' => null
+    );
+
     protected $curlOpts = array(
         CURLOPT_CONNECTTIMEOUT => 10,
         CURLOPT_RETURNTRANSFER => true,
@@ -47,6 +55,11 @@ class ApiClient
     public function request($uri,  $params = null)
     {
         $this->headers = array();
+
+        if(isset($params['page'])) {
+            $this->pagination['current'] = $params['page'];
+        } 
+
         $ch = curl_init();
         $opts = $this->curlOpts;
         $uri = static::API_URI . $uri;
@@ -54,7 +67,6 @@ class ApiClient
         if(null !== $params) {
             $uri .= '?' . http_build_query($params);
         }
-
         $opts[CURLOPT_URL] = $uri;
         $opts[CURLOPT_HEADERFUNCTION] = array($this,'readHeader');
 
@@ -65,8 +77,7 @@ class ApiClient
         curl_close($ch);
 
         $this->parseHeader();
-        $this->setRateLimitRemaining($this->headers->get('X-RateLimit-Remaining')->getFieldValue());
-        $this->setRateLimit($this->headers->get('X-RateLimit-Limit')->getFieldValue());
+        
 
         return Json::decode($response, Json::TYPE_ARRAY);
     }
@@ -132,7 +143,91 @@ class ApiClient
         $headerString = str_replace('\n', '\r\n', $headerString);
 
         $this->headers = \Zend\Http\Headers::fromString($headerString);
+        $this->setRateLimitRemaining($this->headers->get('X-RateLimit-Remaining')->getFieldValue());
+        $this->setRateLimit($this->headers->get('X-RateLimit-Limit')->getFieldValue());
+        if($this->headers->has('link')) {
+            $this->parsePagination($this->headers->get('link')->getFieldValue());
+        }
+    }
 
+    public function parsePagination($link) 
+    {
+        $link = str_replace(array('<', '>'), '', $link);
+        $links = explode(',', $link);
+        foreach($links as $link) {
+            $url = explode(';', $link);
+            $url = parse_url($url[0]);
+
+            parse_str($url['query'], $query);
+            if (preg_match('/"([^"]+)"/', $link, $m)) {
+                $rel =  $m[1];   
+            }
+
+            switch($rel) {
+                case 'next':
+                    $this->pagination['next'] = $query['page'];
+                break;
+                case 'prev':
+                    $this->pagination['prev'] = $query['page'];
+                break;
+                case 'first':
+                    $this->pagination['first'] = $query['page'];
+                break;
+                case 'last':
+                    $this->pagination['last'] = $query['page'];
+                break;
+            }
+        }
+    }
+
+    /**
+     * Get Current Page
+     * 
+     * @return int
+     */
+    public function getCurrent() 
+    {
+        return $this->pagination['current'];
+    }
+
+    /**
+     * Get First Page
+     * 
+     * @return int
+     */
+    public function getFirst() 
+    {
+        return $this->pagination['first'];
+    }
+
+    /**
+     * Get Last Page
+     * 
+     * @return int
+     */
+    public function getLast()
+    {
+        return $this->pagination['last'];
+    }
+
+    /**
+     * Get Next Page
+     * 
+     * @return int
+     */
+    public function getNext()
+    {
+        return $this->pagination['next'];
+    }
+
+    /**
+     * Get Previous Page
+     * 
+     * @return int
+     */
+    public function getPrevious()
+    {
+        return $this->pagination['previous'];
     }
 
     /**
