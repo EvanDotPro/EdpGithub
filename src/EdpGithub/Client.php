@@ -5,15 +5,19 @@ namespace EdpGithub;
 use Buzz\Client\Curl;
 use Buzz\Client\ClientInterface;
 
+use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
+
+use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\EventManager;
+use Zend\Filter\Word\UnderscoreToCamelCase;
 
 use EdpGithub\HttpClient\HttpClient;
 use EdpGithub\HttpClient\HttpClientInterface;
 use EdpGithub\HttpClient\Listener\AuthListener;
 
-class Client
+class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
 {
     /**
      * Constant for authentication method. Indicates the default, but deprecated
@@ -62,25 +66,27 @@ class Client
 
     protected $serviceManager;
 
-    public function __construct(EventManagerInterface $em, ServiceManager $serviceManager)
+    public function __construct()
     {
-        $this->setEventManager($em);
-        $this->setserviceManager($serviceManager);
-
         $httpClient = new Curl();
         $httpClient->setTimeout($this->options['timeout']);
         $httpClient->setVerifyPeer(false);
 
         $this->httpClient = new HttpClient($this->options, $httpClient);
-
-        $em = $this->getEventManager();
-        $em->trigger('init', $this);
     }
 
-    public function api($name)
+
+    public function api($resource)
     {
-        $service = $this->serviceManager()->get('EdpGithub\Api\CurrentUser');
+        $filter = new UnderscoreToCamelCase();
+        $resource = $filter->filter($resource);
+
+        $em = $this->getEventManager();
+        $em->trigger('api', $this);
+
+        $service = $this->getServiceManager()->get('EdpGithub\Api\\' . $resource);
         $service->setClient($this);
+        return $service;
     }
 
     /**
