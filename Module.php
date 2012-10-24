@@ -7,57 +7,9 @@ use Zend\ModuleManager\ModuleManager,
 
 class Module
 {
-     public function getAutoloaderConfig()
-    {
-        return array(
-            'Zend\Loader\StandardAutoloader' => array(
-                'namespaces' => array(
-                    __NAMESPACE__ => __DIR__ ,
-                ),
-            ),
-        );
-    }
-    /*protected static $options;
-
-    public function init(ModuleManager $moduleManager)
-    {
-        $moduleManager->events()->attach('loadModules.post', array($this, 'modulesLoaded'));
-
-        $events = StaticEventManager::getInstance();
-        // @TODO: Clean this up
-        $events->attach('Zend\Mvc\Controller\ActionController', 'dispatch', function($e) {
-            $controller = $e->getTarget();
-            $matchedRoute = $controller->getEvent()->getRouteMatch()->getMatchedRouteName();
-            $allowedRoutes = array('github/email', 'zfcuser/logout');
-            if (in_array($matchedRoute, $allowedRoutes)) {
-                return;
-            }
-            if ($identity = $controller->zfcUserAuthentication()->getIdentity()) {
-                $email = $identity->getEmail();
-                if ('@github.com' === substr($email, -11)) {
-                    return $controller->redirect()->toRoute('github/email');
-                }
-            }
-        }, 1000);
-        // @TODO: Make it configurable how it attaches the adapter
-        //$events = StaticEventManager::getInstance();
-        //
-        // This is for GitHub-only authentication
-        //$events->attach('ZfcUser\Authentication\Adapter\AdapterChain', 'authenticate.pre', function($e) {
-        //    foreach ($e->getTarget()->events()->getListeners('authenticate') as $listener) {
-        //        $callback = $listener->getCallback();
-        //        $e->getTarget()->events()->detach($listener);
-        //    }
-        //    $e->getTarget()->attach(new Authentication\Adapter\ZfcUserGithub);
-        //});
-    }*/
-/*
     public function getAutoloaderConfig()
     {
         return array(
-            'Zend\Loader\ClassMapAutoloader' => array(
-                __DIR__ . '/autoload_classmap.php',
-            ),
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
@@ -65,23 +17,68 @@ class Module
             ),
         );
     }
- */
+
+
     public function getConfig($env = null)
     {
         return include __DIR__ . '/config/module.config.php';
     }
 
-    /*public function modulesLoaded($e)
+    public function getServiceConfig()
     {
-        $config = $e->getConfigListener()->getMergedConfig();
-        static::$options = $config['edpgithub'];
-    }*/
-
-    /*public static function getOption($option)
-    {
-        if (!isset(static::$options[$option])) {
-            return null;
-        }
-        return static::$options[$option];
-    }*/
+        return array(
+            'factories' => array(
+                'EdpGithub\Client' => function($sm) {
+                    $em = $sm->get('EventManager');
+                    $client = new Client($em, $sm);
+                    return $client;
+                },
+                'EdpGithub\CurrentUser' => function($sm) {
+                    $service = new Api\CurrentUser();
+                    $service->setClient($sm->get('EdpGithub\Client'));
+                    return $service;
+                },
+                'EdpGithub\User'        => function($sm) {
+                    $service = new Api\User();
+                    $service->setClient($sm->get('EdpGithub\Client'));
+                    return $service;
+                },
+                'EdpGithub\Repository'  => function($sm) {
+                    $service = new Api\Repository();
+                    $service->setClient($sm->get('EdpGithub\Client'));
+                    return $service;
+                },
+                'EdpGithub\Gist'        => function($sm) {
+                    $service = new Api\Gist();
+                    $service->setClient($sm->get('EdpGithub\Client'));
+                    return $service;
+                },
+                'EdpGithub\GitData'     => function($sm) {
+                    $service = new Api\GitData();
+                    $service->setClient($sm->get('EdpGithub\Client'));
+                    return $service;
+                },
+                'EdpGithub\Organization'=> function($sm) {
+                    $service = new Api\Organization();
+                    $service->setClient($sm->get('EdpGithub\Client'));
+                    return $service;
+                },
+                'EdpGithub\PullRequest' => function($sm) {
+                    $service = new Api\PullRequest();
+                    $service->setClient($sm->get('EdpGithub\Client'));
+                    return $service;
+                },
+                'EdpGithub\Repository'  => function($sm) {
+                    $service = new Api\Repository();
+                    $service->setClient($sm->get('EdpGithub\Client'));
+                    return $service;
+                },
+                'EdpGithub\Issue'       => function($sm) {
+                    $service = new Api\Issue();
+                    $service->setClient($sm->get('EdpGithub\Client'));
+                    return $service;
+                },
+            ),
+        );
+    }
 }
