@@ -99,7 +99,6 @@ class HttpClient implements HttpClientInterface
         }
 
         $response = new Response();
-
         try {
             $this->client->send($request, $response);
         } catch (\LogicException $e) {
@@ -116,6 +115,8 @@ class HttpClient implements HttpClientInterface
                 $listener->postSend($request, $response);
             }
         }
+
+        $response->getApiLimit();
 
         return $response;
     }
@@ -168,5 +169,15 @@ class HttpClient implements HttpClientInterface
     public function getListener()
     {
         return $this->listeners;
+    }
+
+    public function getLastResponse()
+    {
+        return $this->lastResponse;
+    }
+
+    public function getLastRequest()
+    {
+        return $this->lastRequest;
     }
 }

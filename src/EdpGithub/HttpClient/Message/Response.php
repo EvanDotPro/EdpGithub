@@ -60,12 +60,12 @@ class Response extends BaseResponse
      */
     public function getApiLimit()
     {
-        $header = $this->getHeaderAttributes('X-RateLimit-Remaining');
+        $header = $this->getHeader('X-RateLimit-Remaining');
         if (!empty($header)) {
             $this->rateLimitRemaining = $header;
         }
 
-        $header = $this->getHeaderAttributes('X-RateLimit-Limit');
+        $header = $this->getHeader('X-RateLimit-Limit');
         if (!empty($header)) {
             $this->rateLimit = $header;
         }

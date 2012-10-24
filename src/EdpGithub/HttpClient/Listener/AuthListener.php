@@ -94,8 +94,8 @@ class AuthListener implements ListenerInterface
                 }
 
                 $url  = $request->getUrl();
-                $url .= '?'.utf8_encode(http_build_query(array('access_token' => $this->options['tokenOrLogin']), '', '&'));
-//exit;
+                $url .= (false === strpos($url, '?') ? '?' : '&').utf8_encode(http_build_query(array('access_token' => $this->options['tokenOrLogin']), '', '&'));
+
                 $request->fromUrl(new Url($url));
                 break;
         }

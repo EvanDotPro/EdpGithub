@@ -2,6 +2,8 @@
 
 namespace EdpGithub\Api;
 
+use EdpGithub\Collections\RepositoryCollection;
+
 class CurrentUser extends AbstractApi
 {
     /**
@@ -18,6 +20,19 @@ class CurrentUser extends AbstractApi
     }
 
     /**
+     * GetRepos for authenticated user
+     *
+     * @link http://developer.github.com/v3/repos/
+     * @return array
+     */
+    public function repos()
+    {
+        $repos = $this->get('user/repos');
+
+        return new RepositoryCollection($repos, $this->getClient()->getHttpClient());
+    }
+
+    /**
      * {@inheritDoc}
      */
     protected function get($path, array $parameters = array(), $requestHeaders = array())
@@ -29,6 +44,7 @@ class CurrentUser extends AbstractApi
             throw new Exception\InvalidArgumentException('Needs Authentication');
         }
         $response = $this->getClient()->getHttpClient()->get($path, $parameters, $requestHeaders);
+
 
         return $response->getContent();
     }
