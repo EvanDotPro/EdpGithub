@@ -14,20 +14,27 @@ class RepositoryCollection
      */
     private $_elements;
 
+    /**
+     * @var HttpClient
+     */
     private $httpClient;
 
+    /**
+     * @var array
+     */
     private $pagination;
 
     /**
-     * Initializes a new PaginationCollection.
+     * Initializes a new RepositoryCollection.
      *
      * @param array $elements
-     * @param array $pagination
+     * @param array $httpClient
      */
-    public function __construct(array $elements = array(), $httpClient)
+    public function __construct(array $elements = array(),HttpClientInterface $httpClient)
     {
         $this->httpClient = $httpClient;
         $response = $httpClient->getLastResponse();
+
         $this->setPagination($response->getPagination());
         $this->_elements = $elements;
     }
@@ -48,43 +55,125 @@ class RepositoryCollection
     }
 
     /**
-     * Get next Page.
+     * Has First
      *
-     * @return mixed
+     * @return boolean
+     */
+    public function hasFirst()
+    {
+        if(isset($this->pagination['first'])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get first Page.
+     *
+     * @return RepositoryCollection
      */
     public function first()
     {
-        return reset($this->_elements);
+        $this->request('first');
+
+        return $this;
     }
 
     /**
-     * Sets the internal iterator to the last element in the collection and
-     * returns this element.
+     * Has Last
      *
-     * @return mixed
+     * @return boolean
+     */
+    public function hasLast()
+    {
+        if(isset($this->pagination['last'])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get Last Page
+     *
+     * @return RepositoryCollection
      */
     public function last()
     {
-        return end($this->_elements);
+        $this->request('last');
+
+        return $this;
     }
 
     /**
-     * Moves the internal iterator position to the next element.
+     * Has Next
      *
-     * @return mixed
+     * @return boolean
+     */
+    public function hasNext()
+    {
+        if(isset($this->pagination['next'])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get Next Page
+     *
+     * @return RepositoryCollection
      */
     public function next()
     {
+        $this->request('next');
+
+        return $this;
+    }
+
+    /**
+     * Has Prev
+     *
+     * @return boolean
+     */
+    public function hasPrev()
+    {
+        if(isset($this->pagination['prev'])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get Previous Page
+     *
+     * @return RepositoryCollection
+     */
+    public function prev()
+    {
+        $this->request('prev');
+
+        return $this;
+    }
+
+    /**
+     * Send Request
+     *
+     * @param  string
+     */
+    public function request($page)
+    {
         $httpClient = $this->httpClient;
-        $link = $this->pagination['next'];
+        $link = $this->pagination[$page];
         $path = $this->createPath($link);
 
         $response = $this->httpClient->request($path);
         $this->_elements = $response->getContent();
         $response = $httpClient->getLastResponse();
-        $this->setPagination($response->getPagination());
 
-        return $this;
+        $this->setPagination($response->getPagination());
     }
 
     protected function createPath($link)
@@ -98,14 +187,9 @@ class RepositoryCollection
         return $path;
     }
 
-    /**
-     * Gets the element of the collection at the current internal iterator position.
-     *
-     * @return mixed
-     */
-    public function current()
+    public function count()
     {
-        return current($this->_elements);
+        return count($this->_elements);
     }
 }
 
