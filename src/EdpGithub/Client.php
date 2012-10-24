@@ -64,17 +64,10 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
      */
     private $httpClient;
 
+    /**
+     * @var ServiceManager
+     */
     protected $serviceManager;
-
-    public function __construct()
-    {
-        $httpClient = new Curl();
-        $httpClient->setTimeout($this->options['timeout']);
-        $httpClient->setVerifyPeer(false);
-
-        $this->httpClient = new HttpClient($this->options, $httpClient);
-    }
-
 
     public function api($resource)
     {
@@ -108,7 +101,7 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
             )
         );
 
-        $this->httpClient->addListener($authListener);
+        $this->getHttpClient()->addListener($authListener);
     }
 
     public function setServiceManager(ServiceManager $serviceManager)
@@ -126,6 +119,15 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
      */
     public function getHttpClient()
     {
+        if(null === $this->httpClient) {
+            $em = $this->getEventManager();
+            $em->trigger('init', $this);
+            $httpClient = new Curl();
+            $httpClient->setTimeout($this->options['timeout']);
+            $httpClient->setVerifyPeer(false);
+
+            $this->httpClient = new HttpClient($this->options, $httpClient);
+        }
         return $this->httpClient;
     }
 
