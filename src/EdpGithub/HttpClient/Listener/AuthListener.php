@@ -9,9 +9,6 @@ use Buzz\Message\MessageInterface;
 use Buzz\Message\RequestInterface;
 use Buzz\Util\Url;
 
-/**
- * @author Joseph Bielawski <stloyd@gmail.com>
- */
 class AuthListener implements ListenerInterface
 {
     /**
