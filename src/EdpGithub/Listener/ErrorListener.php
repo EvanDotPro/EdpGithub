@@ -10,15 +10,19 @@ use Github\Exception\ErrorException;
 use Github\Exception\RuntimeException;
 use Github\Exception\ValidationFailedException;
 
-/**
- * @author Joseph Bielawski <stloyd@gmail.com>
- */
-class ErrorListener implements ListenerInterface
+
+use Zend\EventManager\EventCollection;
+use Zend\EventManager\ListenerAggregateInterface;
+use Zend\EventManager\EventInterface;
+
+class ErrorListener implements ListenerInterface, ListenerAggregateInterface
 {
     /**
      * @var array
      */
     private $options;
+
+    protected $listeners = array();
 
     /**
      * @param array $options
@@ -28,12 +32,11 @@ class ErrorListener implements ListenerInterface
         $this->options = $options;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function preSend(RequestInterface $request)
+    public function attach(EventCollection $vents)
     {
+        $this->listeners[] = $events->attach('EdpGithub\HttpClient\HttpClient', 'post.send', array($this, 'preSend'));
     }
+
 
     /**
      * {@inheritDoc}

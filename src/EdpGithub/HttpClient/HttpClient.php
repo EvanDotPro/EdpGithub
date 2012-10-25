@@ -11,7 +11,10 @@ use EdpGithub\HttpClient\Listener\ErrorListener;
 use EdpGithub\HttpClient\Message\Request;
 use EdpGithub\HttpClient\Message\Response;
 
-class HttpClient implements HttpClientInterface
+use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\EventManager;
+
+class HttpClient implements HttpClientInterface, EventManagerInterface
 {
     /**
      * @var array
@@ -21,14 +24,12 @@ class HttpClient implements HttpClientInterface
     /**
      * @var array
      */
-    protected $listeners = array();
-    /**
-     * @var array
-     */
     protected $headers = array();
 
     private $lastResponse;
     private $lastRequest;
+
+    protected $events;
 
     /**
      * @param array           $options
@@ -91,12 +92,7 @@ class HttpClient implements HttpClientInterface
         $request->addHeaders($headers);
         $request->setContent(json_encode($parameters));
 
-        $hasListeners = 0 < count($this->listeners);
-        if ($hasListeners) {
-            foreach ($this->listeners as $listener) {
-                $listener->preSend($request);
-            }
-        }
+        $this->events()->trigger('pre.send', $this, $request);
 
         $response = new Response();
         try {
@@ -107,14 +103,11 @@ class HttpClient implements HttpClientInterface
             throw new RuntimeException($e->getMessage());
         }
 
+        $this->events()->trigger('post.send', $this, $request);
+
         $this->lastRequest  = $request;
         $this->lastResponse = $response;
 
-        if ($hasListeners) {
-            foreach ($this->listeners as $listener) {
-                $listener->postSend($request, $response);
-            }
-        }
 
         $response->getApiLimit();
 
@@ -154,23 +147,6 @@ class HttpClient implements HttpClientInterface
         );
     }
 
-    /**
-     * @param ListenerInterface $listener
-     */
-    public function addListener(ListenerInterface $listener)
-    {
-        $this->listeners[get_class($listener)] = $listener;
-    }
-
-    /**
-     * Get Listener
-     * @return array
-     */
-    public function getListener()
-    {
-        return $this->listeners;
-    }
-
     public function getLastResponse()
     {
         return $this->lastResponse;
@@ -179,5 +155,33 @@ class HttpClient implements HttpClientInterface
     public function getLastRequest()
     {
         return $this->lastRequest;
+    }
+
+    /**
+     * Set Event Manager
+     *
+     * @param  EventManagerInterface $events
+     * @return HybridAuth
+     */
+    public function setEventManager(EventManagerInterface $events)
+    {
+        $events->setIdentifiers(array(
+            __CLASS__,
+            get_called_class(),
+        ));
+        $this->events = $events;
+        return $this;
+    }
+
+    /**
+     * Get Event Manager
+     *
+     * Lazy-loads an EventManager instance if none registered.
+     *
+     * @return EventManagerInterface
+     */
+    public function getEventManager()
+    {
+        return $this->events;
     }
 }

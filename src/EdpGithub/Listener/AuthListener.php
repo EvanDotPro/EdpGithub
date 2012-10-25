@@ -1,15 +1,19 @@
 <?php
 
-namespace EdpGithub\HttpClient\Listener;
+namespace EdpGithub\Listener;
 
 use EdpGithub\Client;
 
-use Buzz\Listener\ListenerInterface;
 use Buzz\Message\MessageInterface;
 use Buzz\Message\RequestInterface;
 use Buzz\Util\Url;
 
-class AuthListener implements ListenerInterface
+use Zend\EventManager\EventCollection;
+use Zend\EventManager\ListenerAggregateInterface;
+use Zend\EventManager\EventInterface;
+use Zend\EventManager\EventManagerInterface;
+
+class AuthListener implements ListenerAggregateInterface
 {
     /**
      * @var string
@@ -19,6 +23,23 @@ class AuthListener implements ListenerInterface
      * @var array
      */
     private $options;
+
+    protected $listeners = array();
+
+    public function attach(EventManagerInterface $events)
+    {
+        $this->listeners[] = $events->attach('pre.send', array($this, 'preSend'));
+    }
+
+    public function detach(EventManagerInterface $events)
+    {
+        foreach ($this->listeners as $index => $listener) {
+            if ($events->detach($listener)) {
+                unset($this->listeners[$index]);
+            }
+        }
+    }
+
 
     /**
      * Set Method
@@ -99,12 +120,5 @@ class AuthListener implements ListenerInterface
                 $request->fromUrl(new Url($url));
                 break;
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function postSend(RequestInterface $request, MessageInterface $response)
-    {
     }
 }

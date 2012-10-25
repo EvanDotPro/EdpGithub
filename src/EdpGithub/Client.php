@@ -100,8 +100,7 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
                 'password'     => $password
             )
         );
-
-        $this->getHttpClient()->addListener($authListener);
+        $this->getEventManager()->attach($authListener);
     }
 
     public function setServiceManager(ServiceManager $serviceManager)

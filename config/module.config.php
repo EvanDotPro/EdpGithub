@@ -12,7 +12,7 @@ return array(
             'EdpGithub\PullRequest' => 'EdpGithub\Api\PullRequest',
             'EdpGithub\Repository'  => 'EdpGithub\Api\Repository',
             'EdpGithub\Issue'       => 'EdpGithub\Api\Issue',
-            'EdpGithub\Listener\AuthListener' => 'EdpGithub\HttpClient\Listener\AuthListener',
+            'EdpGithub\Listener\AuthListener' => 'EdpGithub\Listener\AuthListener',
         ),
     ),
 );
