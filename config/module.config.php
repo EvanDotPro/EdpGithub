@@ -12,7 +12,11 @@ return array(
             'EdpGithub\PullRequest' => 'EdpGithub\Api\PullRequest',
             'EdpGithub\Repository'  => 'EdpGithub\Api\Repository',
             'EdpGithub\Issue'       => 'EdpGithub\Api\Issue',
-            'EdpGithub\Listener\AuthListener' => 'EdpGithub\Listener\AuthListener',
+            'EdpGithub\Listener\Auth\HttpPassword' => 'EdpGithub\Listener\Auth\HttpPassword',
+            'EdpGithub\Listener\Auth\HttpToken' => 'EdpGithub\Listener\Auth\HttpToken',
+            'EdpGithub\Listener\Auth\UrlClientId' => 'EdpGithub\Listener\Auth\UrlClientId',
+            'EdpGithub\Listener\Auth\UrlToken' => 'EdpGithub\Listener\Auth\UrlToken',
+            'EdpGithub\HttpClient' => 'EdpGithub\Http\Client',
         ),
     ),
 );

@@ -191,5 +191,34 @@ class RepositoryCollection
     {
         return count($this->_elements);
     }
+
+    /**
+     * @see containsKey()
+     */
+    public function hasOffset($offset)
+    {
+        return $this->containsKey($offset);
+    }
+
+    /**
+     * @see get()
+     */
+    public function getOffset($offset)
+    {
+        return $this->get($offset);
+    }
+
+    /**
+     * @see add()
+     * @see set()
+     */
+    public function setOffset($offset, $value)
+    {
+        if ( ! isset($offset)) {
+            return $this->add($value);
+        }
+
+        return $this->set($offset, $value);
+    }
 }
 

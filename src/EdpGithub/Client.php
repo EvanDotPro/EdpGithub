@@ -2,9 +2,6 @@
 
 namespace EdpGithub;
 
-use Buzz\Client\Curl;
-use Buzz\Client\ClientInterface;
-
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 
@@ -13,9 +10,6 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\EventManager;
 use Zend\Filter\Word\UnderscoreToCamelCase;
 
-use EdpGithub\HttpClient\HttpClient;
-use EdpGithub\HttpClient\HttpClientInterface;
-use EdpGithub\HttpClient\Listener\AuthListener;
 
 class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
 {
@@ -24,19 +18,12 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
      */
     protected $events;
 
-    /**
-     * @var array
-     */
-    private $options = array(
-        'base_url'    => 'https://api.github.com/',
-        'timeout'     => 10,
-        'api_version' => 'beta',
-    );
+
 
     /**
-     * The Buzz instance used to communicate with GitHub
+     * Http\Client
      *
-     * @var HttpClient
+     * @var Client
      */
     private $httpClient;
 
@@ -97,17 +84,9 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
     public function getHttpClient()
     {
         if(null === $this->httpClient) {
-            $em = $this->getEventManager();
-            $sm = $this->getServiceManager();
-
-            $em->trigger('init', $this);
-            $httpClient = new Curl();
-            $httpClient->setTimeout($this->options['timeout']);
-            $httpClient->setVerifyPeer(false);
-
-            $this->httpClient = $sm->get('EdpGithub\HttpClient');
-            $this->httpClient->setOptions($this->options);
-            $this->httpClient->setClient($httpClient);
+           $errorListener = $this->getServiceManager()->get('EdpGithub\Listener\Error');
+           $this->getEventManager()->attach($errorListener);
+           $this->httpClient = $this->getServiceManager()->get('EdpGithub\HttpClient');
         }
         return $this->httpClient;
     }

@@ -21,7 +21,7 @@ abstract class AbstractApi implements ServiceManagerAwareInterface
     {
         $response = $this->getClient()->getHttpClient()->get($path, $parameters, $requestHeaders);
 
-        return $response->getContent();
+        return $response->getBody();
     }
 
     /**
