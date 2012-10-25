@@ -31,21 +31,4 @@ class CurrentUser extends AbstractApi
 
         return new RepositoryCollection($repos, $this->getClient()->getHttpClient());
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function get($path, array $parameters = array(), $requestHeaders = array())
-    {
-        $sm = $this->getServiceManager();
-        $auth = $sm->get('EdpGithub\Listener\AuthListener');
-
-        if(null === $auth->getMethod()) {
-            throw new Exception\InvalidArgumentException('Needs Authentication');
-        }
-        $response = $this->getClient()->getHttpClient()->get($path, $parameters, $requestHeaders);
-
-
-        return $response->getContent();
-    }
 }

@@ -13,8 +13,9 @@ use EdpGithub\HttpClient\Message\Response;
 
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\EventManager;
+use Zend\EventManager\EventManagerAwareInterface;
 
-class HttpClient implements HttpClientInterface, EventManagerInterface
+class HttpClient implements HttpClientInterface, EventManagerAwareInterface
 {
     /**
      * @var array
@@ -35,14 +36,19 @@ class HttpClient implements HttpClientInterface, EventManagerInterface
      * @param array           $options
      * @param ClientInterface $client
      */
-    public function __construct(array $options, ClientInterface $client)
+    public function __construct()
+    {
+        $this->clearHeaders();
+    }
+
+    public function setOptions($options)
     {
         $this->options = $options;
-        $this->client  = $client;
+    }
 
-        $this->addListener(new ErrorListener($this->options));
-
-        $this->clearHeaders();
+    public function setClient($client)
+    {
+        $this->client = $client;
     }
 
     /**
@@ -92,7 +98,7 @@ class HttpClient implements HttpClientInterface, EventManagerInterface
         $request->addHeaders($headers);
         $request->setContent(json_encode($parameters));
 
-        $this->events()->trigger('pre.send', $this, $request);
+        $this->getEventManager()->trigger('pre.send', $request);
 
         $response = new Response();
         try {
@@ -103,14 +109,17 @@ class HttpClient implements HttpClientInterface, EventManagerInterface
             throw new RuntimeException($e->getMessage());
         }
 
-        $this->events()->trigger('post.send', $this, $request);
+        $this->getEventManager()->trigger('post.send', $request);
 
         $this->lastRequest  = $request;
         $this->lastResponse = $response;
 
 
         $response->getApiLimit();
-
+        // echo "<pre>";
+        // print_r($request);
+        // print_r($response);
+        // exit;
         return $response;
     }
 

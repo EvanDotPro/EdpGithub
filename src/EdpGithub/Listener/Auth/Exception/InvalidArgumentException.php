@@ -1,6 +1,6 @@
 <?php
 
-namespace EdpGithub\Listener\Exception;
+namespace EdpGithub\Listener\Auth\Exception;
 
 class InvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
 {

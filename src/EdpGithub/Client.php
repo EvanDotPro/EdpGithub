@@ -19,30 +19,6 @@ use EdpGithub\HttpClient\Listener\AuthListener;
 
 class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
 {
-    /**
-     * Constant for authentication method. Indicates the default, but deprecated
-     * login with username and token in URL.
-     */
-    const AUTH_URL_TOKEN = 'url_token';
-
-    /**
-     * Constant for authentication method. Not indicates the new login, but allows
-     * usage of unauthenticated rate limited requests for given client_id + client_secret
-     */
-    const AUTH_URL_CLIENT_ID = 'url_client_id';
-
-    /**
-     * Constant for authentication method. Indicates the new favored login method
-     * with username and password via HTTP Authentication.
-     */
-    const AUTH_HTTP_PASSWORD = 'http_password';
-
-    /**
-     * Constant for authentication method. Indicates the new login method with
-     * with username and token via HTTP Authentication.
-     */
-    const AUTH_HTTP_TOKEN = 'http_token';
-
     /*
      * EventManager
      */
@@ -87,13 +63,15 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
      *
      * @param string      $tokenOrLogin  GitHub private token/username/client ID
      * @param null|string $password      GitHub password/secret
-     * @param null|string $authMethod    One of the AUTH_* class constants
+     * @param string $authMethod
      */
-    public function authenticate($tokenOrLogin, $password = null, $authMethod = null)
+    public function authenticate($authMethod, $tokenOrLogin, $password = null)
     {
+        $filter = new UnderscoreToCamelCase();
+        $authMethod = $filter->filter($authMethod);
+
         $sm = $this->getServiceManager();
-        $authListener = $sm->get('EdpGithub\Listener\AuthListener');
-        $authListener->setMethod($authMethod);
+        $authListener = $sm->get('EdpGithub\Listener\Auth\\' . $authMethod);
         $authListener->setOptions(
             array(
                 'tokenOrLogin' => $tokenOrLogin,
@@ -120,12 +98,16 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
     {
         if(null === $this->httpClient) {
             $em = $this->getEventManager();
+            $sm = $this->getServiceManager();
+
             $em->trigger('init', $this);
             $httpClient = new Curl();
             $httpClient->setTimeout($this->options['timeout']);
             $httpClient->setVerifyPeer(false);
 
-            $this->httpClient = new HttpClient($this->options, $httpClient);
+            $this->httpClient = $sm->get('EdpGithub\HttpClient');
+            $this->httpClient->setOptions($this->options);
+            $this->httpClient->setClient($httpClient);
         }
         return $this->httpClient;
     }
