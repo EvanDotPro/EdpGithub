@@ -6,9 +6,9 @@ before_script:
 - cd ..
 - git clone git://github.com/zendframework/ZendSkeletonApplication.git
 - cd ZendSkeletonApplication
-- php composer.phar update
+- php composer.phar self-update
 - php composer.phar install --dev
-- cp -r ../Edpgithub module/EdpGithub
+- cp -r ../EdpGithub module/EdpGithub
 - cd module/EdpGithub
 - wget http://cs.sensiolabs.org/get/php-cs-fixer.phar
 
