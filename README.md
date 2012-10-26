@@ -3,6 +3,8 @@
 
 Version 0.0.1 Created by [Martin Shwalbe](https://hounddog.github.com)
 
+[![Build Status](https://travis-ci.org/Hounddog/EdpGithub.png)](https://travis-ci.org/Hounddog/EdpGithub)
+
 ## Introduction
 
 EdpGithub is a Wrapper for the Github Api  based on Zend Framework 2  which uses [Github API v3](http://developer.github.com/v3/).
