@@ -2,7 +2,7 @@
 
 namespace EdpGithub\Api;
 
-use EdpGithub\Collections\RepositoryCollection;
+use EdpGithub\Collection\RepositoryCollection;
 
 class CurrentUser extends AbstractApi
 {
@@ -25,11 +25,12 @@ class CurrentUser extends AbstractApi
      * @link http://developer.github.com/v3/repos/
      * @return array
      */
-    public function repos()
+    public function repos($type = 'all', $perPage = 10)
     {
-        $repos = $this->get('user/repos');
-        print_r($repos);
-exit;
-        return new RepositoryCollection($repos, $this->getClient()->getHttpClient());
+        $httpClient =$this->getClient()->getHttpClient();
+        $params[$type] = $type;
+        $collection = new RepositoryCollection($httpClient, 'user/repos', $params, $perPage);
+
+        return $collection;
     }
 }

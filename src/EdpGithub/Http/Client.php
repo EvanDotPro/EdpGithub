@@ -50,11 +50,7 @@ class Client implements EventManagerAwareInterface
      */
     public function get($path, array $parameters = array(), array $headers = array())
     {
-        if (0 < count($parameters)) {
-            $path .= (false === strpos($path, '?') ? '?' : '&').http_build_query($parameters, '', '&');
-        }
-
-        return $this->request($path, array(), 'GET', $headers);
+        return $this->request($path, $parameters, 'GET', $headers);
     }
 
     /**
@@ -108,7 +104,11 @@ class Client implements EventManagerAwareInterface
     {
         $client = $this->getHttpClient($path);
         $request = $client->getRequest();
+        $query = $request->getQuery();
 
+        foreach($parameters as $key => $value) {
+            $query->set($key, $value);
+        }
         //Trigger Pre Send Event to modify Request Object
         $this->getEventManager()->trigger('pre.send', $request);
 
