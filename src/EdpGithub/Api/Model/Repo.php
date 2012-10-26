@@ -70,6 +70,18 @@ class Repo extends AbstractOptions
 
     protected $id = null;
 
+    protected $defaultBranch = null;
+
+    public function getDefaultBranch()
+    {
+        return $this->defaultBranch;
+    }
+
+    public function setDefaultBranch($defaultBranch)
+    {
+        $this->defaultBranch = $defaultBranch;
+        return $this;
+    }
     public function getId()
     {
         return $this->id;
@@ -409,6 +421,32 @@ class Repo extends AbstractOptions
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
+        return $this;
+    }
+
+
+    protected $test  = null;
+
+    public function getTest ()
+    {
+        return $this->test ;
+    }
+
+    public function setTest ($test )
+    {
+        $this->test  = $test ;
+        return $this;
+    }
+    protected $test2 = null;
+
+    public function getTest2()
+    {
+        return $this->test2;
+    }
+
+    public function setTest2($test2)
+    {
+        $this->test2 = $test2;
         return $this;
     }
 }
