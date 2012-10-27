@@ -15,4 +15,9 @@ class GistTest extends PHPUnit_Framework_TestCase
     {
         // your code here
     }
+
+    public function testShow()
+    {
+        $this->markTestIncomplete( 'This test has not been implemented yet.' );
+    }
 }

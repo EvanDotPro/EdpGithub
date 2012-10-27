@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!-- works fine with PHPUnit-3.6.10 -->
 <phpunit
-        bootstrap="./tests/Bootstrap.php"
+        bootstrap="./test/Bootstrap.php"
         colors="true"
         convertErrorsToExceptions="true"
         convertNoticesToExceptions="true"
@@ -13,7 +13,7 @@
         syntaxCheck="true"
         >
     <testsuite name="EdpGithub Module Tests">
-        <directory>./tests/EdpGithubTest</directory>
+        <directory>./test/EdpGithubTest</directory>
     </testsuite>
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">

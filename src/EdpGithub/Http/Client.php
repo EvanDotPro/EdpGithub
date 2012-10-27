@@ -9,7 +9,7 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;
 
-class Client implements EventManagerAwareInterface
+class Client implements EventManagerAwareInterface, ClientInterface
 {
     /*
      * EventManager

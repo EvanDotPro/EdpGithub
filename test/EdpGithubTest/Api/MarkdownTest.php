@@ -4,7 +4,7 @@ namespace EdpGithubTest\Api;
 
 use PHPUnit_Framework_TestCase;
 
-class PullRequestTest extends PHPUnit_Framework_TestCase
+class MarkdownTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
@@ -14,5 +14,10 @@ class PullRequestTest extends PHPUnit_Framework_TestCase
     public function tearDown()
     {
         // your code here
+    }
+
+    public function testShow()
+    {
+        $this->markTestIncomplete( 'This test has not been implemented yet.' );
     }
 }

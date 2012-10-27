@@ -3,6 +3,7 @@
 namespace EdpGithub\Listener\Auth;
 
 use Zend\EventManager\Event;
+use Zend\Validator\NotEmpty;
 
 class UrlClientId extends AbstractAuthListener
 {
@@ -13,7 +14,13 @@ class UrlClientId extends AbstractAuthListener
      */
     public function preSend(Event $e)
     {
-        if (!isset($this->options['tokenOrLogin'], $this->options['password'])) {
+        $validator = new NotEmpty();
+
+        if (
+            !isset($this->options['tokenOrLogin'], $this->options['password'])
+            || !$validator->isValid($this->options['tokenOrLogin'])
+            || !$validator->isValid($this->options['password'])
+        ) {
             throw new Exception\InvalidArgumentException('You need to set client_id and client_secret!');
         }
 

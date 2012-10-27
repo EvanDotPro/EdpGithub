@@ -3,6 +3,7 @@
 namespace EdpGithub\Listener\Auth;
 
 use Zend\EventManager\Event;
+use Zend\Validator\NotEmpty;
 
 class HttpPassword extends AbstractAuthListener
 {
@@ -13,7 +14,13 @@ class HttpPassword extends AbstractAuthListener
      */
     public function preSend(Event $e)
     {
-        if (!isset($this->options['tokenOrLogin'], $this->options['password'])) {
+        $validator = new NotEmpty();
+
+        if (
+            !isset($this->options['tokenOrLogin'], $this->options['password'])
+            || !$validator->isValid($this->options['tokenOrLogin'])
+            || !$validator->isValid($this->options['password'])
+        ) {
             throw new Exception\InvalidArgumentException('You need to set username with password!');
         }
 
@@ -23,6 +30,6 @@ class HttpPassword extends AbstractAuthListener
         $params = array(
             'Authorization' => 'Basic '. base64_encode($this->options['tokenOrLogin'] .':'. $this->options['password']),
         );
-        $header->addHeaders($params);
+        $headers->addHeaders($params);
     }
 }
