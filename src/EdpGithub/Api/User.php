@@ -16,9 +16,4 @@ class User extends AbstractApi
     {
         return $this->get('users/'.urlencode($username));
     }
-
-    public function repos($username)
-    {
-        return $this->get('users/'.urlencode($username).'/repos');
-    }
 }

@@ -25,7 +25,7 @@ class CurrentUser extends AbstractApi
      * @link http://developer.github.com/v3/repos/
      * @return array
      */
-    public function repos($type = 'all', $perPage = 10)
+    public function repos($type = 'all', $perPage = 30)
     {
         $httpClient =$this->getClient()->getHttpClient();
         $params[$type] = $type;
