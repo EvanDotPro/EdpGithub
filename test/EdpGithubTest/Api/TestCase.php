@@ -10,7 +10,15 @@ class TestCase extends PHPUnit_Framework_TestCase
 
     public function getHttpClientMock()
     {
+        $response = $this->getMock('Zend\Http\Response');
+        $response->expects($this->any())
+            ->method('getBody')
+            ->will($this->returnValue('test'));
+
         $httpClient = $this->getMock('EdpGithub\Http\Client');
+        $httpClient->expects($this->any())
+            ->method('get')
+            ->will($this->returnValue($response));
 
         return $httpClient;
     }

@@ -18,7 +18,9 @@ class CurrentUserTest extends TestCase
 
     public function testShow()
     {
-        $this->markTestIncomplete( 'This test has not been implemented yet.' );
+        $api = new CurrentUser;
+        $api->setClient($this->getClientMock());
+        $user = $api->show();
     }
 
     public function testRepos()

@@ -18,6 +18,6 @@ class GitDataTest extends PHPUnit_Framework_TestCase
 
     public function testShow()
     {
-        $this->markTestIncomplete( 'This test has not been implemented yet.' );
+        //code here....
     }
 }

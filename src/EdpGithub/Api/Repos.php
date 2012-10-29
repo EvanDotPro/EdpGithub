@@ -18,7 +18,7 @@ class Repos extends AbstractApi
     {
         $httpClient =$this->getClient()->getHttpClient();
         $params[$type] = $type;
-        $collection = new RepositoryCollection($httpClient, 'users/'.urlencode($username).'/repos', $params, $perPage);
+        $collection = new RepositoryCollection($httpClient, 'users/'.urlencode($username).'/repos', $params);
 
         return $collection;
     }
