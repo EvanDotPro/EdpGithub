@@ -8,10 +8,13 @@ class ReposTest extends TestCase
 {
     public function testShow()
     {
-        $api = new Repos;
-        $api->setClient($this->getClientMock());
-        $repos = $api->show('user');
+        $expectedArray = array('id' => 1, 'name' => 'EdpGithub');
 
-        $this->assertInstanceOf('EdpGithub\Collection\RepositoryCollection', $repos);
+        $client = $this->getClientMock('user', $expectedArray);
+        $api = new Repos();
+        $api->setClient($client);
+        $result = $api->show('someUser');
+
+        $this->assertInstanceOf('EdpGithub\Collection\RepositoryCollection', $result);
     }
 }

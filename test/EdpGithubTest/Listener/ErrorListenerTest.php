@@ -139,7 +139,94 @@ $content = '{"message":"testmessage", "errors": [{"code":"missing", "resource":"
             ->method('getTarget')
             ->will($this->returnValue($this->response));
 
-$content = '{"message":"testmessage", "errors": [{"code":"missing", "resource":"resource test"}]}';
+            $content = '{"message":"testmessage", "errors": [{"code":"missing", "resource":"resource test"}]}';
+
+        $this->response->expects($this->once())
+            ->method('getBody')
+            ->will($this->returnValue($content));
+        $listener = new Error();
+        $result = $listener->postSend($this->event);
+    }
+
+    /**
+     * Test for HTTP Error
+     * @expectedException EdpGithub\Listener\Exception\InvalidArgumentException
+     */
+    public function testPostSendFailedMissingField()
+    {
+        $this->response->expects($this->once())
+            ->method('isSuccess')
+            ->will($this->returnValue(false));
+
+        $this->response->expects($this->once())
+            ->method('getStatusCode')
+            ->will($this->returnValue(422));
+
+
+
+        $this->event->expects($this->once())
+            ->method('getTarget')
+            ->will($this->returnValue($this->response));
+
+            $content = '{"message":"testmessage", "errors": [{"code":"missing_field", "resource":"resource test", "field":"someField"}]}';
+
+        $this->response->expects($this->once())
+            ->method('getBody')
+            ->will($this->returnValue($content));
+        $listener = new Error();
+        $result = $listener->postSend($this->event);
+    }
+
+    /**
+     * Test for HTTP Error
+     * @expectedException EdpGithub\Listener\Exception\InvalidArgumentException
+     */
+    public function testPostSendFailedInvalid()
+    {
+        $this->response->expects($this->once())
+            ->method('isSuccess')
+            ->will($this->returnValue(false));
+
+        $this->response->expects($this->once())
+            ->method('getStatusCode')
+            ->will($this->returnValue(422));
+
+
+
+        $this->event->expects($this->once())
+            ->method('getTarget')
+            ->will($this->returnValue($this->response));
+
+            $content = '{"message":"testmessage", "errors": [{"code":"invalid", "resource":"resource test", "field":"someField"}]}';
+
+        $this->response->expects($this->once())
+            ->method('getBody')
+            ->will($this->returnValue($content));
+        $listener = new Error();
+        $result = $listener->postSend($this->event);
+    }
+
+    /**
+     * Test for HTTP Error
+     * @expectedException EdpGithub\Listener\Exception\InvalidArgumentException
+     */
+    public function testPostSendFailedAlreadyExists()
+    {
+        $this->response->expects($this->once())
+            ->method('isSuccess')
+            ->will($this->returnValue(false));
+
+        $this->response->expects($this->once())
+            ->method('getStatusCode')
+            ->will($this->returnValue(422));
+
+
+
+        $this->event->expects($this->once())
+            ->method('getTarget')
+            ->will($this->returnValue($this->response));
+
+            $content = '{"message":"testmessage", "errors": [{"code":"already_exists", "resource":"resource test", "field":"someField"}]}';
 
         $this->response->expects($this->once())
             ->method('getBody')

@@ -7,29 +7,24 @@ use PHPUnit_Framework_TestCase;
 
 class TestCase extends PHPUnit_Framework_TestCase
 {
-
-    public function getHttpClientMock()
+    public function getClientMock($expectedPath, $expectedResult)
     {
         $response = $this->getMock('Zend\Http\Response');
         $response->expects($this->any())
             ->method('getBody')
-            ->will($this->returnValue('test'));
+            ->will($this->returnValue($expectedResult));
 
         $httpClient = $this->getMock('EdpGithub\Http\Client');
         $httpClient->expects($this->any())
             ->method('get')
+            ->with($expectedPath)
             ->will($this->returnValue($response));
 
-        return $httpClient;
-    }
-
-    public function getClientMock()
-    {
         $client = $this->getMock('EdpGithub\Client');
 
         $client->expects($this->once())
             ->method('getHttpClient')
-            ->will($this->returnValue($this->getHttpClientMock()));
+            ->will($this->returnValue($httpClient));
         return $client;
     }
 }

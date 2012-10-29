@@ -2,15 +2,10 @@
 
 namespace EdpGithubTest\Api;
 
-use PHPUnit_Framework_TestCase;
+use EdpGithub\Api\User;
 
-class UserTest extends PHPUnit_Framework_TestCase
+class UserTest extends TestCase
 {
-    public function setUp()
-    {
-        // your code here
-    }
-
     public function tearDown()
     {
         // your code here
@@ -18,6 +13,12 @@ class UserTest extends PHPUnit_Framework_TestCase
 
     public function testShow()
     {
-        //code here....
+        $expectedArray = array('id' => 1, 'username' => 'someUser');
+
+        $client = $this->getClientMock('users/someUser', $expectedArray);
+        $api = new User();
+        $api->setClient($client);
+        $result = $api->show('someUser');
+        $this->assertEquals($result, $expectedArray);
     }
 }

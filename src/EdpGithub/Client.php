@@ -19,8 +19,6 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
      */
     protected $events;
 
-
-
     /**
      * Http\Client
      *
@@ -99,7 +97,7 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
     public function setHttpClient($httpClient)
     {
         $this->httpClient = $httpClient;
-        return this;
+        return $this;
     }
 
     /**

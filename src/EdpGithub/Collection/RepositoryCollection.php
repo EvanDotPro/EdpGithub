@@ -54,6 +54,8 @@ class RepositoryCollection implements Iterator
 
     private function loadPage($page)
     {
+        $elements = array();
+
         if($this->pagination == null) {
             $this->parameters['page'] = 1;
             $elements = $this->fetch();
@@ -65,7 +67,7 @@ class RepositoryCollection implements Iterator
             }
         }
 
-        if($page > $this->pagination['last']) {
+        if($page > $this->pagination['last'] ) {
             return false;
         }
 
@@ -86,6 +88,8 @@ class RepositoryCollection implements Iterator
     private function fetch()
     {
         $response = $this->httpClient->get($this->path, $this->parameters, $this->headers);
+
+
         $this->getPagination($response);
 
         $elements = json_decode($response->getBody());
@@ -102,7 +106,11 @@ class RepositoryCollection implements Iterator
         for($offset=$offsetStart,$i=0;$i<=$limit; $i++, $offset++){
             if(!$this->containsKey($offset)) {
                 if($this->loadPage($page)) {
-                    $elements[] = $this->get($offset);
+                    if($this->containsKey($offset)) {
+                        $elements[] = $this->get($offset);
+                    } else {
+                        break;
+                    }
                 } else {
                     break;
                 }
@@ -123,10 +131,9 @@ class RepositoryCollection implements Iterator
     private function getPagination($response)
     {
         $this->pagination['last'] = 1;
-        $headers= $response->getHeaders();
+        $headers = $response->getHeaders();
         if($headers->has('Link')) {
             $header = $headers->get('Link')->getFieldValue();
-
             if (empty($header)) {
                 return null;
             }
@@ -174,7 +181,8 @@ class RepositoryCollection implements Iterator
 
     public function first()
     {
-        return $this->rewind();
+        $this->rewind();
+        return $this->elements[$this->key()];
     }
     /**
      * {@inheritdoc}
@@ -230,10 +238,5 @@ class RepositoryCollection implements Iterator
             return true;
         }
         return false;
-    }
-
-    public function toArray()
-    {
-        return $this->elements;
     }
 }
