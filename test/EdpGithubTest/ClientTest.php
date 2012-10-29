@@ -32,11 +32,20 @@ class ClientTest extends PHPUnit_Framework_TestCase
 
     public function testAuthenticate()
     {
+        $authListener = $this->getMock('EdpGithub\Listener\Auth\UrlToken');
+        $authListener->expects($this->once())
+            ->method('setOptions')
+            ->with(array(
+                'tokenOrLogin' => '12345',
+                'password' =>null,
+            ));
+
         $sm = $this->getMock('Zend\ServiceManager\ServiceManager');
-        $sm->expects($this->once());
+        $sm->expects($this->once())
             ->method('get')
             ->with('EdpGithub\Listener\Auth\UrlToken')
-            ->will($this->returnValue)
+            ->will($this->returnValue($authListener));
+
         $this->client = new Client();
         $this->client->setServiceManager($sm);
 
