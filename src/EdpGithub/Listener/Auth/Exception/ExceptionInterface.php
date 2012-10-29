@@ -1,6 +1,6 @@
 <?php
 
-namespace EdpGithub\Listener\AuthException;
+namespace EdpGithub\Listener\Auth\Exception;
 
 interface ExceptionInterface
 {

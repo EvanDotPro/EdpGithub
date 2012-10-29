@@ -3,6 +3,7 @@
 namespace EdpGithub\Listener\Auth;
 
 use Zend\EventManager\Event;
+use Zend\Validator\NotEmpty;
 
 class UrlToken extends AbstractAuthListener
 {
@@ -13,7 +14,12 @@ class UrlToken extends AbstractAuthListener
      */
     public function preSend(Event $e)
     {
-        if (!isset($this->options['tokenOrLogin'])) {
+        $validator = new NotEmpty();
+
+        if (
+            !isset($this->options['tokenOrLogin'])
+            || !$validator->isValid($this->options['tokenOrLogin'])
+        ) {
             throw new Exception\InvalidArgumentException('You need to set OAuth token!');
         }
 

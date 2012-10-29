@@ -10,6 +10,7 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\EventManager;
 use Zend\Filter\Word\UnderscoreToCamelCase;
 
+use EdpGithub\Http\ClientInterface;
 
 class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
 {
@@ -17,8 +18,6 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
      * EventManager
      */
     protected $events;
-
-
 
     /**
      * Http\Client
@@ -91,6 +90,22 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
         return $this->httpClient;
     }
 
+    /**
+     * Set HttpClient
+     * @param HttpClientInterface $httpClient
+     */
+    public function setHttpClient($httpClient)
+    {
+        $this->httpClient = $httpClient;
+        return $this;
+    }
+
+    /**
+     * Set Event Manager
+     *
+     * @param EventManagerInterface $events
+     * @return Client
+     */
     public function setEventManager(EventManagerInterface $events)
     {
         $events->setIdentifiers(array(
@@ -101,6 +116,10 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
         return $this;
     }
 
+    /**
+     * Get Event Manager
+     * @return EventManager
+     */
     public function getEventManager()
     {
         if (null === $this->events) {

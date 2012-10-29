@@ -4,6 +4,7 @@ namespace EdpGithub\Collection;
 
 use EdpGithub\Http\Client;
 use EdpGithub\Api\Model\Repo as RepoModel;
+use Zend\Stdlib\Hydrator;
 
 use Closure, Iterator;
 
@@ -36,20 +37,25 @@ class RepositoryCollection implements Iterator
 
     protected $pagination = null;
 
-    protected $page = 1;
-
-    private $perPage;
-
-    public function __construct(Client $httpClient, $path, array $parameters =array(),$perPage = 30, array $headers = array())
+    public function __construct(Client $httpClient, $path, array $parameters =array(), array $headers = array())
     {
             $this->httpClient = $httpClient;
             $this->path = $path;
             $this->headers = $headers;
-            $this->perPage = $perPage;
+            if(!isset($parameters['per_page'])) {
+                $parameters['per_page'] = 30;;
+            }
+
+            if(!isset($parameters['page'])) {
+                $parameters['page'] = 1;
+            }
+            $this->parameters = $parameters;
     }
 
     private function loadPage($page)
     {
+        $elements = array();
+
         if($this->pagination == null) {
             $this->parameters['page'] = 1;
             $elements = $this->fetch();
@@ -61,7 +67,7 @@ class RepositoryCollection implements Iterator
             }
         }
 
-        if($page > $this->pagination['last']) {
+        if($page > $this->pagination['last'] ) {
             return false;
         }
 
@@ -70,7 +76,7 @@ class RepositoryCollection implements Iterator
             $elements = $this->fetch();
         }
 
-        $offset = (($page-1) * $this->perPage);
+        $offset = (($page-1) * $this->parameters['per_page']);
 
         foreach($elements as $element) {
             $this->add($offset++, $element);
@@ -82,23 +88,29 @@ class RepositoryCollection implements Iterator
     private function fetch()
     {
         $response = $this->httpClient->get($this->path, $this->parameters, $this->headers);
+
+
         $this->getPagination($response);
 
-        $elements = json_decode($response->getBody(), true);
+        $elements = json_decode($response->getBody());
         return $elements;
     }
 
     public function page($page)
     {
-        $this->parameters['per_page'] = $this->perPage;
-        $offsetStart = (($page-1) * $this->perPage);
-        $limit = $this->perPage -1;
+        $this->parameters['per_page'] = $this->parameters['per_page'];
+        $offsetStart = (($page-1) * $this->parameters['per_page']);
+        $limit = $this->parameters['per_page'] -1;
         $elements = array();
 
         for($offset=$offsetStart,$i=0;$i<=$limit; $i++, $offset++){
             if(!$this->containsKey($offset)) {
                 if($this->loadPage($page)) {
-                    $elements[] = $this->get($offset);
+                    if($this->containsKey($offset)) {
+                        $elements[] = $this->get($offset);
+                    } else {
+                        break;
+                    }
                 } else {
                     break;
                 }
@@ -112,17 +124,16 @@ class RepositoryCollection implements Iterator
 
     public function add($offset, $element)
     {
-        $this->elements[$offset] = $this->hydrate($element);
+        $this->elements[$offset] = $element;
     }
 
 
     private function getPagination($response)
     {
         $this->pagination['last'] = 1;
-        $headers= $response->getHeaders();
+        $headers = $response->getHeaders();
         if($headers->has('Link')) {
             $header = $headers->get('Link')->getFieldValue();
-
             if (empty($header)) {
                 return null;
             }
@@ -170,7 +181,8 @@ class RepositoryCollection implements Iterator
 
     public function first()
     {
-        return $this->rewind();
+        $this->rewind();
+        return $this->elements[$this->key()];
     }
     /**
      * {@inheritdoc}
@@ -189,7 +201,7 @@ class RepositoryCollection implements Iterator
     public function getIterator()
     {
         $this->rewind();
-        $this->page = 1;
+        $this->parameters['page'] = 1;
         $this->parameters['per_page'] = 100;
 
         return $this;
@@ -198,7 +210,7 @@ class RepositoryCollection implements Iterator
     public function valid()
     {
         if(!$this->current()) {
-            return $this->loadPage(++$this->page);
+            return $this->loadPage(++$this->parameters['page']);
         }
         return true;
     }
@@ -218,7 +230,8 @@ class RepositoryCollection implements Iterator
         return array_search($element, $this->elements);
     }
 
-    public function removeElement($element) {
+    public function removeElement($element)
+    {
         $key = $this->indexOf($element);
 
         if($key) {
@@ -226,15 +239,5 @@ class RepositoryCollection implements Iterator
             return true;
         }
         return false;
-    }
-
-    public function toArray()
-    {
-        return $this->elements;
-    }
-
-    public function hydrate($element)
-    {
-        return  new RepoModel($element);
     }
 }

@@ -34,7 +34,7 @@ class Error implements ListenerAggregateInterface
     {
         $response = $e->getTarget();
         if($response->isSuccess()) {
-            return;
+            return true;
         }
 
         //Get Http Response Status Code
