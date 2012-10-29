@@ -23,13 +23,13 @@ class CurrentUser extends AbstractApi
      * GetRepos for authenticated user
      *
      * @link http://developer.github.com/v3/repos/
+     * @param array $params
      * @return array
      */
-    public function repos($type = 'all', $perPage = 30)
+    public function repos(array $params = array())
     {
         $httpClient =$this->getClient()->getHttpClient();
-        $params[$type] = $type;
-        $collection = new RepositoryCollection($httpClient, 'user/repos', $params, $perPage);
+        $collection = new RepositoryCollection($httpClient, 'user/repos', $params);
 
         return $collection;
     }
