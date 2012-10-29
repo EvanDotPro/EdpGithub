@@ -1,0 +1,7 @@
+<?php
+//define('ZF2_PATH', '/var/www/modules.zendframework.com/vendor/ZF2/library');
+return array(
+    'modules' => array(
+        'EdpGithub',
+    ),
+);
