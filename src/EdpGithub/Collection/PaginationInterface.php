@@ -2,7 +2,7 @@
 
 namespace EdpGithub\Collection;
 
-interface Pagination
+interface PaginationInterface
 {
 
 }

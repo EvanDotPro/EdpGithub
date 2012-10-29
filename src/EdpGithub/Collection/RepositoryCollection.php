@@ -230,7 +230,8 @@ class RepositoryCollection implements Iterator
         return array_search($element, $this->elements);
     }
 
-    public function removeElement($element) {
+    public function removeElement($element)
+    {
         $key = $this->indexOf($element);
 
         if($key) {

@@ -45,7 +45,8 @@ class RepositoryCollectionTest extends PHPUnit_Framework_TestCase
         return $httpClient;
     }
 
-    public function testPage() {
+    public function testPage()
+    {
         $json = '[{"id":"1","name":"someRepo"},{"id":"2","name":"anotherRepo"}]';
 
         $httpClient = $this->getClientMock('user/repos', $json);
