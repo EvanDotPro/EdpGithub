@@ -17,8 +17,7 @@ class Error implements ListenerAggregateInterface
 
     public function attach(EventManagerInterface $events)
     {
-        $em = $events->getSharedManager();
-        $this->listeners[] = $em->attach('EdpGithub\Http\Client','post.send', array($this, 'postSend'));
+        $this->listeners[] = $events->attach('post.send', array($this, 'postSend'));
     }
 
     public function detach(EventManagerInterface $events)

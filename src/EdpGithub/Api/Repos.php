@@ -22,4 +22,9 @@ class Repos extends AbstractApi
 
         return $collection;
     }
+
+    public function content($repo, $file)
+    {
+        return $this->get('repos/'.$repo.'/contents/'.$file);
+    }
 }

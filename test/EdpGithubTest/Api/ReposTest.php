@@ -17,4 +17,15 @@ class ReposTest extends TestCase
 
         $this->assertInstanceOf('EdpGithub\Collection\RepositoryCollection', $result);
     }
+
+    public function testContent()
+    {
+        $expectedArray = array('id' =>1, 'name' => 'repo');
+        $client = $this->getClientMock('repos/vendor/repos/contents/readme', $expectedArray);
+        $api = new Repos();
+        $api->setClient($client);
+        $result = $api->content('vendor/repos', 'readme');
+
+        $this->assertEquals($result, $expectedArray);
+    }
 }

@@ -64,7 +64,7 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
                 'password'     => $password
             )
         );
-        $this->getEventManager()->attach($authListener);
+        $this->getHttpClient()->getEventManager()->attachAggregate($authListener);
     }
 
     public function setServiceManager(ServiceManager $serviceManager)
@@ -83,9 +83,11 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
     public function getHttpClient()
     {
         if(null === $this->httpClient) {
-           $errorListener = $this->getServiceManager()->get('EdpGithub\Listener\Error');
-           $this->getEventManager()->attach($errorListener);
            $this->httpClient = $this->getServiceManager()->get('EdpGithub\HttpClient');
+           $errorListener = $this->getServiceManager()->get('EdpGithub\Listener\Error');
+           $eventManager = $this->httpClient->getEventManager();
+           $eventManager->attachAggregate($errorListener);
+
         }
         return $this->httpClient;
     }

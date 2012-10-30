@@ -32,6 +32,16 @@ class Client implements EventManagerAwareInterface, ClientInterface
     protected $httpAdapter;
 
     /**
+     * @var Response
+     */
+    protected $response;
+
+    /**
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * @var array
      */
     private $options = array(
@@ -117,6 +127,9 @@ class Client implements EventManagerAwareInterface, ClientInterface
         //Trigger Post Send to Modify/Validate Response object
         $this->getEventManager()->trigger('post.send', $response);
 
+        $this->response = $response;
+        $this->request = $request;
+
         return $response;
     }
 
@@ -177,5 +190,15 @@ class Client implements EventManagerAwareInterface, ClientInterface
     public function getEventManager()
     {
         return $this->events;
+    }
+
+    public function getResponse()
+    {
+        return $this->response;
+    }
+
+    public function getRequest()
+    {
+        return $this->request;
     }
 }
