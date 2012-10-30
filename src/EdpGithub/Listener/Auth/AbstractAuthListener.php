@@ -20,8 +20,7 @@ abstract class AbstractAuthListener implements ListenerAggregateInterface
 
     public function attach(EventManagerInterface $events)
     {
-        $em = $events->getSharedManager();
-        $this->listeners[] = $em->attach('EdpGithub\Http\Client','pre.send', array($this, 'preSend'));
+        $this->listeners[] = $events->attach('pre.send', array($this, 'preSend'));
     }
 
     public function detach(EventManagerInterface $events)
