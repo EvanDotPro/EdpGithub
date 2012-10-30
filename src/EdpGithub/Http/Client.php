@@ -121,6 +121,7 @@ class Client implements EventManagerAwareInterface, ClientInterface
         }
         //Trigger Pre Send Event to modify Request Object
         $this->getEventManager()->trigger('pre.send', $request);
+
         $response = $client->dispatch($request);
 
         //Trigger Post Send to Modify/Validate Response object
