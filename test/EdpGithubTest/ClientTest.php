@@ -12,12 +12,18 @@ class ClientTest extends PHPUnit_Framework_TestCase
     public function getHttpClient($path)
     {
         $response = $this->getMock('Zend\Http\Response');
+        $eventManager = $this->getMock('Zend\EventManager\EventManager');
 
         $httpClient = $this->getMock('EdpGithub\Http\Client');
         $httpClient->expects($this->any())
             ->method('get')
             ->with($path)
             ->will($this->returnValue($response));
+
+        $httpClient->expects($this->any())
+            ->method('getEventManager')
+            ->will($this->returnValue($eventManager));
+
         return $httpClient;
     }
 
@@ -48,7 +54,7 @@ class ClientTest extends PHPUnit_Framework_TestCase
 
         $this->client = new Client();
         $this->client->setServiceManager($sm);
-
+        $this->client->setHttpClient($this->getHttpClient('test'));
         $this->client->authenticate('url_token','12345');
 
     }
