@@ -210,7 +210,9 @@ class RepositoryCollection implements Iterator
     public function valid()
     {
         if(!$this->current()) {
-            return $this->loadPage(++$this->parameters['page']);
+            $valid = $this->loadPage($this->parameters['page']);
+            $this->parameters['page'] ++;
+            return $valid;
         }
         return true;
     }
