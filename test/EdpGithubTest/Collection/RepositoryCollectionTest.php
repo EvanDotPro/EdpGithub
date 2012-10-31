@@ -203,6 +203,11 @@ class RepositoryCollectionTest extends PHPUnit_Framework_TestCase
      */
     public function testInValid($repoCollection)
     {
+        $json = '[]';
+
+        $httpClient = $this->getClientMock('user/repos', $json);
+        $repoCollection->setHttpClient($httpClient);
+
         $repoCollection->next();
         $result = $repoCollection->valid();
         $this->assertFalse($result);

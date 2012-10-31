@@ -52,28 +52,20 @@ class RepositoryCollection implements Iterator
             $this->parameters = $parameters;
     }
 
+    public function setHttpClient($httpClient) {
+        $this->httpClient = $httpClient;
+    }
+
     private function loadPage($page)
     {
-        $elements = array();
-
-        if($this->pagination == null) {
-            $this->parameters['page'] = 1;
-            $elements = $this->fetch();
-
-            $offset = 0;
-
-            foreach($elements as $element) {
-                $this->add($offset++, $element);
-            }
-        }
-
-        if($page > $this->pagination['last'] ) {
+        if($this->pagination != null && $page > $this->pagination['last']) {
             return false;
         }
 
-        if($page != 1) {
-            $this->parameters['page'] = $page;
-            $elements = $this->fetch();
+        $elements = $this->fetch();
+
+        if(count($elements) == 0) {
+            return false;
         }
 
         $offset = (($page-1) * $this->parameters['per_page']);
@@ -88,10 +80,7 @@ class RepositoryCollection implements Iterator
     private function fetch()
     {
         $response = $this->httpClient->get($this->path, $this->parameters, $this->headers);
-
-
         $this->getPagination($response);
-
         $elements = json_decode($response->getBody());
         return $elements;
     }
@@ -211,7 +200,7 @@ class RepositoryCollection implements Iterator
     {
         if(!$this->current()) {
             $valid = $this->loadPage($this->parameters['page']);
-            $this->parameters['page'] ++;
+            $this->parameters['page'] +=1;
             return $valid;
         }
         return true;
