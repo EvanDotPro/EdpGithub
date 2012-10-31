@@ -52,7 +52,8 @@ class RepositoryCollection implements Iterator
             $this->parameters = $parameters;
     }
 
-    public function setHttpClient($httpClient) {
+    public function setHttpClient($httpClient)
+    {
         $this->httpClient = $httpClient;
     }
 
