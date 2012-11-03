@@ -10,21 +10,21 @@ class ReposTest extends TestCase
     {
         $expectedArray = array('id' => 1, 'name' => 'EdpGithub');
 
-        $client = $this->getClientMock('user', $expectedArray);
+        $client = $this->getClientMock('repos/user/repo', $expectedArray);
         $api = new Repos();
         $api->setClient($client);
-        $result = $api->show('someUser');
+        $result = $api->show('user', 'repo');
 
-        $this->assertInstanceOf('EdpGithub\Collection\RepositoryCollection', $result);
+        $this->assertEquals($expectedArray, $result);
     }
 
     public function testContent()
     {
         $expectedArray = array('id' =>1, 'name' => 'repo');
-        $client = $this->getClientMock('repos/vendor/repos/contents/readme', $expectedArray);
+        $client = $this->getClientMock('repos/owner/repo/contents/path', $expectedArray);
         $api = new Repos();
         $api->setClient($client);
-        $result = $api->content('vendor/repos', 'readme');
+        $result = $api->content('owner', 'repo', 'path');
 
         $this->assertEquals($result, $expectedArray);
     }

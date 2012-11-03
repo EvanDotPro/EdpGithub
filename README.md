@@ -1,5 +1,5 @@
 
-# Github Api odule for Zend Framework 2
+# Github Api Module for Zend Framework 2
 
 Version 0.0.1 Created by [Martin Shwalbe](https://hounddog.github.com)
 
@@ -43,4 +43,4 @@ You can also listen to the Event <em>'EdpGithub\Client', 'api'</em>
     } );
 
 ## Documentation
-Please refer to the [Wiki](https://github.com/Hounddog/EdpGithub/wiki) for a more detailed Documentation
+Please refer to the [Wiki](https://github.com/EvanDotPro/EdpGithub/wiki) for a more detailed Documentation

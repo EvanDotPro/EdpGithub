@@ -10,7 +10,6 @@ class CurrentUser extends AbstractApi
      * Get authenticatec User
      *
      * @link http://developer.github.com/v3/users/
-     * /user
      *
      * @return array
      */

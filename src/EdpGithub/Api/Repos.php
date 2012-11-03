@@ -7,24 +7,31 @@ use EdpGithub\Collection\RepositoryCollection;
 class Repos extends AbstractApi
 {
     /**
-     * Get Repos for specified user
+     * Get Repo
      *
      * @link http://developer.github.com/v3/repos/
      *
-     * @param string $username
+     * @param  string $user
+     * @param  string $repo
      * @return array
      */
-    public function show($username, $type = 'all', $perPage = 30)
+    public function show($user, $repo)
     {
-        $httpClient =$this->getClient()->getHttpClient();
-        $params[$type] = $type;
-        $collection = new RepositoryCollection($httpClient, 'users/'.urlencode($username).'/repos', $params);
-
-        return $collection;
+        return $this->get('repos/'.$user.'/'.$repo);
     }
 
-    public function content($repo, $file)
+    /**
+     * Get Repo Content
+     *
+     * @link http://developer.github.com/v3/repos/contents/
+     *
+     * @param  string $owner
+     * @param  string $repo
+     * @param  string $path
+     * @return array
+     */
+    public function content($owner, $repo, $path)
     {
-        return $this->get('repos/'.$repo.'/contents/'.$file);
+        return $this->get('repos/'.$owner.'/'.$repo.'/contents/'.$path);
     }
 }
