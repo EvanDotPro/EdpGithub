@@ -33,4 +33,16 @@ class UserTest extends TestCase
 
         $this->assertInstanceOf('EdpGithub\Collection\RepositoryCollection', $result);
     }
+
+    public function testOrgs()
+    {
+        $expectedArray = array('id' => 1, 'username' => 'user');
+
+        $client = $this->getClientMock('users/user/orgs', $expectedArray);
+        $api = new User();
+        $api->setClient($client);
+        $result = $api->orgs('user');
+
+        $this->assertEquals($result, $expectedArray);
+    }
 }

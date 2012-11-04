@@ -19,7 +19,7 @@ class CurrentUser extends AbstractApi
     }
 
     /**
-     * GetRepos for authenticated user
+     * Get Repos for authenticated user
      *
      * @link http://developer.github.com/v3/repos/
      * @param array $params
@@ -31,5 +31,17 @@ class CurrentUser extends AbstractApi
         $collection = new RepositoryCollection($httpClient, 'user/repos', $params);
 
         return $collection;
+    }
+
+    /**
+     * Get Organizations for authenticated user
+     *
+     * @link http://developer.github.com/v3/orgs/
+     * @return array
+     */
+    public function orgs()
+    {
+        $orgs = $this->get('user/orgs');
+        return json_decode($orgs);
     }
 }
