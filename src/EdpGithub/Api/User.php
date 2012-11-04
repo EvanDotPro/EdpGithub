@@ -36,4 +36,16 @@ class User extends AbstractApi
         return $collection;
     }
 
+    /**
+     * Get User Organizations
+     *
+     * @param  string $user
+     * @return array
+     */
+    public function orgs($user)
+    {
+        $orgs = $this->get('users/'.$user.'/orgs');
+        return $orgs;
+    }
+
 }
