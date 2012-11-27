@@ -32,12 +32,17 @@ class Error implements ListenerAggregateInterface
     public function postSend(Event $e)
     {
         $response = $e->getTarget();
-        if($response->isSuccess()) {
+
+        //Get Http Response Status Code
+        $statusCode =  $response->getStatusCode();
+
+        if(200 <= $statusCode && 400 > $statusCode) {
             return true;
         }
 
         //Get Http Response Status Code
         $statusCode =  $response->getStatusCode();
+
         $content = json_decode($response->getBody());
         switch ($statusCode){
             case 400:

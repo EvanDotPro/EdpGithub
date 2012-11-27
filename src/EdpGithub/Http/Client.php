@@ -124,10 +124,12 @@ class Client implements EventManagerAwareInterface, ClientInterface
 
         $response = $client->dispatch($request);
 
-        //Trigger Post Send to Modify/Validate Response object
-        $this->getEventManager()->trigger('post.send', $response);
-
         $this->response = $response;
+
+        //Trigger Post Send to Modify/Validate Response object
+        $result = $this->getEventManager()->trigger('post.send', $response);
+        $response = $result->last();
+
         $this->request = $request;
 
         return $response;

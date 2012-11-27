@@ -18,6 +18,26 @@ return array(
             'EdpGithub\Listener\Auth\UrlToken' => 'EdpGithub\Listener\Auth\UrlToken',
             'EdpGithub\Listener\Error' => 'EdpGithub\Listener\Error',
             'EdpGithub\HttpClient' => 'EdpGithub\Http\Client',
+            'EdpGithub\Listener\Cache' => 'EdpGithub\Listener\Cache',
         ),
+    ),
+    'edpgithub' => array(
+        /**
+         * Cache configuration
+         */
+        'cache' => array(
+            'adapter'   => array(
+                'name' => 'filesystem',
+                'options' => array(
+                    'cache_dir' => realpath('./data/cache'),
+                    'writable' => false,
+                ),
+            ),
+            'plugins' => array(
+                'exception_handler' => array('throw_exceptions' => true),
+                'serializer'
+            )
+        ),
+        'cache_key' => 'github_api',
     ),
 );
