@@ -18,6 +18,7 @@ class ClientTest extends PHPUnit_Framework_TestCase
         $this->serviceManager = new ServiceManager();
         $this->serviceManager->setService('EdpGithub\HttpClient', $this->getHttpClient('foo', 'bar'));
         $this->serviceManager->setService('EdpGithub\Listener\Error', $this->getMock('EdpGithub\Listener\Error'));
+        $this->serviceManager->setService('EdpGithub\Listener\Cache', $this->getMock('EdpGithub\Listener\Cache'));
     }
 
     public function getHttpClient($path)
@@ -84,6 +85,8 @@ class ClientTest extends PHPUnit_Framework_TestCase
         $client->setServiceManager($this->serviceManager);
 
         $httpClient = $client->getHttpClient();
+
+        $this->assertInstanceOf('EdpGithub\Http\Client', $httpClient);
     }
 
     public function testSetEventManager()

@@ -20,13 +20,13 @@ class ErrorListenerTest extends PHPUnit_Framework_TestCase
 
     public function testPostSendSuccess()
     {
+        $this->response->expects($this->once())
+            ->method('getStatusCode')
+            ->will($this->returnValue(200));
+
         $this->event->expects($this->once())
             ->method('getTarget')
             ->will($this->returnValue($this->response));
-
-        $this->response->expects($this->once())
-            ->method('isSuccess')
-            ->will($this->returnValue(true));
 
         $listener = new Error();
         $result = $listener->postSend($this->event);
@@ -39,9 +39,6 @@ class ErrorListenerTest extends PHPUnit_Framework_TestCase
      */
     public function testPostSendBadRequest()
     {
-        $this->response->expects($this->once())
-            ->method('isSuccess')
-            ->will($this->returnValue(false));
 
         $this->response->expects($this->once())
             ->method('getStatusCode')
@@ -68,10 +65,6 @@ class ErrorListenerTest extends PHPUnit_Framework_TestCase
     public function testPostSendUnauthorized()
     {
         $this->response->expects($this->once())
-            ->method('isSuccess')
-            ->will($this->returnValue(false));
-
-        $this->response->expects($this->once())
             ->method('getStatusCode')
             ->will($this->returnValue(401));
 
@@ -96,10 +89,6 @@ class ErrorListenerTest extends PHPUnit_Framework_TestCase
      */
     public function testPostSendUnprocessableEntity()
     {
-        $this->response->expects($this->once())
-            ->method('isSuccess')
-            ->will($this->returnValue(false));
-
         $this->response->expects($this->once())
             ->method('getStatusCode')
             ->will($this->returnValue(422));
@@ -126,10 +115,6 @@ $content = '{"message":"testmessage", "errors": [{"code":"missing", "resource":"
     public function testPostSendFailed()
     {
         $this->response->expects($this->once())
-            ->method('isSuccess')
-            ->will($this->returnValue(false));
-
-        $this->response->expects($this->once())
             ->method('getStatusCode')
             ->will($this->returnValue(499));
 
@@ -155,14 +140,8 @@ $content = '{"message":"testmessage", "errors": [{"code":"missing", "resource":"
     public function testPostSendFailedMissingField()
     {
         $this->response->expects($this->once())
-            ->method('isSuccess')
-            ->will($this->returnValue(false));
-
-        $this->response->expects($this->once())
             ->method('getStatusCode')
             ->will($this->returnValue(422));
-
-
 
         $this->event->expects($this->once())
             ->method('getTarget')
@@ -183,10 +162,6 @@ $content = '{"message":"testmessage", "errors": [{"code":"missing", "resource":"
      */
     public function testPostSendFailedInvalid()
     {
-        $this->response->expects($this->once())
-            ->method('isSuccess')
-            ->will($this->returnValue(false));
-
         $this->response->expects($this->once())
             ->method('getStatusCode')
             ->will($this->returnValue(422));
@@ -213,14 +188,8 @@ $content = '{"message":"testmessage", "errors": [{"code":"missing", "resource":"
     public function testPostSendFailedAlreadyExists()
     {
         $this->response->expects($this->once())
-            ->method('isSuccess')
-            ->will($this->returnValue(false));
-
-        $this->response->expects($this->once())
             ->method('getStatusCode')
             ->will($this->returnValue(422));
-
-
 
         $this->event->expects($this->once())
             ->method('getTarget')

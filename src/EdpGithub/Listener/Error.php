@@ -40,9 +40,6 @@ class Error implements ListenerAggregateInterface
             return true;
         }
 
-        //Get Http Response Status Code
-        $statusCode =  $response->getStatusCode();
-
         $content = json_decode($response->getBody());
         switch ($statusCode){
             case 400:
