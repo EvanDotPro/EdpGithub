@@ -26,7 +26,7 @@ class Cache implements ListenerAggregateInterface, ServiceManagerAwareInterface
 
     public function attach(EventManagerInterface $events)
     {
-        $this->listeners[] = $events->attach('pre.send', array($this, 'preSend'), 1);
+        $this->listeners[] = $events->attach('pre.send', array($this, 'preSend'), -1000);
         $this->listeners[] = $events->attach('post.send', array($this, 'postSend'));
     }
 
