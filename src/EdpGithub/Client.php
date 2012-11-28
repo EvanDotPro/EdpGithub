@@ -87,7 +87,8 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
            $errorListener = $this->getServiceManager()->get('EdpGithub\Listener\Error');
            $eventManager = $this->httpClient->getEventManager();
            $eventManager->attachAggregate($errorListener);
-
+           $cacheListener = $this->getServiceManager()->get('EdpGithub\Listener\Cache');
+           $eventManager->attachAggregate($cacheListener);
         }
         return $this->httpClient;
     }

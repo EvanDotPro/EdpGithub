@@ -123,11 +123,14 @@ class Client implements EventManagerAwareInterface, ClientInterface
         $this->getEventManager()->trigger('pre.send', $request);
 
         $response = $client->dispatch($request);
+        $this->response = $response;
 
         //Trigger Post Send to Modify/Validate Response object
-        $this->getEventManager()->trigger('post.send', $response);
+        $result = $this->getEventManager()->trigger('post.send', $response);
+        if($result->stopped()) {
+            $response = $result->last();
+        }
 
-        $this->response = $response;
         $this->request = $request;
 
         return $response;
@@ -150,7 +153,7 @@ class Client implements EventManagerAwareInterface, ClientInterface
     }
 
     /**
-     * Get Http Adpter
+     * Get Http Adapter
      * @return
      */
     public function getHttpAdapter()
@@ -162,6 +165,11 @@ class Client implements EventManagerAwareInterface, ClientInterface
             ));
         }
         return $this->httpAdapter;
+    }
+
+    public function setHttpAdapter($adapter)
+    {
+        $this->httpAdapter = $adapter;
     }
 
     /**

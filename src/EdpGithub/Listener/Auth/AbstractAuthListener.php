@@ -20,7 +20,7 @@ abstract class AbstractAuthListener implements ListenerAggregateInterface
 
     public function attach(EventManagerInterface $events)
     {
-        $this->listeners[] = $events->attach('pre.send', array($this, 'preSend'));
+        $this->listeners[] = $events->attach('pre.send', array($this, 'preSend'), 100000);
     }
 
     public function detach(EventManagerInterface $events)

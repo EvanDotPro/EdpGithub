@@ -2,7 +2,7 @@
 /**
  * EdpGithub Configuration
  *
- * If you have a ./config/autoload/ directory set up for your project, you can 
+ * If you have a ./config/autoload/ directory set up for your project, you can
  * drop this config file in it and change the values as you wish.
  */
 $settings = array(
@@ -12,25 +12,25 @@ $settings = array(
      * Please specify the DI alias for the configured Zend\Db\Adapter\Adapter
      * instance that EdpGithub should use.
      */
-    'zend_db_adapter' => 'Zend\Db\Adapter\Adapter',
+    //'zend_db_adapter' => 'Zend\Db\Adapter\Adapter',
 
     /**
      * GitHub Client ID
      *
-     * Upon registering your application with GitHub, they will give you a 
-     * Client ID. Put that Client ID here. If you have not registered your 
+     * Upon registering your application with GitHub, they will give you a
+     * Client ID. Put that Client ID here. If you have not registered your
      * application with GitHub yet, visit https://github.com/account/applications
      */
-    'github_client_id' => 'GITHUB_CLIENT_ID_GOES_HERE',
+    //'github_client_id' => 'GITHUB_CLIENT_ID_GOES_HERE',
 
     /**
      * GitHub Client Secret
      *
-     * Upon registering your application with GitHub, they will give you a 
-     * Client Secret. Put that Client Secret here. If you have not registered your 
+     * Upon registering your application with GitHub, they will give you a
+     * Client Secret. Put that Client Secret here. If you have not registered your
      * application with GitHub yet, visit https://github.com/account/applications
      */
-    'github_client_secret' => 'GITHUB_CLIENT_SECRET_GOES_HERE',
+    //'github_client_secret' => 'GITHUB_CLIENT_SECRET_GOES_HERE',
 
     /**
      * GitHub Callback URL
@@ -42,7 +42,26 @@ $settings = array(
      *
      * Accepted values: a URL or boolean false / null
      */
-    'github_callback_url' => false,
+    //'github_callback_url' => false,
+    /**
+     * Cache configuration
+     */
+    /*
+    'cache' => array(
+        'adapter'   => array(
+            'name' => 'filesystem',
+            'options' => array(
+                'cache_dir' => realpath('./data/cache'),
+                'writable' => false,
+            ),
+        ),
+        'plugins' => array(
+            'exception_handler' => array('throw_exceptions' => true),
+            'serializer'
+        )
+    ),
+    'cache_key' => 'github_api',
+    */
 );
 
 /**
@@ -50,11 +69,4 @@ $settings = array(
  */
 return array(
     'edpgithub' => $settings,
-    'di' => array(
-        'instance' => array(
-            'alias' => array(
-                'edpgithub_zend_db_adapter' => $settings['zend_db_adapter'],
-            ),
-        ),
-    ),
 );
