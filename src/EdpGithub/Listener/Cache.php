@@ -39,7 +39,8 @@ class Cache implements ListenerAggregateInterface, ServiceManagerAwareInterface
         }
     }
 
-    public function preSend(Event $e) {
+    public function preSend(Event $e)
+    {
         $request = $e->getTarget();
 
         $cache = $this->getCache();
