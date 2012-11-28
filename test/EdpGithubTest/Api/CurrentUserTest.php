@@ -4,6 +4,8 @@ namespace EdpGithubTest\Api;
 
 use EdpGithub\Api\CurrentUser;
 use EdpGithub\Collection\RepositoryCollection;
+use Zend\ServiceManager\ServiceManager;
+
 class CurrentUserTest extends TestCase
 {
     public function testShow()
@@ -27,5 +29,24 @@ class CurrentUserTest extends TestCase
         $result = $api->repos();
 
         $this->assertInstanceOf('EdpGithub\Collection\RepositoryCollection', $result);
+    }
+
+    public function testOrgs()
+    {
+        $expectedString = '[{"id":"1","name":"EdpGithub"}]';
+        $expectedArray = json_decode($expectedString);
+        $client = $this->getClientMock('user/orgs', $expectedString);
+        $api = new CurrentUser();
+        $api->setClient($client);
+        $result = $api->orgs();
+        $this->assertEquals($expectedArray, $result);
+    }
+
+    public function testgetServiceManager()
+    {
+        $serviceManager = new ServiceManager();
+        $currentUser = new CurrentUser;
+        $currentUser->setServiceManager($serviceManager);
+        $this->assertInstanceOf('Zend\ServiceManager\ServiceManager', $currentUser->getServiceManager());
     }
 }

@@ -74,6 +74,8 @@ class Cache implements ListenerAggregateInterface, ServiceManagerAwareInterface
             );
             $cache->setTags($this->cacheKey, $tags);
         }
+        $e->stopPropagation(true);
+
         return $response;
     }
 
