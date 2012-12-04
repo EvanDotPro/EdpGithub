@@ -34,4 +34,15 @@ class Repos extends AbstractApi
     {
         return $this->get('repos/'.$owner.'/'.$repo.'/contents/'.$path);
     }
+
+    /**
+     * Get Readme
+     * @param  string $owner
+     * @param  string $repo
+     * @return string
+     */
+    public function readme($owner, $repo)
+    {
+        return $this->get('repos/'.$owner.'/'.$repo.'/readme');
+    }
 }
