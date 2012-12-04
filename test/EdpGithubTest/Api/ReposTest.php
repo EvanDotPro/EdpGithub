@@ -28,4 +28,15 @@ class ReposTest extends TestCase
 
         $this->assertEquals($result, $expectedArray);
     }
+
+    public function testReadme()
+    {
+        $expectedArray = array('id' =>1, 'name' => 'repo');
+        $client = $this->getClientMock('repos/owner/repo/readme', $expectedArray);
+        $api = new Repos();
+        $api->setClient($client);
+        $result = $api->readme('owner', 'repo');
+
+        $this->assertEquals($result, $expectedArray);
+    }
 }
