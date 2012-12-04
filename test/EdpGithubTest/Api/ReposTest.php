@@ -35,7 +35,7 @@ class ReposTest extends TestCase
         $client = $this->getClientMock('repos/owner/repo/readme', $expectedArray);
         $api = new Repos();
         $api->setClient($client);
-        $result = $api->content('owner', 'repo');
+        $result = $api->readme('owner', 'repo');
 
         $this->assertEquals($result, $expectedArray);
     }
