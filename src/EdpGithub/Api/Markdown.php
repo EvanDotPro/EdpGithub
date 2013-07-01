@@ -21,9 +21,4 @@ class Markdown extends AbstractApi
 		);
 		return $this->post('markdown', $parameters);
 	}
-
-	public function raw()
-	{
-
-	}
 }
