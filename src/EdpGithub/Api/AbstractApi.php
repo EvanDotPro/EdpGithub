@@ -25,6 +25,16 @@ abstract class AbstractApi implements ServiceManagerAwareInterface
     }
 
     /**
+     * {@inheritDoc}
+     */
+    protected function post($path, array $parameters = array(), $requestHeaders = array())
+    {
+        $response = $this->getClient()->getHttpClient()->post($path, $parameters, $requestHeaders);
+
+        return $response->getBody();
+    }
+
+    /**
      * Get Client
      * @return EdpGithub\Client
      */

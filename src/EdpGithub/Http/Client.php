@@ -114,11 +114,17 @@ class Client implements EventManagerAwareInterface, ClientInterface
     {
         $client = $this->getHttpClient($path);
         $request = $client->getRequest();
-        $query = $request->getQuery();
 
-        foreach($parameters as $key => $value) {
-            $query->set($key, $value);
+        if($httpMethod == 'GET') {
+            $query = $request->getQuery();
+            foreach($parameters as $key => $value) {
+                $query->set($key, $value);
+            }
+        } else if($httpMethod == 'POST') {
+            $client->setMethod($httpMethod);
+            $request->setContent(json_encode($parameters));
         }
+
         //Trigger Pre Send Event to modify Request Object
         $this->getEventManager()->trigger('pre.send', $request);
 

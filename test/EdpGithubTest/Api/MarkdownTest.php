@@ -2,22 +2,19 @@
 
 namespace EdpGithubTest\Api;
 
-use PHPUnit_Framework_TestCase;
+use EdpGithub\Api\Markdown;
 
-class MarkdownTest extends PHPUnit_Framework_TestCase
+class MarkdownTest extends TestCase
 {
-    public function setUp()
+    public function testRender()
     {
-        // your code here
-    }
+        $expectedResult = "<h1>Some MarkDown</h1>";
 
-    public function tearDown()
-    {
-        // your code here
-    }
+        $client = $this->getClientMock('markdown', $expectedResult);
+        $api = new Markdown();
+        $api->setClient($client);
+        $result = $api->render('##Some Markdown');
 
-    public function testShow()
-    {
-        //code here....
+        $this->assertEquals($expectedResult, $result);
     }
 }

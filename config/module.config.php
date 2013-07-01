@@ -11,6 +11,7 @@ return array(
             'EdpGithub\Api\Organization'=> 'EdpGithub\Api\Organization',
             'EdpGithub\Api\PullRequest' => 'EdpGithub\Api\PullRequest',
             'EdpGithub\Api\Repository'  => 'EdpGithub\Api\Repository',
+            'EdpGithub\Api\Markdown'  => 'EdpGithub\Api\Markdown',
             'EdpGithub\Api\Issue'       => 'EdpGithub\Api\Issue',
             'EdpGithub\Listener\Auth\HttpPassword' => 'EdpGithub\Listener\Auth\HttpPassword',
             'EdpGithub\Listener\Auth\HttpToken' => 'EdpGithub\Listener\Auth\HttpToken',
