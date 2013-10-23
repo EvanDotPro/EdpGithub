@@ -10,11 +10,18 @@
         "api"
     ],
     "homepage": "https://github.com/EvanDotPro/EdpGithub",
-    "authors": [{
+    "authors": [
+        {
             "name": "Evan Coury",
             "email": "me@evancoury.com",
             "homepage": "http://blog.evan.pro/"
-    }],
+        },
+        {
+            "name": "Martin Shwalbe",
+            "email": "martin.shwalbe@gmail.com",
+            "homepage": "http://hounddog.github.io"
+        }
+    ],
     "require": {
         "php": ">=5.3.3",
         "zendframework/zendframework": "2.*"
