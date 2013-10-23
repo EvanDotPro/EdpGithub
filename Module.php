@@ -32,7 +32,7 @@ class Module
                 /**
                  * Cache where the API will be stored once it is filled with data
                  */
-                'edpgithub.cache' => function($sm) {
+                'edpgithub.cache' => function ($sm) {
                     $config = $sm->get('Config');
                     $storage = StorageFactory::factory($config['edpgithub']['cache']);
 
