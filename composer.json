@@ -1,0 +1,40 @@
+{
+    "name": "evandotpro/edp-github",
+    "description": "Github API integration module for Zend Framework 2",
+    "type": "zf-module",
+    "license": "BSD-2-Clause",
+    "keywords": [
+        "zf2",
+        "module",
+        "github",
+        "api"
+    ],
+    "homepage": "https://github.com/EvanDotPro/EdpGithub",
+    "authors": [
+        {
+            "name": "Evan Coury",
+            "email": "me@evancoury.com",
+            "homepage": "http://blog.evan.pro/"
+        },
+        {
+            "name": "Martin Shwalbe",
+            "email": "martin.shwalbe@gmail.com",
+            "homepage": "http://hounddog.github.io"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "2.*"
+    },
+    "require-dev": {
+            "phpunit/phpunit" : "3.7.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "EdpGithub": "src/"
+        },
+        "classmap": [
+            "./Module.php"
+        ]
+    }
+}
