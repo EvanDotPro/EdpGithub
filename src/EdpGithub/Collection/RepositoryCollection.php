@@ -6,7 +6,8 @@ use EdpGithub\Http\Client;
 use EdpGithub\Api\Model\Repo as RepoModel;
 use Zend\Stdlib\Hydrator;
 
-use Closure, Iterator;
+use Closure;
+use Iterator;
 
 class RepositoryCollection implements Iterator
 {
@@ -37,19 +38,19 @@ class RepositoryCollection implements Iterator
 
     protected $pagination = null;
 
-    public function __construct(Client $httpClient, $path, array $parameters =array(), array $headers = array())
+    public function __construct(Client $httpClient, $path, array $parameters = array(), array $headers = array())
     {
-            $this->httpClient = $httpClient;
-            $this->path = $path;
-            $this->headers = $headers;
-            if(!isset($parameters['per_page'])) {
-                $parameters['per_page'] = 30;;
-            }
+        $this->httpClient = $httpClient;
+        $this->path = $path;
+        $this->headers = $headers;
+        if (!isset($parameters['per_page'])) {
+            $parameters['per_page'] = 30;
+        }
 
-            if(!isset($parameters['page'])) {
-                $parameters['page'] = 1;
-            }
-            $this->parameters = $parameters;
+        if (!isset($parameters['page'])) {
+            $parameters['page'] = 1;
+        }
+        $this->parameters = $parameters;
     }
 
     public function setHttpClient($httpClient)
@@ -59,19 +60,19 @@ class RepositoryCollection implements Iterator
 
     private function loadPage($page)
     {
-        if($this->pagination != null && $page > $this->pagination['last']) {
+        if ($this->pagination != null && $page > $this->pagination['last']) {
             return false;
         }
 
         $elements = $this->fetch();
 
-        if(count($elements) == 0) {
+        if (count($elements) == 0) {
             return false;
         }
 
         $offset = (($page-1) * $this->parameters['per_page']);
 
-        foreach($elements as $element) {
+        foreach ($elements as $element) {
             $this->add($offset++, $element);
         }
 
@@ -93,10 +94,10 @@ class RepositoryCollection implements Iterator
         $limit = $this->parameters['per_page'] -1;
         $elements = array();
 
-        for($offset=$offsetStart,$i=0;$i<=$limit; $i++, $offset++){
-            if(!$this->containsKey($offset)) {
-                if($this->loadPage($page)) {
-                    if($this->containsKey($offset)) {
+        for ($offset=$offsetStart,$i=0; $i<=$limit; $i++, $offset++) {
+            if (!$this->containsKey($offset)) {
+                if ($this->loadPage($page)) {
+                    if ($this->containsKey($offset)) {
                         $elements[] = $this->get($offset);
                     } else {
                         break;
@@ -104,7 +105,7 @@ class RepositoryCollection implements Iterator
                 } else {
                     break;
                 }
-            } else  {
+            } else {
                 $elements[] = $this->get($offset);
             }
         }
@@ -122,7 +123,7 @@ class RepositoryCollection implements Iterator
     {
         $this->pagination['last'] = 1;
         $headers = $response->getHeaders();
-        if($headers->has('Link')) {
+        if ($headers->has('Link')) {
             $header = $headers->get('Link')->getFieldValue();
             if (empty($header)) {
                 return null;
@@ -136,7 +137,7 @@ class RepositoryCollection implements Iterator
                     $pagination[$match[2]] = $match[1];
                 }
             }
-            if(isset($pagination['last'])) {
+            if (isset($pagination['last'])) {
                 $url = parse_url($pagination['last']);
                 parse_str($url['query'], $query);
                 $this->pagination['last'] = $query['page'];
@@ -199,7 +200,7 @@ class RepositoryCollection implements Iterator
 
     public function valid()
     {
-        if(!$this->current()) {
+        if (!$this->current()) {
             $valid = $this->loadPage($this->parameters['page']);
             $this->parameters['page'] +=1;
             return $valid;
@@ -226,7 +227,7 @@ class RepositoryCollection implements Iterator
     {
         $key = $this->indexOf($element);
 
-        if($key) {
+        if ($key) {
             unset($this->elements[$key]);
             return true;
         }
