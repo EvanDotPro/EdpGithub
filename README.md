@@ -1,9 +1,9 @@
 
-# Github Api Module for Zend Framework 2
+# Github Api Module for ZF2
 
-Version 0.0.1 Created by [Martin Shwalbe](https://hounddog.github.com)
 
-[![Build Status](https://travis-ci.org/Hounddog/EdpGithub.png)](https://travis-ci.org/Hounddog/EdpGithub)
+[![Build Status](https://travis-ci.org/EvanDotPro/EdpGithub.png)](https://travis-ci.org/EvanDotPro/EdpGithub)
+[![Coverage Status](https://coveralls.io/repos/EvanDotPro/EdpGithub/badge.png?branch=master)](https://coveralls.io/r/EvanDotPro/EdpGithub)
 
 ## Introduction
 
