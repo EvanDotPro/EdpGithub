@@ -99,7 +99,7 @@ class ErrorListenerTest extends PHPUnit_Framework_TestCase
             ->method('getTarget')
             ->will($this->returnValue($this->response));
 
-$content = '{"message":"testmessage", "errors": [{"code":"missing", "resource":"resource test"}]}';
+        $content = '{"message":"testmessage", "errors": [{"code":"missing", "resource":"resource test"}]}';
 
         $this->response->expects($this->once())
             ->method('getBody')
@@ -147,7 +147,8 @@ $content = '{"message":"testmessage", "errors": [{"code":"missing", "resource":"
             ->method('getTarget')
             ->will($this->returnValue($this->response));
 
-            $content = '{"message":"testmessage", "errors": [{"code":"missing_field", "resource":"resource test", "field":"someField"}]}';
+        $content = '{"message":"testmessage",'
+            .' "errors": [{"code":"missing_field", "resource":"resource test", "field":"someField"}]}';
 
         $this->response->expects($this->once())
             ->method('getBody')
@@ -172,7 +173,8 @@ $content = '{"message":"testmessage", "errors": [{"code":"missing", "resource":"
             ->method('getTarget')
             ->will($this->returnValue($this->response));
 
-            $content = '{"message":"testmessage", "errors": [{"code":"invalid", "resource":"resource test", "field":"someField"}]}';
+        $content = '{"message":"testmessage",'
+            .' "errors": [{"code":"invalid", "resource":"resource test", "field":"someField"}]}';
 
         $this->response->expects($this->once())
             ->method('getBody')
@@ -195,7 +197,8 @@ $content = '{"message":"testmessage", "errors": [{"code":"missing", "resource":"
             ->method('getTarget')
             ->will($this->returnValue($this->response));
 
-            $content = '{"message":"testmessage", "errors": [{"code":"already_exists", "resource":"resource test", "field":"someField"}]}';
+        $content = '{"message":"testmessage",'.
+            ' "errors": [{"code":"already_exists", "resource":"resource test", "field":"someField"}]}';
 
         $this->response->expects($this->once())
             ->method('getBody')
@@ -203,6 +206,4 @@ $content = '{"message":"testmessage", "errors": [{"code":"missing", "resource":"
         $listener = new Error();
         $result = $listener->postSend($this->event);
     }
-
-
 }

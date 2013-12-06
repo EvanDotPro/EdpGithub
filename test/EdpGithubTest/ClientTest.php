@@ -67,7 +67,7 @@ class ClientTest extends PHPUnit_Framework_TestCase
         $this->client = new Client();
         $this->client->setServiceManager($sm);
         $this->client->setHttpClient($this->getHttpClient('test'));
-        $this->client->authenticate('url_token','12345');
+        $this->client->authenticate('url_token', '12345');
 
     }
 

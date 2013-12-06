@@ -82,7 +82,7 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
      */
     public function getHttpClient()
     {
-        if($this->httpClient) {
+        if ($this->httpClient) {
             return $this->httpClient;
         }
 
