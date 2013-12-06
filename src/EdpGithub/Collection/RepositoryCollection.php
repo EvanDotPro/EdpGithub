@@ -12,6 +12,16 @@ use Iterator;
 class RepositoryCollection implements Iterator
 {
     /**
+     * Elements per page
+     */
+    const PER_PAGE = 30;
+
+    /**
+     * Page Start
+     */
+    const START_PAGE = 1;
+
+    /**
      * @var client
      */
     protected $httpClient;
@@ -44,11 +54,11 @@ class RepositoryCollection implements Iterator
         $this->path = $path;
         $this->headers = $headers;
         if (!isset($parameters['per_page'])) {
-            $parameters['per_page'] = 30;
+            $parameters['per_page'] = self::PER_PAGE;
         }
 
         if (!isset($parameters['page'])) {
-            $parameters['page'] = 1;
+            $parameters['page'] = self::START_PAGE;
         }
         $this->parameters = $parameters;
     }
