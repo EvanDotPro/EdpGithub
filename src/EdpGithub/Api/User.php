@@ -47,5 +47,4 @@ class User extends AbstractApi
         $orgs = $this->get('users/'.$user.'/orgs');
         return $orgs;
     }
-
 }

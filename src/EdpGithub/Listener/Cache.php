@@ -48,7 +48,7 @@ class Cache implements ListenerAggregateInterface, ServiceManagerAwareInterface
         $this->cacheKey = md5($request);
 
         $response = $cache->getItem($this->cacheKey, $success);
-        if($success) {
+        if ($success) {
             $tags = $cache->getTags($this->cacheKey);
             $request->getHeaders()->addHeaders(array(
                 'If-None-Match' => $tags[0],
@@ -64,7 +64,7 @@ class Cache implements ListenerAggregateInterface, ServiceManagerAwareInterface
 
         $cache = $this->getCache();
 
-        if($statusCode == 304) {
+        if ($statusCode == 304) {
             $response =  $cache->getItem($this->cacheKey);
         } else {
             $cache->setItem($this->cacheKey, $response);
@@ -82,7 +82,7 @@ class Cache implements ListenerAggregateInterface, ServiceManagerAwareInterface
 
     public function getCache()
     {
-        if($this->cache === null) {
+        if ($this->cache === null) {
             /* @var $config array */
             $config = $this->getServiceManager()->get('Config');
             /* @var $cache StorageInterface */

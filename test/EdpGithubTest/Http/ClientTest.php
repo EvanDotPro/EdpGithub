@@ -19,11 +19,12 @@ class ClientTest extends PHPUnit_Framework_TestCase
             "HTTP/1.1 200 OK"      . "\r\n" .
             "Status: 200 OK"             . "\r\n" .
             "Content-Type: application/json; charset=utf-8" . "\r\n" .
-                                        "\r\n" .
+            "\r\n" .
             '{'.
             '    "id": 1,'.
             '    "name": "EdpGithub",'.
-            '}');
+            '}'
+        );
         $this->client->setHttpAdapter($adapter);
 
         $eventManager = new EventManager();

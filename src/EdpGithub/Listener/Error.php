@@ -36,7 +36,7 @@ class Error implements ListenerAggregateInterface
         //Get Http Response Status Code
         $statusCode =  $response->getStatusCode();
 
-        if(200 <= $statusCode && 400 > $statusCode) {
+        if (200 <= $statusCode && 400 > $statusCode) {
             return true;
         }
 
@@ -51,27 +51,48 @@ class Error implements ListenerAggregateInterface
                 foreach ($content->errors as $error) {
                     switch ($error->code) {
                         case 'missing':
-                            $errors[] = sprintf('Resource "%s" not exists anymore', $error->resource);
+                            $errors[] = sprintf(
+                                'Resource "%s" not exists anymore',
+                                $error->resource
+                            );
                             break;
 
                         case 'missing_field':
-                            $errors[] = sprintf('Field "%s" is missing, for resource "%s"', $error->field, $error->resource);
+                            $errors[] = sprintf(
+                                'Field "%s" is missing, for resource "%s"',
+                                $error->field,
+                                $error->resource
+                            );
                             break;
 
                         case 'invalid':
-                            $errors[] = sprintf('Field "%s" is invalid, for resource "%s"', $error->field, $error->resource);
+                            $errors[] = sprintf(
+                                'Field "%s" is invalid, for resource "%s"',
+                                $error->field,
+                                $error->resource
+                            );
                             break;
 
                         case 'already_exists':
-                            $errors[] = sprintf('Field "%s" already exists, for resource "%s"', $error->field, $error->resource);
+                            $errors[] = sprintf(
+                                'Field "%s" already exists, for resource "%s"',
+                                $error->field,
+                                $error->resource
+                            );
                             break;
 
                     }
                 }
-                throw new Exception\InvalidArgumentException('Validation Failed:' . implode(', ', $errors), $statusCode);
+                throw new Exception\InvalidArgumentException(
+                    'Validation Failed:' . implode(', ', $errors),
+                    $statusCode
+                );
             break;
             default:
-                throw new Exception\RuntimeException(isset($content->message) ? $content->message : $content, $statusCode);
+                throw new Exception\RuntimeException(
+                    isset($content->message) ? $content->message : $content,
+                    $statusCode
+                );
             break;
         }
     }

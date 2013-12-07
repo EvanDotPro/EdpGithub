@@ -16,8 +16,7 @@ class HttpPassword extends AbstractAuthListener
     {
         $validator = new NotEmpty();
 
-        if (
-            !isset($this->options['tokenOrLogin'], $this->options['password'])
+        if (!isset($this->options['tokenOrLogin'], $this->options['password'])
             || !$validator->isValid($this->options['tokenOrLogin'])
             || !$validator->isValid($this->options['password'])
         ) {

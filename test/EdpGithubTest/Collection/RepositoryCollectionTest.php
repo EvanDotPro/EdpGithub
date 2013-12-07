@@ -1,8 +1,8 @@
 <?php
 
 namespace EdpGithubTest\Collection;
-use EdpGithub\Collection\RepositoryCollection;
 
+use EdpGithub\Collection\RepositoryCollection;
 use PHPUnit_Framework_TestCase;
 
 class RepositoryCollectionTest extends PHPUnit_Framework_TestCase
@@ -23,7 +23,10 @@ class RepositoryCollectionTest extends PHPUnit_Framework_TestCase
         $link = $this->getMock('Zend\Http\Header\GenericHeader');
         $link->expects($this->any())
             ->method('getFieldValue')
-            ->will($this->returnValue('<https://api.github.com?page=1&per_page=30>; rel="next", <https://api.github.com?page=1&per_page=30>; rel="last"'));
+            ->will($this->returnValue(
+                '<https://api.github.com?page=1&per_page=30>;'
+                .'rel="next", <https://api.github.com?page=1&per_page=30>; rel="last"'
+            ));
 
         $headers->expects($this->any())
             ->method('get')
@@ -50,7 +53,7 @@ class RepositoryCollectionTest extends PHPUnit_Framework_TestCase
         $json = '[{"id":"1","name":"someRepo"},{"id":"2","name":"anotherRepo"}]';
 
         $httpClient = $this->getClientMock('user/repos', $json);
-        $repoCollection = new RepositoryCollection($httpClient,  'user/repos');
+        $repoCollection = new RepositoryCollection($httpClient, 'user/repos');
 
         $result = $repoCollection->page(1);
         $expectedResult = json_decode($json);
