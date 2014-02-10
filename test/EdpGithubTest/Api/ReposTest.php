@@ -39,4 +39,59 @@ class ReposTest extends TestCase
 
         $this->assertEquals($result, $expectedArray);
     }
+
+    public function testContributors()
+    {
+        $expectedArray = array('id' =>1, 'name' => 'repo');
+        $client = $this->getClientMock('repos/owner/repo/stats/contributors', $expectedArray);
+        $api = new Repos();
+        $api->setClient($client);
+        $result = $api->contributors('owner', 'repo');
+
+        $this->assertEquals($result, $expectedArray);
+    }
+
+    public function testCommitActivity()
+    {
+        $expectedArray = array('id' =>1, 'name' => 'repo');
+        $client = $this->getClientMock('repos/owner/repo/stats/commit_activity', $expectedArray);
+        $api = new Repos();
+        $api->setClient($client);
+        $result = $api->commitActivity('owner', 'repo');
+
+        $this->assertEquals($result, $expectedArray);
+    }
+
+    public function testCodeFrequency()
+    {
+        $expectedArray = array('id' =>1, 'name' => 'repo');
+        $client = $this->getClientMock('repos/owner/repo/stats/code_frequency', $expectedArray);
+        $api = new Repos();
+        $api->setClient($client);
+        $result = $api->codeFrequency('owner', 'repo');
+
+        $this->assertEquals($result, $expectedArray);
+    }
+
+    public function testPartecipation()
+    {
+        $expectedArray = array('id' =>1, 'name' => 'repo');
+        $client = $this->getClientMock('repos/owner/repo/stats/partecipation', $expectedArray);
+        $api = new Repos();
+        $api->setClient($client);
+        $result = $api->partecipation('owner', 'repo');
+
+        $this->assertEquals($result, $expectedArray);
+    }
+
+    public function testPunchCard()
+    {
+        $expectedArray = array('id' =>1, 'name' => 'repo');
+        $client = $this->getClientMock('repos/owner/repo/stats/punch_Card', $expectedArray);
+        $api = new Repos();
+        $api->setClient($client);
+        $result = $api->punchCard('owner', 'repo');
+
+        $this->assertEquals($result, $expectedArray);
+    }
 }

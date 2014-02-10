@@ -45,4 +45,59 @@ class Repos extends AbstractApi
     {
         return $this->get('repos/'.$owner.'/'.$repo.'/readme');
     }
+
+    /**
+     * Get contributor
+     * @param  string $owner
+     * @param  string $repo
+     * @return string
+     */
+    public function contributors($owner, $repo)
+    {
+        return $this->get('repos/'.$owner.'/'.$repo.'/stats/contributors');
+    }
+
+    /**
+     * Get commit activity
+     * @param  string $owner
+     * @param  string $repo
+     * @return string
+     */
+    public function commitActivity($owner, $repo)
+    {
+        return $this->get('repos/'.$owner.'/'.$repo.'/stats/commit_activity');
+    }
+
+    /**
+     * Get code frequency
+     * @param  string $owner
+     * @param  string $repo
+     * @return string
+     */
+    public function codeFrequency($owner, $repo)
+    {
+        return $this->get('repos/'.$owner.'/'.$repo.'/stats/code_frequency');
+    }
+
+    /**
+     * Get partecipation
+     * @param  string $owner
+     * @param  string $repo
+     * @return string
+     */
+    public function partecipation($owner, $repo)
+    {
+        return $this->get('repos/'.$owner.'/'.$repo.'/stats/partecipation');
+    }
+
+    /**
+     * Get punch card
+     * @param  string $owner
+     * @param  string $repo
+     * @return string
+     */
+    public function punchCard($owner, $repo)
+    {
+        return $this->get('repos/'.$owner.'/'.$repo.'/stats/punch_Card');
+    }
 }
