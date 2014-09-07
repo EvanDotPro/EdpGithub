@@ -50,9 +50,11 @@ class Cache implements ListenerAggregateInterface, ServiceManagerAwareInterface
         $response = $cache->getItem($this->cacheKey, $success);
         if ($success) {
             $tags = $cache->getTags($this->cacheKey);
-            $request->getHeaders()->addHeaders(array(
-                'If-None-Match' => $tags[0],
-            ));
+            if (isset($tags[0])) {
+                $request->getHeaders()->addHeaders(array(
+                    'If-None-Match' => $tags[0],
+                ));
+            }
         }
     }
 
@@ -69,11 +71,13 @@ class Cache implements ListenerAggregateInterface, ServiceManagerAwareInterface
         } else {
             $cache->setItem($this->cacheKey, $response);
             $headers = $response->getHeaders();
-            $etag = $headers->get('Etag')->getFieldValue();
-            $tags = array(
-                'etag' => $etag,
-            );
-            $cache->setTags($this->cacheKey, $tags);
+            if ($headers->get('Etag')) {
+                $etag = $headers->get('Etag')->getFieldValue();
+                $tags = array(
+                    'etag' => $etag,
+                );
+                $cache->setTags($this->cacheKey, $tags);
+            }
         }
         $e->stopPropagation(true);
 
