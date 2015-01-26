@@ -150,10 +150,8 @@ class Client implements EventManagerAwareInterface, ClientInterface
      */
     public function getHttpClient($path)
     {
-        if (null === $this->httpClient) {
-            $this->httpClient = new HttpClient();
-            $this->httpClient->setAdapter($this->getHttpAdapter());
-        }
+        $this->httpClient = new HttpClient();
+        $this->httpClient->setAdapter($this->getHttpAdapter());
         $this->httpClient->setUri($this->options['base_url'] . $path);
         return $this->httpClient;
     }
