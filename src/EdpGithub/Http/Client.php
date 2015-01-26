@@ -114,6 +114,7 @@ class Client implements EventManagerAwareInterface, ClientInterface
     {
         $client = $this->getHttpClient($path);
         $request = $client->getRequest();
+        $client->setMethod($httpMethod);
 
         if ($httpMethod == 'GET') {
             $query = $request->getQuery();
@@ -121,7 +122,6 @@ class Client implements EventManagerAwareInterface, ClientInterface
                 $query->set($key, $value);
             }
         } elseif ($httpMethod == 'POST') {
-            $client->setMethod($httpMethod);
             $request->setContent(json_encode($parameters));
         }
 
