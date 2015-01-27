@@ -165,7 +165,9 @@ class Client implements EventManagerAwareInterface, ClientInterface
         if (null === $this->httpAdapter) {
             $this->httpAdapter = new Curl();
             $this->httpAdapter->setOptions(array(
-                'sslverifypeer' =>false,
+                'curloptions' => array(
+                    CURLOPT_SSL_VERIFYPEER => false
+                ),
             ));
         }
         return $this->httpAdapter;
