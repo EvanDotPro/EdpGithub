@@ -158,7 +158,7 @@ class Client implements EventManagerAwareInterface, ClientInterface
 
     /**
      * Get Http Adapter
-     * @return
+     * @return Curl
      */
     public function getHttpAdapter()
     {
