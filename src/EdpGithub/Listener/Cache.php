@@ -11,11 +11,6 @@ use Zend\ServiceManager\ServiceManager;
 
 class Cache implements ListenerAggregateInterface, ServiceManagerAwareInterface
 {
-    /**
-     * @var array
-     */
-    private $options;
-
     protected $listeners = array();
 
     protected $serviceManager;
