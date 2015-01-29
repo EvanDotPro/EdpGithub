@@ -10,8 +10,6 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\EventManager;
 use Zend\Filter\Word\UnderscoreToCamelCase;
 
-use EdpGithub\Http\ClientInterface;
-
 class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
 {
     /*

@@ -2,8 +2,6 @@
 
 namespace EdpGithub\Api;
 
-use EdpGithub\Collection\RepositoryCollection;
-
 class Repos extends AbstractApi
 {
     /**
