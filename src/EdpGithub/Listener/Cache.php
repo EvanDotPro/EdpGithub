@@ -47,7 +47,7 @@ class Cache implements ListenerAggregateInterface, ServiceManagerAwareInterface
 
         $this->cacheKey = md5($request);
 
-        $response = $cache->getItem($this->cacheKey, $success);
+        $cache->getItem($this->cacheKey, $success);
         if ($success) {
             $tags = $cache->getTags($this->cacheKey);
             if (isset($tags[0])) {
@@ -87,8 +87,6 @@ class Cache implements ListenerAggregateInterface, ServiceManagerAwareInterface
     public function getCache()
     {
         if ($this->cache === null) {
-            /* @var $config array */
-            $config = $this->getServiceManager()->get('Config');
             /* @var $cache StorageInterface */
             $cache = $this->getServiceManager()->get('edpgithub.cache');
 
