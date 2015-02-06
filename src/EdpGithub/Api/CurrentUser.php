@@ -28,9 +28,12 @@ class CurrentUser extends AbstractApi
     public function repos(array $params = array())
     {
         $httpClient =$this->getClient()->getHttpClient();
-        $collection = new RepositoryCollection($httpClient, 'user/repos', $params);
 
-        return $collection;
+        return new RepositoryCollection(
+            $httpClient,
+            'user/repos',
+            $params
+        );
     }
 
     /**
