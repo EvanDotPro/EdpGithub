@@ -23,7 +23,7 @@ class CurrentUser extends AbstractApi
      *
      * @link http://developer.github.com/v3/repos/
      * @param array $params
-     * @return array
+     * @return RepositoryCollection
      */
     public function repos(array $params = array())
     {
