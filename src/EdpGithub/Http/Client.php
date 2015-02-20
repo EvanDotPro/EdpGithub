@@ -114,6 +114,7 @@ class Client implements EventManagerAwareInterface, ClientInterface
         $client = $this->getHttpClient($path);
         $request = $client->getRequest();
         $client->setMethod($httpMethod);
+        $client->setHeaders($headers);
 
         if ($httpMethod == 'GET') {
             $query = $request->getQuery();

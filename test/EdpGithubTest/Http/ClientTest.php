@@ -5,6 +5,7 @@ namespace EdpGithubTest\Http;
 use PHPUnit_Framework_TestCase;
 use EdpGithub\Http\Client;
 use Zend\EventManager\EventManager;
+use Zend\Http\Headers;
 
 class ClientTest extends PHPUnit_Framework_TestCase
 {
@@ -47,5 +48,18 @@ class ClientTest extends PHPUnit_Framework_TestCase
     {
         $response = $this->client->post('user');
         $this->assertInstanceOf('Zend\Http\Response', $response);
+    }
+
+    public function testHeadersAreSet()
+    {
+        $headerName = 'Accept';
+        $headerValue = 'application/vnd.github.full+json';
+        $this->client->request('user', array(), 'GET', array($headerName => $headerValue));
+
+        /* @var Headers $headers */
+        $headers = $this->client->getRequest()->getHeaders();
+
+        $this->assertTrue($headers->has($headerName));
+        $this->assertSame($headerValue, $headers->get($headerName)->getFieldValue());
     }
 }
