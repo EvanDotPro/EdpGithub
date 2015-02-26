@@ -31,9 +31,12 @@ class User extends AbstractApi
     public function repos($username, array $params = array())
     {
         $httpClient =$this->getClient()->getHttpClient();
-        $collection = new RepositoryCollection($httpClient, 'users/'.urlencode($username).'/repos', $params);
 
-        return $collection;
+        return new RepositoryCollection(
+            $httpClient,
+            'users/' . urlencode($username) . '/repos',
+            $params
+        );
     }
 
     /**
