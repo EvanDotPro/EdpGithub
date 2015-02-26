@@ -8,11 +8,6 @@ use Zend\EventManager\Event;
 
 class Error implements ListenerAggregateInterface
 {
-    /**
-     * @var array
-     */
-    private $options;
-
     protected $listeners = array();
 
     public function attach(EventManagerInterface $events)

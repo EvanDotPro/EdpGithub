@@ -3,10 +3,8 @@
 namespace EdpGithub\Collection;
 
 use EdpGithub\Http\Client;
-use EdpGithub\Api\Model\Repo as RepoModel;
 use Zend\Stdlib\Hydrator;
 
-use Closure;
 use Iterator;
 
 class RepositoryCollection implements Iterator
