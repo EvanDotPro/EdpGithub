@@ -33,6 +33,18 @@ class ClientTest extends PHPUnit_Framework_TestCase
 
     }
 
+    public function testHttpAdapterGetsCreatedWithOptions()
+    {
+        $client = new Client();
+        $httpAdapter = $client->getHttpAdapter();
+
+        $this->assertInstanceOf('Zend\Http\Client\Adapter\Curl', $httpAdapter);
+
+        $httpOptions = $httpAdapter->getConfig();
+        $this->assertArrayHasKey('curloptions', $httpOptions);
+        $this->assertArrayHasKey(CURLOPT_SSL_VERIFYPEER, $httpOptions['curloptions']);
+    }
+
     public function tearDown()
     {
         // your code here
