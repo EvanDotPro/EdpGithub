@@ -2,13 +2,12 @@
 
 namespace EdpGithub;
 
-use Zend\ServiceManager\ServiceManagerAwareInterface;
-use Zend\ServiceManager\ServiceManager;
-
+use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\EventManager;
 use Zend\Filter\Word\UnderscoreToCamelCase;
+use Zend\ServiceManager\ServiceManager;
+use Zend\ServiceManager\ServiceManagerAwareInterface;
 
 class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
 {
@@ -39,6 +38,7 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
 
         $service = $this->getServiceManager()->get('EdpGithub\Api\\' . $resource);
         $service->setClient($this);
+
         return $service;
     }
 
@@ -59,7 +59,7 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
         $authListener->setOptions(
             array(
                 'tokenOrLogin' => $tokenOrLogin,
-                'password'     => $password
+                'password'     => $password,
             )
         );
         $this->getHttpClient()->getEventManager()->attachAggregate($authListener);
@@ -90,7 +90,7 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
         $eventManager->attachAggregate($errorListener);
         $cacheListener = $this->getServiceManager()->get('EdpGithub\Listener\Cache');
         $eventManager->attachAggregate($cacheListener);
-        
+
         return $this->httpClient;
     }
 
@@ -101,6 +101,7 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
     public function setHttpClient($httpClient)
     {
         $this->httpClient = $httpClient;
+
         return $this;
     }
 
@@ -117,6 +118,7 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
             get_called_class(),
         ));
         $this->events = $events;
+
         return $this;
     }
 
@@ -129,6 +131,7 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
         if (null === $this->events) {
             $this->setEventManager(new EventManager());
         }
+
         return $this->events;
     }
 }

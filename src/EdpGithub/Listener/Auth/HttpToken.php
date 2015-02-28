@@ -27,7 +27,7 @@ class HttpToken extends AbstractAuthListener
 
         $headers = $request->getHeaders();
         $params = array(
-            'Authorization' => 'token '. $this->options['tokenOrLogin'],
+            'Authorization' => 'token ' . $this->options['tokenOrLogin'],
         );
         $headers->addHeaders($params);
     }

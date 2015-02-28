@@ -22,7 +22,6 @@ class UrlToken extends AbstractAuthListener
             throw new Exception\InvalidArgumentException('You need to set OAuth token!');
         }
 
-
         $request = $e->getTarget();
 
         $query = $request->getQuery();

@@ -3,9 +3,9 @@
 namespace EdpGithubTest;
 
 use EdpGithub\Client;
-use Zend\ServiceManager\ServiceManager;
-use Zend\EventManager\EventManager;
 use PHPUnit_Framework_TestCase;
+use Zend\EventManager\EventManager;
+use Zend\ServiceManager\ServiceManager;
 
 class ClientTest extends PHPUnit_Framework_TestCase
 {
@@ -41,7 +41,7 @@ class ClientTest extends PHPUnit_Framework_TestCase
 
     public function testGet()
     {
-        $this->client= new Client();
+        $this->client = new Client();
         $this->client->setHttpClient($this->getHttpClient('test/path'));
 
         $result = $this->client->getHttpClient()->get('test/path');
@@ -55,7 +55,7 @@ class ClientTest extends PHPUnit_Framework_TestCase
             ->method('setOptions')
             ->with(array(
                 'tokenOrLogin' => '12345',
-                'password' =>null,
+                'password' => null,
             ));
 
         $sm = $this->getMock('Zend\ServiceManager\ServiceManager');
@@ -68,7 +68,6 @@ class ClientTest extends PHPUnit_Framework_TestCase
         $this->client->setServiceManager($sm);
         $this->client->setHttpClient($this->getHttpClient('test'));
         $this->client->authenticate('url_token', '12345');
-
     }
 
     public function testSetServiceManager()
@@ -92,7 +91,7 @@ class ClientTest extends PHPUnit_Framework_TestCase
     public function testSetEventManager()
     {
         $client = new Client();
-        $result = $client->setEventManager(new EventManager);
+        $result = $client->setEventManager(new EventManager());
 
         $this->assertInstanceOf('EdpGithub\Client', $result);
     }
@@ -107,6 +106,5 @@ class ClientTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->getMock('EdpGithub\Api\CurrentUser')));
         $client->setServiceManager($serviceManager);
         $result = $client->api('current_user');
-
     }
 }

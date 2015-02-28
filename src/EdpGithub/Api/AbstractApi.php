@@ -2,8 +2,8 @@
 
 namespace EdpGithub\Api;
 
-use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
+use Zend\ServiceManager\ServiceManagerAwareInterface;
 
 abstract class AbstractApi implements ServiceManagerAwareInterface
 {

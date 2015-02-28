@@ -2,10 +2,9 @@
 
 namespace EdpGithub\Listener\Auth;
 
-
-use Zend\EventManager\ListenerAggregateInterface;
-use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\Event;
+use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\ListenerAggregateInterface;
 
 abstract class AbstractAuthListener implements ListenerAggregateInterface
 {

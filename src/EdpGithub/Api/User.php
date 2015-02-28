@@ -16,7 +16,7 @@ class User extends AbstractApi
      */
     public function show($username)
     {
-        return $this->get('users/'.urlencode($username));
+        return $this->get('users/' . urlencode($username));
     }
 
     /**
@@ -30,7 +30,7 @@ class User extends AbstractApi
      */
     public function repos($username, array $params = array())
     {
-        $httpClient =$this->getClient()->getHttpClient();
+        $httpClient = $this->getClient()->getHttpClient();
 
         return new RepositoryCollection(
             $httpClient,
@@ -47,7 +47,8 @@ class User extends AbstractApi
      */
     public function orgs($user)
     {
-        $orgs = $this->get('users/'.$user.'/orgs');
+        $orgs = $this->get('users/' . $user . '/orgs');
+
         return $orgs;
     }
 }

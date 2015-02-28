@@ -2,9 +2,8 @@
 
 namespace EdpGithubTest\Listener\Auth;
 
-use PHPUnit_Framework_TestCase;
-
 use EdpGithub\Listener\Error;
+use PHPUnit_Framework_TestCase;
 use Zend\Http\Response;
 
 class ErrorListenerTest extends PHPUnit_Framework_TestCase
@@ -39,7 +38,6 @@ class ErrorListenerTest extends PHPUnit_Framework_TestCase
      */
     public function testPostSendBadRequest()
     {
-
         $this->response->expects($this->once())
             ->method('getStatusCode')
             ->will($this->returnValue(400));
@@ -52,7 +50,6 @@ class ErrorListenerTest extends PHPUnit_Framework_TestCase
         $this->event->expects($this->once())
             ->method('getTarget')
             ->will($this->returnValue($this->response));
-
 
         $listener = new Error();
         $result = $listener->postSend($this->event);
@@ -77,10 +74,8 @@ class ErrorListenerTest extends PHPUnit_Framework_TestCase
             ->method('getTarget')
             ->will($this->returnValue($this->response));
 
-
         $listener = new Error();
         $result = $listener->postSend($this->event);
-
     }
 
     /**
@@ -92,8 +87,6 @@ class ErrorListenerTest extends PHPUnit_Framework_TestCase
         $this->response->expects($this->once())
             ->method('getStatusCode')
             ->will($this->returnValue(422));
-
-
 
         $this->event->expects($this->once())
             ->method('getTarget')
@@ -118,13 +111,11 @@ class ErrorListenerTest extends PHPUnit_Framework_TestCase
             ->method('getStatusCode')
             ->will($this->returnValue(499));
 
-
-
         $this->event->expects($this->once())
             ->method('getTarget')
             ->will($this->returnValue($this->response));
 
-            $content = '{"message":"testmessage", "errors": [{"code":"missing", "resource":"resource test"}]}';
+        $content = '{"message":"testmessage", "errors": [{"code":"missing", "resource":"resource test"}]}';
 
         $this->response->expects($this->once())
             ->method('getBody')
@@ -148,7 +139,7 @@ class ErrorListenerTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->response));
 
         $content = '{"message":"testmessage",'
-            .' "errors": [{"code":"missing_field", "resource":"resource test", "field":"someField"}]}';
+            . ' "errors": [{"code":"missing_field", "resource":"resource test", "field":"someField"}]}';
 
         $this->response->expects($this->once())
             ->method('getBody')
@@ -167,14 +158,12 @@ class ErrorListenerTest extends PHPUnit_Framework_TestCase
             ->method('getStatusCode')
             ->will($this->returnValue(422));
 
-
-
         $this->event->expects($this->once())
             ->method('getTarget')
             ->will($this->returnValue($this->response));
 
         $content = '{"message":"testmessage",'
-            .' "errors": [{"code":"invalid", "resource":"resource test", "field":"someField"}]}';
+            . ' "errors": [{"code":"invalid", "resource":"resource test", "field":"someField"}]}';
 
         $this->response->expects($this->once())
             ->method('getBody')
@@ -197,7 +186,7 @@ class ErrorListenerTest extends PHPUnit_Framework_TestCase
             ->method('getTarget')
             ->will($this->returnValue($this->response));
 
-        $content = '{"message":"testmessage",'.
+        $content = '{"message":"testmessage",' .
             ' "errors": [{"code":"already_exists", "resource":"resource test", "field":"someField"}]}';
 
         $this->response->expects($this->once())

@@ -2,8 +2,8 @@
 
 namespace EdpGithubTest\Listener\Auth;
 
-use PHPUnit_Framework_TestCase;
 use EdpGithub\Listener\Auth\HttpToken;
+use PHPUnit_Framework_TestCase;
 
 class HttpTokenTest extends PHPUnit_Framework_TestCase
 {
@@ -16,11 +16,10 @@ class HttpTokenTest extends PHPUnit_Framework_TestCase
 
     public function testPreSend()
     {
-        $request = new \Zend\Http\Request;
+        $request = new \Zend\Http\Request();
         $this->event->expects($this->once())
             ->method('getTarget')
             ->will($this->returnValue($request));
-
 
         $options = array(
             'tokenOrLogin' => '1234',

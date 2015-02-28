@@ -2,12 +2,11 @@
 
 namespace EdpGithub\Listener;
 
-use Zend\EventManager\ListenerAggregateInterface;
-use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\Event;
-
-use Zend\ServiceManager\ServiceManagerAwareInterface;
+use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\ListenerAggregateInterface;
 use Zend\ServiceManager\ServiceManager;
+use Zend\ServiceManager\ServiceManagerAwareInterface;
 
 class Cache implements ListenerAggregateInterface, ServiceManagerAwareInterface
 {

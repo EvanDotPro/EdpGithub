@@ -2,9 +2,9 @@
 
 namespace EdpGithub\Listener;
 
-use Zend\EventManager\ListenerAggregateInterface;
-use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\Event;
+use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\ListenerAggregateInterface;
 
 class Error implements ListenerAggregateInterface
 {
@@ -36,7 +36,7 @@ class Error implements ListenerAggregateInterface
         }
 
         $content = json_decode($response->getBody());
-        switch ($statusCode){
+        switch ($statusCode) {
             case 400:
             case 401:
                 throw new Exception\RuntimeException($content->message, $statusCode);
