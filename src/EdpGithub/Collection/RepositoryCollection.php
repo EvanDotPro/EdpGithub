@@ -3,8 +3,6 @@
 namespace EdpGithub\Collection;
 
 use EdpGithub\Http\Client;
-use Zend\Stdlib\Hydrator;
-
 use Iterator;
 
 class RepositoryCollection implements Iterator
@@ -92,6 +90,7 @@ class RepositoryCollection implements Iterator
         $response = $this->httpClient->get($this->path, $this->parameters, $this->headers);
         $this->getPagination($response);
         $elements = json_decode($response->getBody());
+
         return $elements;
     }
 
@@ -102,7 +101,7 @@ class RepositoryCollection implements Iterator
         $limit = $this->parameters['per_page'] -1;
         $elements = array();
 
-        for ($offset=$offsetStart,$i=0; $i<=$limit; $i++, $offset++) {
+        for ($offset = $offsetStart, $i = 0; $i <= $limit; $i++, $offset++) {
             if (!$this->containsKey($offset)) {
                 if ($this->loadPage($page)) {
                     if ($this->containsKey($offset)) {
@@ -125,7 +124,6 @@ class RepositoryCollection implements Iterator
     {
         $this->elements[$offset] = $element;
     }
-
 
     private function getPagination($response)
     {
@@ -181,6 +179,7 @@ class RepositoryCollection implements Iterator
     public function first()
     {
         $this->rewind();
+
         return $this->elements[$this->key()];
     }
     /**
@@ -188,7 +187,6 @@ class RepositoryCollection implements Iterator
      */
     public function next()
     {
-
         return next($this->elements);
     }
 
@@ -210,9 +208,11 @@ class RepositoryCollection implements Iterator
     {
         if (!$this->current()) {
             $valid = $this->loadPage($this->parameters['page']);
-            $this->parameters['page'] +=1;
+            $this->parameters['page'] += 1;
+
             return $valid;
         }
+
         return true;
     }
 
@@ -237,8 +237,10 @@ class RepositoryCollection implements Iterator
 
         if ($key) {
             unset($this->elements[$key]);
+
             return true;
         }
+
         return false;
     }
 }

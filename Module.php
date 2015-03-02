@@ -2,9 +2,7 @@
 
 namespace EdpGithub;
 
-use Zend\ModuleManager\ModuleManager,
-    Zend\EventManager\StaticEventManager,
-    Zend\Cache\StorageFactory;
+use Zend\Cache\StorageFactory;
 
 class Module
 {
@@ -21,7 +19,6 @@ class Module
             ),
         );
     }
-
 
     public function getConfig($env = null)
     {

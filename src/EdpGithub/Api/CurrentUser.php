@@ -27,7 +27,7 @@ class CurrentUser extends AbstractApi
      */
     public function repos(array $params = array())
     {
-        $httpClient =$this->getClient()->getHttpClient();
+        $httpClient = $this->getClient()->getHttpClient();
 
         return new RepositoryCollection(
             $httpClient,
@@ -45,6 +45,7 @@ class CurrentUser extends AbstractApi
     public function orgs()
     {
         $orgs = $this->get('user/orgs');
+
         return json_decode($orgs);
     }
 }

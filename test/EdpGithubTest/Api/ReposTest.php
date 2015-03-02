@@ -20,7 +20,7 @@ class ReposTest extends TestCase
 
     public function testContent()
     {
-        $expectedArray = array('id' =>1, 'name' => 'repo');
+        $expectedArray = array('id' => 1, 'name' => 'repo');
         $client = $this->getClientMock('repos/owner/repo/contents/path', $expectedArray);
         $api = new Repos();
         $api->setClient($client);
@@ -31,7 +31,7 @@ class ReposTest extends TestCase
 
     public function testReadme()
     {
-        $expectedArray = array('id' =>1, 'name' => 'repo');
+        $expectedArray = array('id' => 1, 'name' => 'repo');
         $client = $this->getClientMock('repos/owner/repo/readme', $expectedArray);
         $api = new Repos();
         $api->setClient($client);
@@ -42,7 +42,7 @@ class ReposTest extends TestCase
 
     public function testContributors()
     {
-        $expectedArray = array('id' =>1, 'name' => 'repo');
+        $expectedArray = array('id' => 1, 'name' => 'repo');
         $client = $this->getClientMock('repos/owner/repo/stats/contributors', $expectedArray);
         $api = new Repos();
         $api->setClient($client);
@@ -53,7 +53,7 @@ class ReposTest extends TestCase
 
     public function testCommitActivity()
     {
-        $expectedArray = array('id' =>1, 'name' => 'repo');
+        $expectedArray = array('id' => 1, 'name' => 'repo');
         $client = $this->getClientMock('repos/owner/repo/stats/commit_activity', $expectedArray);
         $api = new Repos();
         $api->setClient($client);
@@ -64,7 +64,7 @@ class ReposTest extends TestCase
 
     public function testCodeFrequency()
     {
-        $expectedArray = array('id' =>1, 'name' => 'repo');
+        $expectedArray = array('id' => 1, 'name' => 'repo');
         $client = $this->getClientMock('repos/owner/repo/stats/code_frequency', $expectedArray);
         $api = new Repos();
         $api->setClient($client);
@@ -75,7 +75,7 @@ class ReposTest extends TestCase
 
     public function testPartecipation()
     {
-        $expectedArray = array('id' =>1, 'name' => 'repo');
+        $expectedArray = array('id' => 1, 'name' => 'repo');
         $client = $this->getClientMock('repos/owner/repo/stats/partecipation', $expectedArray);
         $api = new Repos();
         $api->setClient($client);
@@ -86,7 +86,7 @@ class ReposTest extends TestCase
 
     public function testPunchCard()
     {
-        $expectedArray = array('id' =>1, 'name' => 'repo');
+        $expectedArray = array('id' => 1, 'name' => 'repo');
         $client = $this->getClientMock('repos/owner/repo/stats/punch_Card', $expectedArray);
         $api = new Repos();
         $api->setClient($client);

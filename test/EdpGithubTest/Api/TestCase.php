@@ -2,7 +2,6 @@
 
 namespace EdpGithubTest\Api;
 
-
 use PHPUnit_Framework_TestCase;
 
 class TestCase extends PHPUnit_Framework_TestCase
@@ -30,6 +29,7 @@ class TestCase extends PHPUnit_Framework_TestCase
         $client->expects($this->once())
             ->method('getHttpClient')
             ->will($this->returnValue($httpClient));
+
         return $client;
     }
 }

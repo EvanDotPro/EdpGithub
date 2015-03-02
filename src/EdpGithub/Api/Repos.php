@@ -15,7 +15,7 @@ class Repos extends AbstractApi
      */
     public function show($user, $repo)
     {
-        return $this->get('repos/'.$user.'/'.$repo);
+        return $this->get('repos/' . $user . '/' . $repo);
     }
 
     /**
@@ -30,7 +30,7 @@ class Repos extends AbstractApi
      */
     public function content($owner, $repo, $path)
     {
-        return $this->get('repos/'.$owner.'/'.$repo.'/contents/'.$path);
+        return $this->get('repos/' . $owner . '/' . $repo . '/contents/' . $path);
     }
 
     /**
@@ -41,7 +41,7 @@ class Repos extends AbstractApi
      */
     public function readme($owner, $repo)
     {
-        return $this->get('repos/'.$owner.'/'.$repo.'/readme');
+        return $this->get('repos/' . $owner . '/' . $repo . '/readme');
     }
 
     /**
@@ -52,7 +52,7 @@ class Repos extends AbstractApi
      */
     public function contributors($owner, $repo)
     {
-        return $this->get('repos/'.$owner.'/'.$repo.'/stats/contributors');
+        return $this->get('repos/' . $owner . '/' . $repo . '/stats/contributors');
     }
 
     /**
@@ -63,7 +63,7 @@ class Repos extends AbstractApi
      */
     public function commitActivity($owner, $repo)
     {
-        return $this->get('repos/'.$owner.'/'.$repo.'/stats/commit_activity');
+        return $this->get('repos/' . $owner . '/' . $repo . '/stats/commit_activity');
     }
 
     /**
@@ -74,7 +74,7 @@ class Repos extends AbstractApi
      */
     public function codeFrequency($owner, $repo)
     {
-        return $this->get('repos/'.$owner.'/'.$repo.'/stats/code_frequency');
+        return $this->get('repos/' . $owner . '/' . $repo . '/stats/code_frequency');
     }
 
     /**
@@ -85,7 +85,7 @@ class Repos extends AbstractApi
      */
     public function partecipation($owner, $repo)
     {
-        return $this->get('repos/'.$owner.'/'.$repo.'/stats/partecipation');
+        return $this->get('repos/' . $owner . '/' . $repo . '/stats/partecipation');
     }
 
     /**
@@ -96,6 +96,6 @@ class Repos extends AbstractApi
      */
     public function punchCard($owner, $repo)
     {
-        return $this->get('repos/'.$owner.'/'.$repo.'/stats/punch_Card');
+        return $this->get('repos/' . $owner . '/' . $repo . '/stats/punch_Card');
     }
 }

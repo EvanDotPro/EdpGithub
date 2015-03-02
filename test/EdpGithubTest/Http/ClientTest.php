@@ -2,8 +2,8 @@
 
 namespace EdpGithubTest\Http;
 
-use PHPUnit_Framework_TestCase;
 use EdpGithub\Http\Client;
+use PHPUnit_Framework_TestCase;
 use Zend\EventManager\EventManager;
 use Zend\Http\Headers;
 
@@ -21,16 +21,15 @@ class ClientTest extends PHPUnit_Framework_TestCase
             "Status: 200 OK"             . "\r\n" .
             "Content-Type: application/json; charset=utf-8" . "\r\n" .
             "\r\n" .
-            '{'.
-            '    "id": 1,'.
-            '    "name": "EdpGithub",'.
+            '{' .
+            '    "id": 1,' .
+            '    "name": "EdpGithub",' .
             '}'
         );
         $this->client->setHttpAdapter($adapter);
 
         $eventManager = new EventManager();
         $this->client->setEventManager($eventManager);
-
     }
 
     public function testHttpAdapterGetsCreatedWithOptions()

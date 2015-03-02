@@ -45,7 +45,7 @@ class CurrentUserTest extends TestCase
     public function testgetServiceManager()
     {
         $serviceManager = new ServiceManager();
-        $currentUser = new CurrentUser;
+        $currentUser = new CurrentUser();
         $currentUser->setServiceManager($serviceManager);
         $this->assertInstanceOf('Zend\ServiceManager\ServiceManager', $currentUser->getServiceManager());
     }

@@ -16,9 +16,10 @@ class Markdown extends AbstractApi
      */
     public function render($text, $mode = '', $context = '')
     {
-          $parameters = array(
+        $parameters = array(
                "text" => $text,
           );
-          return $this->post('markdown', $parameters);
+
+        return $this->post('markdown', $parameters);
     }
 }

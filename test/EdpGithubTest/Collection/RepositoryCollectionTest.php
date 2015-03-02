@@ -25,7 +25,7 @@ class RepositoryCollectionTest extends PHPUnit_Framework_TestCase
             ->method('getFieldValue')
             ->will($this->returnValue(
                 '<https://api.github.com?page=1&per_page=30>;'
-                .'rel="next", <https://api.github.com?page=1&per_page=30>; rel="last"'
+                . 'rel="next", <https://api.github.com?page=1&per_page=30>; rel="last"'
             ));
 
         $headers->expects($this->any())
@@ -37,13 +37,11 @@ class RepositoryCollectionTest extends PHPUnit_Framework_TestCase
             ->method('getHeaders')
             ->will($this->returnValue($headers));
 
-
         $httpClient = $this->getMock('EdpGithub\Http\Client');
         $httpClient->expects($this->any())
             ->method('get')
             ->with($expectedPath)
             ->will($this->returnValue($response));
-
 
         return $httpClient;
     }
@@ -71,6 +69,7 @@ class RepositoryCollectionTest extends PHPUnit_Framework_TestCase
         $result = $repoCollection->get(1);
         $expectedResult = json_decode($json);
         $this->assertEquals($expectedResult, $result);
+
         return $repoCollection;
     }
 
@@ -108,6 +107,7 @@ class RepositoryCollectionTest extends PHPUnit_Framework_TestCase
         $result = $repoCollection->next();
         $expectedResult = json_decode($json);
         $this->assertEquals($expectedResult, $result);
+
         return $repoCollection;
     }
 
@@ -120,6 +120,7 @@ class RepositoryCollectionTest extends PHPUnit_Framework_TestCase
         $result = $repoCollection->prev();
         $expectedResult = json_decode($json);
         $this->assertEquals($expectedResult, $result);
+
         return $repoCollection;
     }
 
@@ -130,6 +131,7 @@ class RepositoryCollectionTest extends PHPUnit_Framework_TestCase
     {
         $result = $repoCollection->containsKey(1);
         $this->assertTrue($result);
+
         return $repoCollection;
     }
 
@@ -140,6 +142,7 @@ class RepositoryCollectionTest extends PHPUnit_Framework_TestCase
     {
         $result = $repoCollection->count();
         $this->assertEquals($result, 2);
+
         return $repoCollection;
     }
 
@@ -152,6 +155,7 @@ class RepositoryCollectionTest extends PHPUnit_Framework_TestCase
         $expectedResult = json_decode($json);
         $result = $repoCollection->indexOf($expectedResult);
         $this->assertEquals($result, 1);
+
         return $repoCollection;
     }
 
@@ -164,6 +168,7 @@ class RepositoryCollectionTest extends PHPUnit_Framework_TestCase
         $expectedResult = json_decode($json);
         $result = $repoCollection->removeElement($expectedResult);
         $this->assertTrue($result);
+
         return $repoCollection;
     }
 
@@ -176,6 +181,7 @@ class RepositoryCollectionTest extends PHPUnit_Framework_TestCase
         $expectedResult = json_decode($json);
         $result = $repoCollection->removeElement($expectedResult);
         $this->assertFalse($result);
+
         return $repoCollection;
     }
 
@@ -188,6 +194,7 @@ class RepositoryCollectionTest extends PHPUnit_Framework_TestCase
         $expectedResult = json_decode($json);
         $result = $repoCollection->current();
         $this->assertEquals($result, $expectedResult);
+
         return $repoCollection;
     }
 
@@ -198,6 +205,7 @@ class RepositoryCollectionTest extends PHPUnit_Framework_TestCase
     {
         $result = $repoCollection->valid();
         $this->assertTrue($result);
+
         return $repoCollection;
     }
 
@@ -214,6 +222,7 @@ class RepositoryCollectionTest extends PHPUnit_Framework_TestCase
         $repoCollection->next();
         $result = $repoCollection->valid();
         $this->assertFalse($result);
+
         return $repoCollection;
     }
 
@@ -224,6 +233,7 @@ class RepositoryCollectionTest extends PHPUnit_Framework_TestCase
     {
         $result = $repoCollection->getIterator();
         $this->assertInstanceOf('Iterator', $result);
+
         return $repoCollection;
     }
 }

@@ -2,11 +2,10 @@
 
 namespace EdpGithub\Http;
 
+use Zend\EventManager\EventManagerAwareInterface;
+use Zend\EventManager\EventManagerInterface;
 use Zend\Http\Client as HttpClient;
 use Zend\Http\Client\Adapter\Curl;
-
-use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\EventManagerAwareInterface;
 
 class Client implements EventManagerAwareInterface, ClientInterface
 {
@@ -153,6 +152,7 @@ class Client implements EventManagerAwareInterface, ClientInterface
         $this->httpClient = new HttpClient();
         $this->httpClient->setAdapter($this->getHttpAdapter());
         $this->httpClient->setUri($this->options['base_url'] . $path);
+
         return $this->httpClient;
     }
 
@@ -166,10 +166,11 @@ class Client implements EventManagerAwareInterface, ClientInterface
             $this->httpAdapter = new Curl();
             $this->httpAdapter->setOptions(array(
                 'curloptions' => array(
-                    CURLOPT_SSL_VERIFYPEER => false
+                    CURLOPT_SSL_VERIFYPEER => false,
                 ),
             ));
         }
+
         return $this->httpAdapter;
     }
 
@@ -191,6 +192,7 @@ class Client implements EventManagerAwareInterface, ClientInterface
             get_called_class(),
         ));
         $this->events = $events;
+
         return $this;
     }
 

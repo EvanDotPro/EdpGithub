@@ -27,7 +27,7 @@ class HttpPassword extends AbstractAuthListener
 
         $headers = $request->getHeaders();
         $params = array(
-            'Authorization' => 'Basic '. base64_encode($this->options['tokenOrLogin'] .':'. $this->options['password']),
+            'Authorization' => 'Basic ' . base64_encode($this->options['tokenOrLogin'] . ':' . $this->options['password']),
         );
         $headers->addHeaders($params);
     }

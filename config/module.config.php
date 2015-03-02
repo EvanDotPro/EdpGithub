@@ -8,7 +8,7 @@ return array(
             'EdpGithub\Api\Repos'       => 'EdpGithub\Api\Repos',
             'EdpGithub\Api\Gist'        => 'EdpGithub\Api\Gist',
             'EdpGithub\Api\GitData'     => 'EdpGithub\Api\GitData',
-            'EdpGithub\Api\Organization'=> 'EdpGithub\Api\Organization',
+            'EdpGithub\Api\Organization' => 'EdpGithub\Api\Organization',
             'EdpGithub\Api\PullRequest' => 'EdpGithub\Api\PullRequest',
             'EdpGithub\Api\Repository'  => 'EdpGithub\Api\Repository',
             'EdpGithub\Api\Markdown'  => 'EdpGithub\Api\Markdown',
@@ -36,8 +36,8 @@ return array(
             ),
             'plugins' => array(
                 'exception_handler' => array('throw_exceptions' => true),
-                'serializer'
-            )
+                'serializer',
+            ),
         ),
         'cache_key' => 'github_api',
     ),
