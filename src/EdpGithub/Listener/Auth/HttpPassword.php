@@ -3,6 +3,7 @@
 namespace EdpGithub\Listener\Auth;
 
 use Zend\EventManager\Event;
+use Zend\Http;
 use Zend\Validator\NotEmpty;
 
 class HttpPassword extends AbstractAuthListener
@@ -23,6 +24,7 @@ class HttpPassword extends AbstractAuthListener
             throw new Exception\InvalidArgumentException('You need to set username with password!');
         }
 
+        /* @var Http\Request $request */
         $request = $e->getTarget();
 
         $headers = $request->getHeaders();
