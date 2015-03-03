@@ -2,13 +2,14 @@
 
 namespace EdpGithub\Api;
 
+use EdpGithub\Client;
 use Zend\ServiceManager\ServiceManager;
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 
 abstract class AbstractApi implements ServiceManagerAwareInterface
 {
     /**
-     * @var EdpGithub\Client
+     * @var Client
      */
     protected $client;
 
@@ -36,7 +37,8 @@ abstract class AbstractApi implements ServiceManagerAwareInterface
 
     /**
      * Get Client
-     * @return EdpGithub\Client
+     *
+     * @return Client
      */
     public function getClient()
     {

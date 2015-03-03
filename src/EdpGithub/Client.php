@@ -11,15 +11,13 @@ use Zend\ServiceManager\ServiceManagerAwareInterface;
 
 class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
 {
-    /*
-     * EventManager
+    /**
+     * @var EventManager
      */
     protected $events;
 
     /**
-     * Http\Client
-     *
-     * @var Client
+     * @var Http\Client
      */
     private $httpClient;
 
@@ -76,7 +74,7 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
     }
 
     /**
-     * @return HttpClient
+     * @return Http\Client
      */
     public function getHttpClient()
     {
@@ -96,7 +94,9 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
 
     /**
      * Set HttpClient
-     * @param HttpClientInterface $httpClient
+     *
+     * @param Http\ClientInterface $httpClient
+     * @return self
      */
     public function setHttpClient($httpClient)
     {
@@ -109,7 +109,7 @@ class Client implements ServiceManagerAwareInterface, EventManagerAwareInterface
      * Set Event Manager
      *
      * @param EventManagerInterface $events
-     * @return Client
+     * @return self
      */
     public function setEventManager(EventManagerInterface $events)
     {

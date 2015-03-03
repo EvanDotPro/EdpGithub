@@ -2,15 +2,16 @@
 
 namespace EdpGithub\Http;
 
+use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerInterface;
-use Zend\Http\Client as HttpClient;
-use Zend\Http\Client\Adapter\Curl;
+use Zend\Http;
+use Zend\ServiceManager\ServiceManager;
 
 class Client implements EventManagerAwareInterface, ClientInterface
 {
-    /*
-     * EventManager
+    /**
+     * @var EventManager
      */
     protected $events;
 
@@ -20,22 +21,22 @@ class Client implements EventManagerAwareInterface, ClientInterface
     protected $serviceManager;
 
     /**
-     * @var HttpClient
+     * @var Http\Client
      */
     protected $httpClient;
 
     /**
-     * @var Curl
+     * @var Http\Client\Adapter\Curl
      */
     protected $httpAdapter;
 
     /**
-     * @var Response
+     * @var Http\Response
      */
     protected $response;
 
     /**
-     * @var Request
+     * @var Http\Request
      */
     protected $request;
 
@@ -54,7 +55,7 @@ class Client implements EventManagerAwareInterface, ClientInterface
      * @param  string $path
      * @param  array  $parameters
      * @param  array  $headers
-     * @return Zend\Http\Response
+     * @return Http\Response
      */
     public function get($path, array $parameters = array(), array $headers = array())
     {
@@ -67,7 +68,7 @@ class Client implements EventManagerAwareInterface, ClientInterface
      * @param  string $path
      * @param  array  $parameters
      * @param  array  $headers
-     * @return Zend\Http\Response
+     * @return Http\Response
      */
     public function post($path, array $parameters = array(), array $headers = array())
     {
@@ -80,7 +81,7 @@ class Client implements EventManagerAwareInterface, ClientInterface
      * @param  string $path
      * @param  array  $parameters
      * @param  array  $headers
-     * @return Zend\Http\Response
+     * @return Http\Response
      */
     public function delete($path, array $parameters = array(), array $headers = array())
     {
@@ -92,7 +93,7 @@ class Client implements EventManagerAwareInterface, ClientInterface
      *
      * @param  string $path
      * @param  array  $headers
-     * @return Zend\Http\Response
+     * @return Http\Response
      */
     public function put($path, array $headers = array())
     {
@@ -106,7 +107,7 @@ class Client implements EventManagerAwareInterface, ClientInterface
      * @param  array  $parameters
      * @param  string $httpMethod
      * @param  array  $headers
-     * @return Zend\Http\Response
+     * @return Http\Response
      */
     public function request($path, array $parameters = array(), $httpMethod = 'GET', array $headers = array())
     {
@@ -145,11 +146,11 @@ class Client implements EventManagerAwareInterface, ClientInterface
      * Get Http Client
      *
      * @param  string $path
-     * @return HttpClient
+     * @return Http\Client
      */
     public function getHttpClient($path)
     {
-        $this->httpClient = new HttpClient();
+        $this->httpClient = new Http\Client();
         $this->httpClient->setAdapter($this->getHttpAdapter());
         $this->httpClient->setUri($this->options['base_url'] . $path);
 
@@ -158,12 +159,12 @@ class Client implements EventManagerAwareInterface, ClientInterface
 
     /**
      * Get Http Adapter
-     * @return Curl
+     * @return Http\Client\Adapter\Curl
      */
     public function getHttpAdapter()
     {
         if (null === $this->httpAdapter) {
-            $this->httpAdapter = new Curl();
+            $this->httpAdapter = new Http\Client\Adapter\Curl();
             $this->httpAdapter->setOptions(array(
                 'curloptions' => array(
                     CURLOPT_SSL_VERIFYPEER => false,
@@ -183,7 +184,7 @@ class Client implements EventManagerAwareInterface, ClientInterface
      * Set Event Manager
      *
      * @param  EventManagerInterface $events
-     * @return HybridAuth
+     * @return self
      */
     public function setEventManager(EventManagerInterface $events)
     {
