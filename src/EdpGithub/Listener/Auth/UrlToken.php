@@ -3,6 +3,7 @@
 namespace EdpGithub\Listener\Auth;
 
 use Zend\EventManager\Event;
+use Zend\Http;
 use Zend\Validator\NotEmpty;
 
 class UrlToken extends AbstractAuthListener
@@ -22,6 +23,7 @@ class UrlToken extends AbstractAuthListener
             throw new Exception\InvalidArgumentException('You need to set OAuth token!');
         }
 
+        /* @var Http\Request $request */
         $request = $e->getTarget();
 
         $query = $request->getQuery();

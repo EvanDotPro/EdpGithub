@@ -6,6 +6,7 @@ use Zend\Cache\Storage;
 use Zend\EventManager\Event;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
+use Zend\Http;
 use Zend\ServiceManager\ServiceManager;
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 
@@ -65,6 +66,7 @@ class Cache implements ListenerAggregateInterface, ServiceManagerAwareInterface
             $response =  $cache->getItem($this->cacheKey);
         } else {
             $cache->setItem($this->cacheKey, $response);
+            /* @var Http\Response $response */
             $headers = $response->getHeaders();
             if ($headers->get('Etag')) {
                 $etag = $headers->get('Etag')->getFieldValue();
@@ -79,6 +81,9 @@ class Cache implements ListenerAggregateInterface, ServiceManagerAwareInterface
         return $response;
     }
 
+    /**
+     * @return Storage\StorageInterface|Storage\TaggableInterface
+     */
     public function getCache()
     {
         if ($this->cache === null) {
@@ -96,6 +101,9 @@ class Cache implements ListenerAggregateInterface, ServiceManagerAwareInterface
         $this->serviceManager = $serviceManager;
     }
 
+    /**
+     * @return ServiceManager
+     */
     public function getServiceManager()
     {
         return $this->serviceManager;

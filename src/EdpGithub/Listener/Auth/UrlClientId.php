@@ -3,6 +3,7 @@
 namespace EdpGithub\Listener\Auth;
 
 use Zend\EventManager\Event;
+use Zend\Http;
 use Zend\Validator\NotEmpty;
 
 class UrlClientId extends AbstractAuthListener
@@ -23,6 +24,7 @@ class UrlClientId extends AbstractAuthListener
             throw new Exception\InvalidArgumentException('You need to set client_id and client_secret!');
         }
 
+        /* @var Http\Request $request */
         $request = $e->getTarget();
 
         $query = $request->getQuery();

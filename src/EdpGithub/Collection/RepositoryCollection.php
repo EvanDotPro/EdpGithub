@@ -4,6 +4,7 @@ namespace EdpGithub\Collection;
 
 use EdpGithub\Http\Client;
 use Iterator;
+use Zend\Http;
 
 class RepositoryCollection implements Iterator
 {
@@ -125,6 +126,10 @@ class RepositoryCollection implements Iterator
         $this->elements[$offset] = $element;
     }
 
+    /**
+     * @param Http\Response $response
+     * @return null
+     */
     private function getPagination($response)
     {
         $this->pagination['last'] = 1;
