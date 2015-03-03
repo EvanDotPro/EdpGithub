@@ -96,7 +96,6 @@ class RepositoryCollection implements Iterator
 
     public function page($page)
     {
-        $this->parameters['per_page'] = $this->parameters['per_page'];
         $offsetStart = (($page-1) * $this->parameters['per_page']);
         $limit = $this->parameters['per_page'] -1;
         $elements = array();
