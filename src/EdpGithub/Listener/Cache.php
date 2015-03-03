@@ -2,6 +2,7 @@
 
 namespace EdpGithub\Listener;
 
+use Zend\Cache\Storage;
 use Zend\EventManager\Event;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
@@ -81,7 +82,7 @@ class Cache implements ListenerAggregateInterface, ServiceManagerAwareInterface
     public function getCache()
     {
         if ($this->cache === null) {
-            /* @var $cache StorageInterface */
+            /* @var $cache Storage\StorageInterface */
             $cache = $this->getServiceManager()->get('edpgithub.cache');
 
             $this->cache = $cache;
