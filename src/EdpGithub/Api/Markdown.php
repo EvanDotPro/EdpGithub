@@ -10,11 +10,9 @@ class Markdown extends AbstractApi
      * @link http://developer.github.com/v3/markdown/
      *
      * @param  string $text
-     * @param  string $mode
-     * @param  string $context
      * @return string
      */
-    public function render($text, $mode = '', $context = '')
+    public function render($text)
     {
         $parameters = array(
                "text" => $text,
