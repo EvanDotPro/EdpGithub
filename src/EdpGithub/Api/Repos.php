@@ -78,14 +78,25 @@ class Repos extends AbstractApi
     }
 
     /**
-     * Get partecipation
+     * @param  string $owner
+     * @param  string $repo
+     * @return string
+     */
+    public function participation($owner, $repo)
+    {
+        return $this->get('repos/' . $owner . '/' . $repo . '/stats/participation');
+    }
+
+    /**
+     * @deprecated
+     *
      * @param  string $owner
      * @param  string $repo
      * @return string
      */
     public function partecipation($owner, $repo)
     {
-        return $this->get('repos/' . $owner . '/' . $repo . '/stats/participation');
+        return $this->participation($owner, $repo);
     }
 
     /**
