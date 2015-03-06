@@ -76,7 +76,7 @@ class ReposTest extends TestCase
     public function testPartecipation()
     {
         $expectedArray = array('id' => 1, 'name' => 'repo');
-        $client = $this->getClientMock('repos/owner/repo/stats/partecipation', $expectedArray);
+        $client = $this->getClientMock('repos/owner/repo/stats/participation', $expectedArray);
         $api = new Repos();
         $api->setClient($client);
         $result = $api->partecipation('owner', 'repo');
