@@ -24,10 +24,10 @@
     ],
     "require": {
         "php": ">=5.5",
-        "zendframework/zend-eventmanager": "~2.5",
-        "zendframework/zend-servicemanager": "~2.5",
-        "zendframework/zend-http": "~2.5",
-        "zendframework/zend-filter": "~2.5"
+        "zendframework/zend-eventmanager": "~2.3",
+        "zendframework/zend-servicemanager": "~2.3",
+        "zendframework/zend-http": "~2.3",
+        "zendframework/zend-filter": "~2.3"
     },
     "require-dev": {
         "fabpot/php-cs-fixer": "~1.4",
