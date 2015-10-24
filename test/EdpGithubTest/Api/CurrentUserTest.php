@@ -3,7 +3,6 @@
 namespace EdpGithubTest\Api;
 
 use EdpGithub\Api\CurrentUser;
-use EdpGithub\Collection\RepositoryCollection;
 use Zend\ServiceManager\ServiceManager;
 
 class CurrentUserTest extends TestCase

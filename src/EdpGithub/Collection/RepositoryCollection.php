@@ -77,7 +77,7 @@ class RepositoryCollection implements Iterator
             return false;
         }
 
-        $offset = (($page-1) * $this->parameters['per_page']);
+        $offset = (($page - 1) * $this->parameters['per_page']);
 
         foreach ($elements as $element) {
             $this->add($offset++, $element);
@@ -97,8 +97,8 @@ class RepositoryCollection implements Iterator
 
     public function page($page)
     {
-        $offsetStart = (($page-1) * $this->parameters['per_page']);
-        $limit = $this->parameters['per_page'] -1;
+        $offsetStart = (($page - 1) * $this->parameters['per_page']);
+        $limit = $this->parameters['per_page'] - 1;
         $elements = array();
 
         for ($offset = $offsetStart, $i = 0; $i <= $limit; $i++, $offset++) {
